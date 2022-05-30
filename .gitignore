@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#django
+**/*.sqlite3
+**/migrations
+**/__pycache__
+
+#joe
+*~

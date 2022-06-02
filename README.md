@@ -6,7 +6,7 @@ University of Gdansk
 2022.05.30 - Django web application for simple data analysis
 branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/studenci/projekt-programistyczny
 
-Instrukcja dla Windowsa:
+INSTRUKCJA INSTALACJI DLA WINDOWSA ;)
 
 a) Instalacja WSL
 

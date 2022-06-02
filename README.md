@@ -6,10 +6,12 @@ University of Gdansk
 2022.05.30 - Django web application for simple data analysis
 branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/studenci/projekt-programistyczny
 
-Instrukcja dla Windows:
+Instrukcja dla Windowsa:
 
-a) Instalacja WSL.
-b) Instalacja Ubuntu on Windows z Microsoft Store.
+a) Instalacja WSL
+
+b) Instalacja Ubuntu on Windows z Microsoft Store
+
 c) Dalsza praca w terminalu linuxa:
 
 1.	Generowanie klucza ssh: 

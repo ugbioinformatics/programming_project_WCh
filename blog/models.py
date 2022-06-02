@@ -17,6 +17,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=20)
     body = models.TextField()
+    smiles = models.CharField(max_length=200, null=True)
     suma = models.FloatField(blank=True, null=True)
     odch = models.FloatField(blank=True, null=True)
     sr = models.FloatField(blank=True, null=True)

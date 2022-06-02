@@ -3,6 +3,9 @@
 {% block content %}
     <div class="post-entry">
     <h2>{{ post.title }}</h2>
+
+{% if post.smiles == None %}
+
     <p>{{ post.body }}</p>
     <p>Suma = {{ post.suma }}</p>
     <p>Średnia = {{ post.sr }}</p>
@@ -12,11 +15,22 @@
 </div>
 
 <img src="/media/{{post.plik_hash}}/foo1.png">
-
 <p>
     
-<a href="{% url 'post_edit' post.pk %}">+ Edit Blog Post</a>
-<p><a href="{% url 'post_delete' post.pk %}">+ Delete Blog Post</a></p>
+<a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
+
+
+{% else %}
+   <p>{{ post.smiles }}</p>
+</div>
+<img src="/media/{{post.plik_hash}}/ala.png">
+<p>
+    
+<a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
+
+{% endif %}
+
+<p><a href="{% url 'post_delete' post.pk %}">+ Delete Suma Post</a></p>
 {% endblock content %}
 
 

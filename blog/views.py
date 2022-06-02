@@ -6,11 +6,11 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post
-from .forms import Suma
+from .forms import Suma, Molecule
 import statistics as st
 import matplotlib
 
@@ -18,10 +18,10 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import io
 from django.contrib.auth.hashers import make_password
 from django.conf import settings
 import os
+import openbabel.pybel
 
 
 class BlogListView(ListView):
@@ -87,7 +87,7 @@ def calculate(dataframe, post):
     return suma, odch, sr, var
 
 
-def edit_blog(request, pk):
+def edit_suma(request, pk):
     """Editing of existing entries"""
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
@@ -132,7 +132,6 @@ def suma(request):
                 (post.suma, post.odch, post.sr, post.var) = calculate_body(body, post)
                 post.save()
             else:
-                #               post = Post(title=title)
                 some_salt = 'some_salt'
                 some_psswd = 'somePassword'
                 plik_hash = make_password(some_psswd, None, 'md5')
@@ -149,3 +148,47 @@ def suma(request):
     else:
         form = Suma()
     return render(request, 'suma.html', {'form': form})
+
+def molecule(request):
+    if request.method == 'POST':
+        form = Molecule(request.POST)
+        if form.is_valid():
+            smiles = form.cleaned_data["smiles"]
+            title = form.cleaned_data["title"]
+            some_psswd = 'somePassword'
+            plik_hash = make_password(some_psswd, None, 'md5')
+            post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
+            post.save()
+            directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+            if not os.path.isdir(directory1):
+                os.mkdir(directory1)
+            czasteczka = openbabel.pybel.readstring("smi", smiles)
+            czasteczka.make3D()
+            czasteczka.write(format="svg",filename=directory1 + '/ala.svg')
+            czasteczka.write(format="_png2",filename=directory1 + '/ala.png')
+            return redirect('/')
+            
+    else:
+        form = Molecule()
+    return render(request, 'molecule.html', {'form': form})
+
+def edit_smiles(request, pk):
+    """Editing of existing entries"""
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        form = Molecule(request.POST, request.FILES)
+        if form.is_valid():
+            post.smiles= form.cleaned_data["smiles"]
+            post.title = form.cleaned_data["title"]
+            post.save()
+            directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+            czasteczka = openbabel.pybel.readstring("smi", post.smiles)
+            czasteczka.make3D()
+            czasteczka.write(format="svg",filename=directory1 + '/ala.svg',overwrite=True)
+            czasteczka.write(format="_png2",filename=directory1 + '/ala.png',overwrite=True)
+            return redirect('/')
+    else:
+        data = {'title': post.title, 'smiles': post.smiles}
+        form = Molecule(initial=data)
+    return render(request, 'molecule.html', {'form': form, 'post': post})
+           

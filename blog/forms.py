@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import io
 from pandas.errors import EmptyDataError
-#ja
+
 
 class Suma(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
@@ -65,3 +65,10 @@ class Suma(forms.Form):
                 self.add_error('plik1', 'The file contains Non-Unicode data')
             except EmptyDataError:
                 self.add_error('plik1', 'The file contains Data that is wrong or empty.')
+
+class Molecule(forms.Form):
+    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
+    smiles = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='SMILES')
+
+
+

@@ -4,5 +4,5 @@ University of Gdansk
 
 2022.05.30 - Django web application for simple data analysis and display of molecules
 branch chemia from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/studenci/projekt-programistyczny
-
+ 
 

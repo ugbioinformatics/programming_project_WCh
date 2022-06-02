@@ -32,7 +32,7 @@ git clone git@github.com:ugbioinformatics/programming_project_WCh.git
 7.	Przejście do sklonowanego katalogu projektu.
 
 8.	Instalacja:
-apt install python3-pip
+apt install python3-pip <br>
 apt install virtualenv
 
 9.	Stworzenie środowiska za pomocą komendy:

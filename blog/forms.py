@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import io
 from pandas.errors import EmptyDataError
+import openbabel.pybel
 
 
 class Suma(forms.Form):
@@ -69,6 +70,13 @@ class Suma(forms.Form):
 class Molecule(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
     smiles = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='SMILES')
+    def clean(self):
+        cleaned_data = super(Molecule, self).clean()
+        smiles = cleaned_data.get('smiles')
+        try:
+            particle = openbabel.pybel.readstring("smi", smiles)
+        except IOError:
+            self.add_error("smiles",'The SMILES have unsupported characters.')
 
 
 

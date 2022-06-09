@@ -18,7 +18,7 @@
 <p>
     
     
-{% with ''|center:post.columns as range %}
+{% with ''|center:post.ncolumns as range %}
 {% for _ in range %}
     <p>
      <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 

@@ -83,8 +83,9 @@ def calculate(dataframe, post):
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
-        stat, p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        staty.append([suma, odch, sr, var, (stat, p)])
+        shapiro = stats.shapiro(dataframe[list(dataframe.columns)[i]])
+        staty.append([suma, odch, sr, var, shapiro])
+        
         if len(lista) > 1:
             for j in range(len(lista) - 1):
                 y = dataframe[list(dataframe.columns)[j]]
@@ -118,14 +119,6 @@ def calculate(dataframe, post):
                 regression = model.summary()
                 # dodać regression
 
-                plt.hist(y, color='purple')
-                plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
-                plt.axvline(med, color='green', label='Mediana')
-                plt.xlabel(list(dataframe.columns)[j])
-                plt.ylabel("Częstość")
-                plt.legend()
-                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}_hist.png')
-                plt.close()
 
         if len(lista) == 1:
             y = dataframe[list(dataframe.columns)[i]]
@@ -136,9 +129,21 @@ def calculate(dataframe, post):
             print("dataframe w suma")
             print(dataframe)
 
+    return staty
+
+    for j in n range(len(lista)):
+        y = dataframe[list(dataframe.columns)[j]]
+        plt.hist(y, color='purple')
+        plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
+        plt.axvline(med, color='green', label='Mediana')
+        plt.xlabel(list(dataframe.columns)[j])
+        plt.ylabel("Częstość")
+        plt.legend()
+        plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}_hist.png')
+        plt.close()
+        
     corr_matrix = dataframe.corr()
     corr_matrix = dataframe.cov()
-    return staty
     # wyświetlić
 
 

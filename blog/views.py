@@ -113,7 +113,7 @@ def calculate(dataframe, post):
                 plt.axvline(mediana,color='green',label='Mediana')
                 
             #return t_test
-        if len(lista)==1
+        if len(lista)==1:
             y = dataframe[list(dataframe.columns)[i]]
             x = np.arange(len(y))
             plt.bar(x, y)

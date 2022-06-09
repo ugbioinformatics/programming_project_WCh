@@ -118,7 +118,7 @@ def calculate(dataframe, post):
                 regression = model.summary()
                 # dodać regression
 
-                plt.hist(y, x, color='purple')
+                plt.hist(y, color='purple')
                 plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
                 plt.axvline(med, color='green', label='Mediana')
                 plt.xlabel(list(dataframe.columns)[j])
@@ -138,6 +138,7 @@ def calculate(dataframe, post):
 
     corr_matrix = dataframe.corr()
     corr_matrix = dataframe.cov()
+    return staty
     # wyświetlić
 
 

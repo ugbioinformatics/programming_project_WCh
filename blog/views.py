@@ -109,6 +109,9 @@ def calculate(dataframe, post):
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()
                 
+                plt.axvline(sr,color='red',label='Średnia') 
+                plt.axvline(mediana,color='green',label='Mediana')
+                
             #return t_test
         if len(lista)==1
             y = dataframe[list(dataframe.columns)[i]]

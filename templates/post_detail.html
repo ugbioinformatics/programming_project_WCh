@@ -17,6 +17,13 @@
 <img src="/media/{{post.plik_hash}}/foo1.png">
 <p>
     
+{% for i in range(post.columns) %}
+    <p>
+     <img src="/media/{{post.plik_hash}}/foo_dataframe{{i}}_scatter.png"> 
+    <p>
+     <img src="/media/{{post.plik_hash}}/foo_dataframe{{i}}_hist.png"> 
+{% endfor %}
+    
 <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
 
 

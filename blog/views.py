@@ -133,7 +133,9 @@ def calculate(dataframe, post):
             plt.close()
             print("dataframe w suma")
             print(dataframe)
-       
+            
+    dataframe.corr()
+    dataframe.cov()
 
 
 def edit_suma(request, pk):

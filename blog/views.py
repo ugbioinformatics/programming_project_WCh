@@ -74,7 +74,7 @@ def calculate_body(bodylist, post):
 
 
 def calculate(dataframe, post):
-    """Calculate for data from file"""
+    """Calculates for data from file"""
     lista = list(dataframe.columns)
     staty = []
     for i in range(len(lista)):

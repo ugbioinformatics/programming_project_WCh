@@ -74,7 +74,7 @@ def calculate_body(bodylist, post):
 
 
 def calculate(dataframe, post):
-    """Calculates for data from file"""
+    """Calculate for data from file"""
     lista = list(dataframe.columns)
     staty = []
     for i in range(len(lista)):
@@ -171,6 +171,7 @@ def edit_suma(request, pk):
                     dataframe = pd.read_csv(post.plik1, delimiter=',', index_col=0)
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
+                post.ncolumns = len(list(dataframe.columns))
                 post.suma, post.sr, post.odch, post.var = calculate(dataframe, post)
                 post.save()
             return redirect('/')
@@ -207,6 +208,7 @@ def suma(request):
                     dataframe = pd.read_csv(post.plik1, delimiter=',', index_col=0)
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
+                post.ncolumns = len(list(dataframe.columns))
                 post.suma, post.sr, post.odch, post.var = calculate(dataframe, post)
                 post.save()
             return redirect('/')

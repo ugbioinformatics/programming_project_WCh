@@ -129,9 +129,7 @@ def calculate(dataframe, post):
             print("dataframe w suma")
             print(dataframe)
 
-    return staty
-
-    for j in n range(len(lista)):
+    for j in range(len(lista)):
         y = dataframe[list(dataframe.columns)[j]]
         plt.hist(y, color='purple')
         plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
@@ -141,9 +139,14 @@ def calculate(dataframe, post):
         plt.legend()
         plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}_hist.png')
         plt.close()
-        
+
+
     corr_matrix = dataframe.corr()
     corr_matrix = dataframe.cov()
+    return staty
+
+        
+
     # wyświetlić
 
 

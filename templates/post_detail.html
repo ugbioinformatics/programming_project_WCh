@@ -17,12 +17,15 @@
 <img src="/media/{{post.plik_hash}}/foo1.png">
 <p>
     
-{% for i in range(post.columns) %}
+    
+{% with ''|center:post.columns as range %}
+{% for _ in range %}
     <p>
-     <img src="/media/{{post.plik_hash}}/foo_dataframe{{i}}_scatter.png"> 
+     <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
     <p>
-     <img src="/media/{{post.plik_hash}}/foo_dataframe{{i}}_hist.png"> 
+     <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png"> 
 {% endfor %}
+{% endwith %}    
     
 <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
 

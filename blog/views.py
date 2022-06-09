@@ -134,9 +134,9 @@ def calculate(dataframe, post):
             print("dataframe w suma")
             print(dataframe)
             
-    dataframe.corr()
-    dataframe.cov()
-
+    corr_matrix=dataframe.corr()
+    corr_matrix=dataframe.cov()
+    #wyświetlić
 
 def edit_suma(request, pk):
     """Editing of existing entries"""

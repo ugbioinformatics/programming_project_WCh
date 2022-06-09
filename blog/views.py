@@ -75,7 +75,7 @@ def calculate_body(bodylist, post):
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
-    lista=list(dataframe.columns)
+    lista = list(dataframe.columns)
     staty = []
     for i in range(len(lista)):
         suma = dataframe[list(dataframe.columns)[i]].sum()
@@ -83,50 +83,49 @@ def calculate(dataframe, post):
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
-        shapiro=stats.shapiro(dataframe[list(dataframe.columns)[i]])
+        shapiro = stats.shapiro(dataframe[list(dataframe.columns)[i]])
         staty.append([suma, odch, sr, var, shapiro])
-        if len(lista)>1:
-            for j in range(len(lista)-1):
+        if len(lista) > 1:
+            for j in range(len(lista) - 1):
                 y = dataframe[list(dataframe.columns)[j]]
-                x = dataframe[list(dataframe.columns)[j+1]]
-                x = np.arange(len(y))
-                odch2= x.std()
-                F=odch**2/odch2**2
-                a=stats.f.cdf(F,np.arange(len(y))-1, np.arange(len(x))-2)
-                b=1-a
-                if a>=b:
-                    p=2*a
+                x = dataframe[list(dataframe.columns)[j + 1]]
+                odch2 = x.std()
+                F = odch ** 2 / odch2 ** 2
+                a = stats.f.cdf(F, len(y) - 1, len(x) - 2)
+                b = 1 - a
+                if a >= b:
+                    p = 2 * a
                 else:
-                    p=2*b
-                    if p>0.05:
-                        t_test=stats.ttest_ind(y, x, axis=0, 
-                                       equal_var=True, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+                    p = 2 * b
+                    if p > 0.05:
+                        t_test = stats.ttest_ind(y, x, axis=0,
+                                                 equal_var=True, nan_policy='propagate', alternative='two-sided', trim=0)
                     else:
-                        t_test=stats.ttest_ind(y, x, axis=0, 
-                                       equal_var=False, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
-                    #podać test zgodnosci
-            
+                        t_test = stats.ttest_ind(y, x, axis=0,
+                                                 equal_var=False, nan_policy='propagate', alternative='two-sided', trim=0)
+                    # podać test zgodnosci
+
                 plt.scatter(y, x, c='purple', alpha=0.5)
                 plt.xlabel(list(dataframe.columns)[j])
-                plt.ylabel(list(dataframe.columns)[j+1])
+                plt.ylabel(list(dataframe.columns)[j + 1])
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()
-                
-                X = sm.add_constant(X)
-                model = sm.OLS(Y, X).fit()
-                regression=model.summary()
-                #dodać regression
-                
-                plt.hist(y,x,bins=12, color='purple')
-                plt.axvline(sr,color='red',label='Średnia') #średnia pionowa
-                plt.axvline(med,color='green',label='Mediana')
+
+                X = sm.add_constant(y)
+                model = sm.OLS(x, X).fit()
+                regression = model.summary()
+                # dodać regression
+
+                plt.hist(y, x, bins=12, color='purple')
+                plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
+                plt.axvline(med, color='green', label='Mediana')
                 plt.xlabel(list(dataframe.columns)[j])
-                plt.ylabel(list(dataframe.columns)[j+1])
+                plt.ylabel(list(dataframe.columns)[j + 1])
                 plt.legend()
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe2{j}.png')
                 plt.close()
-                
-        if len(lista)==1:
+
+        if len(lista) == 1:
             y = dataframe[list(dataframe.columns)[i]]
             x = np.arange(len(y))
             plt.bar(x, y, color='purple')
@@ -134,10 +133,11 @@ def calculate(dataframe, post):
             plt.close()
             print("dataframe w suma")
             print(dataframe)
-            
-    corr_matrix=dataframe.corr()
-    corr_matrix=dataframe.cov()
-    #wyświetlić
+
+    corr_matrix = dataframe.corr()
+    corr_matrix = dataframe.cov()
+    # wyświetlić
+
 
 def edit_suma(request, pk):
     """Editing of existing entries"""

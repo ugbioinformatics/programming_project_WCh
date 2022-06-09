@@ -111,7 +111,7 @@ def calculate(dataframe, post):
                 plt.scatter(y, x, c='purple', alpha=0.5)
                 plt.xlabel(list(dataframe.columns)[j])
                 plt.ylabel(list(dataframe.columns)[j + 1])
-                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}_scatter.png')
+                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j+1}_scatter.png')
                 plt.close()
 
                 X = sm.add_constant(y)
@@ -139,7 +139,7 @@ def calculate(dataframe, post):
         plt.xlabel(list(dataframe.columns)[j])
         plt.ylabel("Częstość")
         plt.legend()
-        plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}_hist.png')
+        plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j+1}_hist.png')
         plt.close()
 
 

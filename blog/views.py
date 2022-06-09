@@ -83,8 +83,8 @@ def calculate(dataframe, post):
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
-        shapiro = stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        staty.append([suma, odch, sr, var, shapiro])
+        stat, p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
+        staty.append([suma, odch, sr, var, (stat, p)])
         if len(lista) > 1:
             for j in range(len(lista) - 1):
                 y = dataframe[list(dataframe.columns)[j]]

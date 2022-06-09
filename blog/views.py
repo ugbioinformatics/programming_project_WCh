@@ -81,6 +81,7 @@ def calculate(dataframe, post):
         odch = dataframe[list(dataframe.columns)[i]].std()
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
+        med = dataframe[list(dataframe.columns)[i]].median()
         shapiro=stats.shapiro(dataframe[list(dataframe.columns)[i]])
         staty.append([suma, odch, sr, var])
         if len(lista)>1:
@@ -109,8 +110,13 @@ def calculate(dataframe, post):
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()
                 
-                plt.axvline(sr,color='red',label='Średnia') 
-                plt.axvline(mediana,color='green',label='Mediana')
+                plt.hist(y,x,bins=12)
+                plt.axvline(sr,color='red',label='Średnia') #średnia pionowa
+                plt.axvline(med,color='green',label='Mediana')
+                plt.xlabel('')
+                plt.ylabel("")
+                plt.legend()
+
                 
             #return t_test
         if len(lista)==1:

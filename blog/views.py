@@ -122,7 +122,7 @@ def calculate(dataframe, post):
                 plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
                 plt.axvline(med, color='green', label='Mediana')
                 plt.xlabel(list(dataframe.columns)[j])
-                plt.ylabel(list(dataframe.columns)[j + 1])
+                plt.ylabel("Częstość")
                 plt.legend()
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()

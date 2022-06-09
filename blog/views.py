@@ -74,31 +74,43 @@ def calculate_body(bodylist, post):
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
-    list=list(dataframe.columns)
-    for i in range(len(list)):
+    lista=list(dataframe.columns)
+    staty = []
+    for i in range(len(lista)):
         suma = dataframe[list(dataframe.columns)[i]].sum()
         odch = dataframe[list(dataframe.columns)[i]].std()
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         shapiro=stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        return suma, odch, sr, var
-        if len(list)>1:
-            odch2= dataframe[list(dataframe.columns)[i+1]].std()
-            F=odch**2/odch2**2
-            a=stats.f.cdf(F,len(list(dataframe.columns)[i])-1, len(list(dataframe.columns)[i+1])-1)
-            b=1-a
-            if a>=b:
-                p=2*a
-            else:
-                p=2*b
-                if p>0.05:
-                    t_test=stats.ttest_ind(dataframe[list(dataframe.columns)[i]], dataframe[list(dataframe.columns)[i+1]], axis=0, 
-                                   equal_var=True, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+        staty.append([suma, odch, sr, var])
+        if len(lista)>1:
+            for j in range(len(lista)-1):
+                y = dataframe[list(dataframe.columns)[j]]
+                x = dataframe[list(dataframe.columns)[j+1]]
+                x = np.arange(len(y))
+                odch2= x.std()
+                F=odch**2/odch2**2
+                a=stats.f.cdf(F,np.arange(len(y))-1, np.arange(len(x))-2)
+                b=1-a
+                if a>=b:
+                    p=2*a
                 else:
-                    t_test=stats.ttest_ind(dataframe[list(dataframe.columns)[i]], dataframe[list(dataframe.columns)[i+1]], axis=0, 
-                                   equal_var=False, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
-        
-        if len(list)==1
+                    p=2*b
+                    if p>0.05:
+                        t_test=stats.ttest_ind(y, x, axis=0, 
+                                       equal_var=True, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+                    else:
+                        t_test=stats.ttest_ind(y, x, axis=0, 
+                                       equal_var=False, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+            
+                plt.scatter(y, x, c='purple', alpha=0.5)
+                plt.xlabel(list(dataframe.columns)[j])
+                plt.ylabel(list(dataframe.columns)[j+1])
+                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
+                plt.close()
+                
+            #return t_test
+        if len(lista)==1
             y = dataframe[list(dataframe.columns)[i]]
             x = np.arange(len(y))
             plt.bar(x, y)

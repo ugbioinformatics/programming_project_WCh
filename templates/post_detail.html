@@ -14,14 +14,18 @@
     <p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p>
 </div>
 
+{% if post.ncolumns == 1 %}
 <img src="/media/{{post.plik_hash}}/foo1.png">
 <p>
+{% endif %}
     
     
 {% with ''|center:post.ncolumns as range %}
 {% for _ in range %}
+    {% if forloop.counter  < post.ncolumns  %}
     <p>
      <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
+    {% endif %}
     <p>
      <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png"> 
 {% endfor %}

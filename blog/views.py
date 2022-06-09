@@ -23,6 +23,7 @@ from django.conf import settings
 import os
 import openbabel.pybel
 import scipy.stats as stats
+import statsmodels.api as sm
 
 
 class BlogListView(ListView):

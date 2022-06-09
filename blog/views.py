@@ -186,6 +186,14 @@ def suma(request):
         form = Suma()
     return render(request, 'suma.html', {'form': form})
 
+def particleParameters(particle):
+    atoms = len(particle.atoms)
+    exactmass = particle.exactmass
+    formula = particle.formula
+    molwt = particle.molwt
+    return atoms, exactmass, formula, molwt
+
+
 def molecule(request):
     if request.method == 'POST':
         form = Molecule(request.POST)
@@ -201,13 +209,17 @@ def molecule(request):
                 os.mkdir(directory1)
             czasteczka = openbabel.pybel.readstring("smi", smiles)
             czasteczka.make3D()
-            czasteczka.write(format="svg",filename=directory1 + '/ala.svg')
-            czasteczka.write(format="_png2",filename=directory1 + '/ala.png')
+            czasteczka.write(format="svg", filename=directory1 + '/ala.svg')
+            czasteczka.write(format="_png2", filename=directory1 + '/ala.png')
+            # atoms, exactmass, formula, molwt = particleParameters(czasteczka)
+            post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
+            post.save()
             return redirect('/')
-            
+
     else:
         form = Molecule()
     return render(request, 'molecule.html', {'form': form})
+
 
 def edit_smiles(request, pk):
     """Editing of existing entries"""
@@ -215,17 +227,18 @@ def edit_smiles(request, pk):
     if request.method == 'POST':
         form = Molecule(request.POST, request.FILES)
         if form.is_valid():
-            post.smiles= form.cleaned_data["smiles"]
+            post.smiles = form.cleaned_data["smiles"]
             post.title = form.cleaned_data["title"]
             post.save()
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             czasteczka = openbabel.pybel.readstring("smi", post.smiles)
             czasteczka.make3D()
-            czasteczka.write(format="svg",filename=directory1 + '/ala.svg',overwrite=True)
-            czasteczka.write(format="_png2",filename=directory1 + '/ala.png',overwrite=True)
+            czasteczka.write(format="svg", filename=directory1 + '/ala.svg', overwrite=True)
+            czasteczka.write(format="_png2", filename=directory1 + '/ala.png', overwrite=True)
+            post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
+            post.save()
             return redirect('/')
     else:
         data = {'title': post.title, 'smiles': post.smiles}
         form = Molecule(initial=data)
     return render(request, 'molecule.html', {'form': form, 'post': post})
-           

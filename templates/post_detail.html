@@ -21,8 +21,13 @@
 
 
 {% else %}
-   <p>{{ post.smiles }}</p>
+    <p>{{ post.smiles }}</p>
+    <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
+    <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
+    <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
+    <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
 </div>
+Schemat:
 <img src="/media/{{post.plik_hash}}/ala.png">
 <p>
     

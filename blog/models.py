@@ -25,6 +25,10 @@ class Post(models.Model):
     plik_hash = models.CharField(blank=True, null=True, max_length=256)
     plik1 = models.FileField(default='', upload_to=user_directory_path)
     guzik = models.BooleanField(default=False)
+    atoms = models.IntegerField(blank=True, null=True)
+    exactmass = models.FloatField(blank=True, null=True)
+    formula = models.CharField(max_length=200)
+    molwt = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return self.title

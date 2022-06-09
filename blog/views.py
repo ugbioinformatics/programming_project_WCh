@@ -186,6 +186,7 @@ def suma(request):
         form = Suma()
     return render(request, 'suma.html', {'form': form})
 
+
 def particleParameters(particle):
     atoms = len(particle.atoms)
     exactmass = particle.exactmass

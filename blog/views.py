@@ -83,7 +83,7 @@ def calculate(dataframe, post):
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
         shapiro=stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        staty.append([suma, odch, sr, var])
+        staty.append([suma, odch, sr, var, shapiro])
         if len(lista)>1:
             for j in range(len(lista)-1):
                 y = dataframe[list(dataframe.columns)[j]]
@@ -103,6 +103,7 @@ def calculate(dataframe, post):
                     else:
                         t_test=stats.ttest_ind(y, x, axis=0, 
                                        equal_var=False, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+                    #podać test zgodnosci
             
                 plt.scatter(y, x, c='purple', alpha=0.5)
                 plt.xlabel(list(dataframe.columns)[j])
@@ -110,19 +111,24 @@ def calculate(dataframe, post):
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()
                 
-                plt.hist(y,x,bins=12)
+                X = sm.add_constant(X)
+                model = sm.OLS(Y, X).fit()
+                regression=model.summary()
+                #dodać regression
+                
+                plt.hist(y,x,bins=12, color='purple')
                 plt.axvline(sr,color='red',label='Średnia') #średnia pionowa
                 plt.axvline(med,color='green',label='Mediana')
-                plt.xlabel('')
-                plt.ylabel("")
+                plt.xlabel(list(dataframe.columns)[j])
+                plt.ylabel(list(dataframe.columns)[j+1])
                 plt.legend()
-
+                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe2{j}.png')
+                plt.close()
                 
-            #return t_test
         if len(lista)==1:
             y = dataframe[list(dataframe.columns)[i]]
             x = np.arange(len(y))
-            plt.bar(x, y)
+            plt.bar(x, y, color='purple')
             plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + '/foo1.png')
             plt.close()
             print("dataframe w suma")

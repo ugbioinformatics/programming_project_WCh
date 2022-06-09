@@ -99,10 +99,12 @@ def calculate(dataframe, post):
                     p = 2 * b
                     if p > 0.05:
                         t_test = stats.ttest_ind(y, x, axis=0,
-                                                 equal_var=True, nan_policy='propagate', alternative='two-sided', trim=0)
+                                                 equal_var=True, nan_policy='propagate', alternative='two-sided',
+                                                 trim=0)
                     else:
                         t_test = stats.ttest_ind(y, x, axis=0,
-                                                 equal_var=False, nan_policy='propagate', alternative='two-sided', trim=0)
+                                                 equal_var=False, nan_policy='propagate', alternative='two-sided',
+                                                 trim=0)
                     # podać test zgodnosci
 
                 plt.scatter(y, x, c='purple', alpha=0.5)
@@ -122,7 +124,7 @@ def calculate(dataframe, post):
                 plt.xlabel(list(dataframe.columns)[j])
                 plt.ylabel(list(dataframe.columns)[j + 1])
                 plt.legend()
-                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe2{j}.png')
+                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j}.png')
                 plt.close()
 
         if len(lista) == 1:

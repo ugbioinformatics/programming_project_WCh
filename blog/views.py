@@ -130,6 +130,8 @@ def calculate(dataframe, post):
             print(dataframe)
 
     for j in range(len(lista)):
+        sr = dataframe[list(dataframe.columns)[j]].mean()
+        med = dataframe[list(dataframe.columns)[j]].median()
         y = dataframe[list(dataframe.columns)[j]]
         plt.hist(y, color='purple')
         plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa

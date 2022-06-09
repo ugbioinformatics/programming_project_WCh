@@ -116,7 +116,7 @@ def calculate(dataframe, post):
                 regression = model.summary()
                 # dodać regression
 
-                plt.hist(y, x, bins=12, color='purple')
+                plt.hist(y, x, color='purple')
                 plt.axvline(sr, color='red', label='Średnia')  # średnia pionowa
                 plt.axvline(med, color='green', label='Mediana')
                 plt.xlabel(list(dataframe.columns)[j])

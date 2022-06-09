@@ -172,7 +172,11 @@ def edit_suma(request, pk):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                post.suma, post.sr, post.odch, post.var = calculate(dataframe, post)
+                staty = calculate(dataframe, post)
+                post.suma = staty[0]
+                post.sr = staty[1]
+                post.odch = staty[2] 
+                post.var = staty[3] 
                 post.save()
             return redirect('/')
     else:

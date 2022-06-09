@@ -14,7 +14,7 @@
     <p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p>
 </div>
 
-{% if post.ncolumns == 1 %}
+{% if post.ncolumns < 2 %}
 <img src="/media/{{post.plik_hash}}/foo1.png">
 <p>
 {% endif %}

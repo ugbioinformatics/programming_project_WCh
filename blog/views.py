@@ -22,6 +22,7 @@ from django.contrib.auth.hashers import make_password
 from django.conf import settings
 import os
 import openbabel.pybel
+import scipy.stats as stats
 
 
 class BlogListView(ListView):
@@ -73,18 +74,39 @@ def calculate_body(bodylist, post):
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
-    suma = dataframe[list(dataframe.columns)[0]].sum()
-    odch = dataframe[list(dataframe.columns)[0]].std()
-    sr = dataframe[list(dataframe.columns)[0]].mean()
-    var = dataframe[list(dataframe.columns)[0]].var()
-    y = dataframe[list(dataframe.columns)[0]]
-    x = np.arange(len(y))
-    plt.bar(x, y)
-    plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + '/foo1.png')
-    plt.close()
-    print("dataframe w suma")
-    print(dataframe)
-    return suma, odch, sr, var
+    list=list(dataframe.columns)
+    for i in range(len(list)):
+        suma = dataframe[list(dataframe.columns)[i]].sum()
+        odch = dataframe[list(dataframe.columns)[i]].std()
+        sr = dataframe[list(dataframe.columns)[i]].mean()
+        var = dataframe[list(dataframe.columns)[i]].var()
+        shapiro=stats.shapiro(dataframe[list(dataframe.columns)[i]])
+        return suma, odch, sr, var
+        if len(list)>1:
+            odch2= dataframe[list(dataframe.columns)[i+1]].std()
+            F=odch**2/odch2**2
+            a=stats.f.cdf(F,len(list(dataframe.columns)[i])-1, len(list(dataframe.columns)[i+1])-1)
+            b=1-a
+            if a>=b:
+                p=2*a
+            else:
+                p=2*b
+                if p>0.05:
+                    t_test=stats.ttest_ind(dataframe[list(dataframe.columns)[i]], dataframe[list(dataframe.columns)[i+1]], axis=0, 
+                                   equal_var=True, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+                else:
+                    t_test=stats.ttest_ind(dataframe[list(dataframe.columns)[i]], dataframe[list(dataframe.columns)[i+1]], axis=0, 
+                                   equal_var=False, nan_policy='propagate', permutations=None, random_state=None, alternative='two-sided', trim=0)
+        
+        if len(list)==1
+            y = dataframe[list(dataframe.columns)[i]]
+            x = np.arange(len(y))
+            plt.bar(x, y)
+            plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + '/foo1.png')
+            plt.close()
+            print("dataframe w suma")
+            print(dataframe)
+       
 
 
 def edit_suma(request, pk):

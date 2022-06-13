@@ -10,6 +10,9 @@ branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/stude
 
 INSTRUKCJA INSTALACJI DLA WINDOWSA ;)
 
+Z powodu niekompatybilnej wersji biblioteki openbabel w natywnym python dla Windows
+aplikacja nie działa dla natywnego python dla Winodws i wymaga instalacji WSL oraz Ubuntu on Windows 
+
 a) Instalacja WSL
 
 b) Instalacja Ubuntu on Windows z Microsoft Store
@@ -26,7 +29,7 @@ cat id_rsa.pub
 
 4.	Utworzenie katalogu z projektem, przejście do niego. 
 
-5.	Przejście do https://github.com/ugbioinformatics/programming_project_WCh i skopiowanie <br> SSH(git@github.com:ugbioinformatics/programming_project_WCh.git). 
+5.	Przejście do https://github.com/ugbioinformatics/programming_project_WCh i skopiowanie opcji dla SSH<br> (git@github.com:ugbioinformatics/programming_project_WCh.git). 
 
 6.	Sklonowanie SSH za pomocą komendy: <br>
 git clone git@github.com:ugbioinformatics/programming_project_WCh.git

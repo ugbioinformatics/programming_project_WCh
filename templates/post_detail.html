@@ -11,7 +11,11 @@
     <p>Średnia = {{ post.sr }}</p>
     <p>Odchylenie = {{ post.odch }}</p>
     <p>Wariancja = {{ post.var }}</p>
+    <p>Mediana = {{ post.med }}</p>
+    <p>Shapiro_p_value = {{ post.shapiro }}</p>
+    <p>T_studenta_p_value = {{ post.test }}</p>
     <p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p>
+
 </div>
 
 {% if post.ncolumns < 2 %}

@@ -76,20 +76,20 @@ def calculate_body(bodylist, post):
 def calculate(dataframe, post):
     """Calculate for data from file"""
     lista = list(dataframe.columns)
-    staty = []
+    staty=[[],[],[],[],[],[],[],]
     for i in range(len(lista)):
         suma = dataframe[list(dataframe.columns)[i]].sum()
         odch = dataframe[list(dataframe.columns)[i]].std()
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
-        shapiro = stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        staty.append([suma, odch, sr, var, shapiro])
+        t,p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
+        shapiro=p
         
-        if len(lista) > 1:
-            for j in range(len(lista) - 1):
-                y = dataframe[list(dataframe.columns)[j]]
-                x = dataframe[list(dataframe.columns)[j + 1]]
+        if len(lista) > 1 and i < len(lista)-1 :
+            
+                y = dataframe[list(dataframe.columns)[i]]
+                x = dataframe[list(dataframe.columns)[i + 1]]
                 odch2 = x.std()
                 F = odch ** 2 / odch2 ** 2
                 a = stats.f.cdf(F, len(y) - 1, len(x) - 2)
@@ -98,27 +98,37 @@ def calculate(dataframe, post):
                     p = 2 * a
                 else:
                     p = 2 * b
-                    if p > 0.05:
-                        t_test = stats.ttest_ind(y, x, axis=0,
+                    
+                if p > 0.05:
+                        tt, pp = stats.ttest_ind(y, x, axis=0,
                                                  equal_var=True, nan_policy='propagate', alternative='two-sided',
                                                  trim=0)
-                    else:
-                        t_test = stats.ttest_ind(y, x, axis=0,
+                        test=pp
+                        
+                else:
+                        tt, pp = stats.ttest_ind(y, x, axis=0,
                                                  equal_var=False, nan_policy='propagate', alternative='two-sided',
                                                  trim=0)
+                        test=pp
                     # podać test zgodnosci
 
                 plt.scatter(y, x, c='purple', alpha=0.5)
-                plt.xlabel(list(dataframe.columns)[j])
-                plt.ylabel(list(dataframe.columns)[j + 1])
-                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j+1}_scatter.png')
+                plt.xlabel(list(dataframe.columns)[i])
+                plt.ylabel(list(dataframe.columns)[i + 1])
+                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{i+1}_scatter.png')
                 plt.close()
 
-                X = sm.add_constant(y)
-                model = sm.OLS(x, X).fit()
-                regression = model.summary()
-                # dodać regression
+            
+        else:
+            test=''
 
+
+        for x, y in zip(staty, [suma, odch, sr, var, med, shapiro, test] ):
+            if y=='':
+                x.append(y)
+            else:
+                x.append(round(y,3))
+        
 
         if len(lista) == 1:
             y = dataframe[list(dataframe.columns)[i]]
@@ -143,8 +153,6 @@ def calculate(dataframe, post):
         plt.close()
 
 
-    corr_matrix = dataframe.corr()
-    corr_matrix = dataframe.cov()
     return staty
 
         
@@ -172,13 +180,9 @@ def edit_suma(request, pk):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                staty = calculate(dataframe, post)
-                post.suma = staty[0]
-                post.sr = staty[1]
-                post.odch = staty[2] 
-                post.var = staty[3] 
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate(dataframe, post)
                 post.save()
-            return redirect('/')
+            return redirect('/post')
     else:
         data = {'title': post.title, 'body': post.body}
         form = Suma(initial=data)
@@ -213,9 +217,9 @@ def suma(request):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                post.suma, post.sr, post.odch, post.var = calculate(dataframe, post)
+                post.suma, post.sr, post.odch, post.var, post.med, post.shapiro, post.test = calculate(dataframe, post)
                 post.save()
-            return redirect('/')
+            return redirect('/post')
     else:
         form = Suma()
     return render(request, 'suma.html', {'form': form})
@@ -249,7 +253,7 @@ def molecule(request):
             # atoms, exactmass, formula, molwt = particleParameters(czasteczka)
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
             post.save()
-            return redirect('/')
+            return redirect('/post')
 
     else:
         form = Molecule()
@@ -272,7 +276,7 @@ def edit_smiles(request, pk):
             czasteczka.write(format="_png2", filename=directory1 + '/ala.png', overwrite=True)
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
             post.save()
-            return redirect('/')
+            return redirect('/post')
     else:
         data = {'title': post.title, 'smiles': post.smiles}
         form = Molecule(initial=data)

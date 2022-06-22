@@ -22,6 +22,9 @@ class Post(models.Model):
     odch = models.TextField(default='')
     sr = models.TextField(default='')
     var = models.TextField(default='')
+    med = models.TextField(default='')
+    shapiro = models.TextField(default='')
+    test = models.TextField(default='')
     plik_hash = models.CharField(blank=True, null=True, max_length=256)
     plik1 = models.FileField(default='', upload_to=user_directory_path)
     guzik = models.BooleanField(default=False)
@@ -29,7 +32,7 @@ class Post(models.Model):
     
     atoms = models.IntegerField(blank=True, null=True)
     exactmass = models.FloatField(blank=True, null=True)
-    formula = models.CharField(max_length=200)
+    formula = models.CharField(max_length=200,default='')
     molwt = models.FloatField(blank=True, null=True)
 
     def __str__(self):

@@ -12,6 +12,6 @@ urlpatterns = [
     path("post/<int:pk>/", BlogDetailView.as_view(), name="post_detail"),
     path("post/<int:pk>/edit_suma/", edit_suma, name="suma_edit"),
     path("post/<int:pk>/edit_smiles/", edit_smiles, name="smiles_edit"),
-    path("", BlogListView.as_view(), name="home"),
+    path("post/", BlogListView.as_view(), name="home"),
     path("post/<int:pk>/delete/", BlogDeleteView.as_view(), name="post_delete"),
 ]

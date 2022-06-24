@@ -83,8 +83,11 @@ def calculate(dataframe, post):
         sr = dataframe[list(dataframe.columns)[i]].mean()
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
-        t,p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
-        shapiro=p
+        try:
+            t,p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
+            shapiro=p
+        except:
+            shapiro=''
         
         if len(lista) > 1 and i < len(lista)-1 :
             

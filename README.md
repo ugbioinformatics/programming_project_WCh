@@ -51,8 +51,8 @@ pip install django
 
 12.	Instalacja: <br>
 pip install matplotlib <br>
-pip install pandas
-pip install statsmodels
+pip install pandas<br>
+pip install statsmodels<br>
 pip install scipy
 
 Uwaga: zamiast 11. i 12. można wykonać

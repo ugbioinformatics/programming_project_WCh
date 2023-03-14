@@ -12,11 +12,21 @@ INSTRUKCJA INSTALACJI na procowni komputerowe (Ubunut 20.04)
 
 1. Utworzenie katalogu z projektem, przejście do niego.
 
-2. Sklonowanie SSH za pomocą komendy: <br>
+2. Stworzenie środowiska za pomocą komendy: <br>
+virtualenv env
+
+3. Aktywacja środowiska za pomocą komendy: <br>
+source env/bin/activate.csh
+
+4. Sklonowanie SSH za pomocą komendy: <br>
 git clone git@github.com:ugbioinformatics/programming_project_WCh.git
 
-3. Przejście do sklonowanego katalogu projektu.
+5. Przejście do sklonowanego katalogu projektu.
 cd programming_project_WCh
+
+6. pip install -r requirements.txt
+
+7. ln -s /usr/lib/python3/dist-packages/openbabel $VIRTUAL_ENV/lib/python*/site-packages
 
 
 INSTRUKCJA INSTALACJI DLA WINDOWSA ;)

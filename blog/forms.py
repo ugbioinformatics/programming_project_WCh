@@ -32,22 +32,22 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
         plik1 = cleaned_data.get('plik1')
         guzik = cleaned_data.get('guzik')
         '''
-        Metoda 'clean()' w klasie 'Suma', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms', jest wywoływana po przesłaniu formularza         przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
-        W metodzie clean() najpierw wywoływana jest metoda clean() z klasy nadrzędnej za pomocą wyrażenia super(Suma, self).clean(). W ten sposób                   otrzymujemy czyste dane z formularza. Następnie zmiennym body, plik1 i guzik przypisujemy wartości wprowadzone przez użytkownika dla odpowiednich           pól.
+        Metoda 'clean()' w klasie 'Suma', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms', jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
+        W metodzie clean() najpierw wywoływana jest metoda clean() z klasy nadrzędnej za pomocą wyrażenia super(Suma, self).clean(). W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym body, plik1 i guzik przypisujemy wartości wprowadzone przez użytkownika dla odpowiednich pól.
         '''
 
         if body and plik1:
             show = 'Choose only one form of data (text field OR data file).'
             self.add_error('body', show)
             '''
-            Pierwszy blok warunkowy sprawdza, czy wprowadzono jedynie jeden rodzaj danych - wprowadzone dane tekstowe lub załączony plik z danymi. Jeśli               dane zostały wprowadzone w obu miejscach, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', show)'.
+            Pierwszy blok warunkowy sprawdza, czy wprowadzono jedynie jeden rodzaj danych - wprowadzone dane tekstowe lub załączony plik z danymi. Jeśli dane zostały wprowadzone w obu miejscach, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', show)'.
             '''
 
         if not body and not plik1:
             msg = 'Provide either data in the text field or appropriate data file.'
             self.add_error('body', msg)
             '''
-            Drugi blok warunkowy sprawdza, czy wprowadzono jakiekolwiek dane. Jeśli żadne dane nie zostały wprowadzone, dodaje błąd do pola tekstowego za               pomocą 'self.add_error('body', msg)'.
+            Drugi blok warunkowy sprawdza, czy wprowadzono jakiekolwiek dane. Jeśli żadne dane nie zostały wprowadzone, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', msg)'.
             '''
 
         if body:
@@ -59,7 +59,7 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
                 except:
                     self.add_error('body', 'Wrong list')
             '''
-            Trzeci blok warunkowy jest odpowiedzialny za walidację danych tekstowych, tj. sprawdzenie, czy wprowadzone dane są listą liczb. Jeśli                       wprowadzone dane nie są listą liczb, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', 'Wrong list')'.
+            Trzeci blok warunkowy jest odpowiedzialny za walidację danych tekstowych, tj. sprawdzenie, czy wprowadzone dane są listą liczb. Jeśli wprowadzone dane nie są listą liczb, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', 'Wrong list')'.
             '''
             
         if plik1:
@@ -93,7 +93,7 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
             except EmptyDataError:
                 self.add_error('plik1', 'The file contains Data that is wrong or empty.')
                 '''
-             Czwarty blok warunkowy jest odpowiedzialny za walidację danych zawartych w pliku z danymi. Pierwsze wyrażenie 'try' odczytuje załączony plik i              konwertuje go na obiekt Pandas DataFrame. Następnie blok ten sprawdza, czy dane w DataFrame są numeryczne. Jeśli dane zawierają nieliczbowe                wartości, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains non-numerical data')'. Jeśli                DataFrame jest pusty lub zawiera nieprawidłowe dane, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The                file contains Data that is wrong or empty.')'. W przeciwnym razie, oblicza sumę danych w pierwszej kolumnie DataFrame i zapisuje ją w zmiennej              'suma', a następnie wyświetla informacje diagnostyczne za pomocą 'print()'.
+             Czwarty blok warunkowy jest odpowiedzialny za walidację danych zawartych w pliku z danymi. Pierwsze wyrażenie 'try' odczytuje załączony plik i konwertuje go na obiekt Pandas DataFrame. Następnie blok ten sprawdza, czy dane w DataFrame są numeryczne. Jeśli dane zawierają nieliczbowe wartości, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains non-numerical data')'. Jeśl DataFrame jest pusty lub zawiera nieprawidłowe dane, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains Data that is wrong or empty.')'. W przeciwnym razie, oblicza sumę danych w pierwszej kolumnie DataFrame i zapisuje ją w zmiennej 'suma', a następnie wyświetla informacje diagnostyczne za pomocą 'print()'.
                 '''
 
 class Molecule(forms.Form):

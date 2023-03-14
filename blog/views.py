@@ -37,7 +37,7 @@ class BlogDeleteView(DeleteView):
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
-#pomocnicza funkcja, obliczająca co ma być wyświetlane na stronie
+#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z podanych danych  
 def calculate_body(bodylist, post):
   
     tmp = bodylist.split()

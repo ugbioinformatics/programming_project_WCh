@@ -5,21 +5,20 @@
     <h2>{{ post.title }}</h2>
 
 {% if post.smiles == None %}
-
     <p>{{ post.body }}</p>
     <p>Suma = {{ post.suma }}</p>
     <p>Średnia = {{ post.sr }}</p>
     <p>Odchylenie = {{ post.odch }}</p>
     <p>Wariancja = {{ post.var }}</p>
     <p>Mediana = {{ post.med }}</p>
-    <p>Shapiro_p_value = {{ post.shapiro }}</p>
-    <p>T_studenta_p_value = {{ post.test }}</p>
-    <p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p>
+     {%  if post.shapiro %}<p>Shapiro_p_value = {{ post.shapiro }}</p> {% endif %}
+    {% if post.test %}<p>T_studenta_p_value = {{ post.test }}</p> {% endif %}
+    {% if post.plik1%}<p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p> {% endif %}
 
 </div>
 
 {% if post.ncolumns < 2 %}
-<img src="/media/{{post.plik_hash}}/foo1.png">
+{% if post.plik_hash %}<img src="/media/{{post.plik_hash}}/foo1.png"> {% endif %}
 <p>
 {% endif %}
     
@@ -46,7 +45,7 @@
     <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
     <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
 </div>
-<img src="/media/{{post.plik_hash}}/ala.png">
+{% if post.plik_hash %}<img src="/media/{{post.plik_hash}}/ala.png"> {% endif %}
 <p>
     
 <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>

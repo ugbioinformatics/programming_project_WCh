@@ -38,7 +38,6 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
         '''
         if len(title) > 40:
             show = 'Enter a shorter title'
-            print('too long')
             self.add_error('body', show)
 
         if body and plik1:

@@ -27,8 +27,6 @@ cd programming_project_WCh
 6. pip install -r requirements.txt
 
 7. Instalacja openbabel: <br>
-apt install openbabel <br>
-apt install python3-openbabel <br>
 ln -s /usr/lib/python3/dist-packages/openbabel $VIRTUAL_ENV/lib/python*/site-packages
 
 8. Przygotowanie i utworzenie bazy danych:

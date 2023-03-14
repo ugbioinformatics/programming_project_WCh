@@ -10,7 +10,14 @@ branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/stude
 
 INSTRUKCJA INSTALACJI na procowni komputerowe (Ubunut 20.04)
 
-1.
+1. Utworzenie katalogu z projektem, przejście do niego.
+
+2. Sklonowanie SSH za pomocą komendy: <br>
+git clone git@github.com:ugbioinformatics/programming_project_WCh.git
+
+3. Przejście do sklonowanego katalogu projektu.
+cd programming_project_WCh
+
 
 INSTRUKCJA INSTALACJI DLA WINDOWSA ;)
 

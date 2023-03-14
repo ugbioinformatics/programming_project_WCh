@@ -1,10 +1,6 @@
-"""
-Main application function definitions
-"""
+#import klas potrzebnych do działania programu
 
 from django.shortcuts import render
-
-# Create your views here.
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
@@ -13,7 +9,6 @@ from .models import Post
 from .forms import Suma, Molecule
 import statistics as st
 import matplotlib
-
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -25,25 +20,26 @@ import openbabel.pybel
 import scipy.stats as stats
 import statsmodels.api as sm
 
-
+#zdefiniowanie funkcjonowania strony głównej post/
 class BlogListView(ListView):
     model = Post
     template_name = "home.html"
 
 
+#zdefiniowanie wyświetlania podstrony post/<int:pk>/
 class BlogDetailView(DetailView):
     model = Post
     template_name = "post_detail.html"
 
-
+#zdefinowanie wyświetlania strony po usunięciu elementu
 class BlogDeleteView(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
-
+#pomocnicza funkcja, obliczająca co ma być wyświetlane na stronie
 def calculate_body(bodylist, post):
-    """Calculates for data from body"""
+  
     tmp = bodylist.split()
     for i in range(0, len(tmp)):
         tmp[i] = float(tmp[i])

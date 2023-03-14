@@ -109,9 +109,9 @@ class Molecule(forms.Form):
 '''
 Kod definiuje klasę 'Molecule', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms'. Klasa ta zawiera dwa pola formularza 'title' i 'smiles', z których drugie jest etykietowane tekstem "SMILES". Dodatkowo, klasa ta posiada metodę 'clean()', która jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
 
-Metoda clean() najpierw wywołuje metodę 'clean()' z klasy nadrzędnej za pomocą wyrażenia super(Molecule, self).clean(). W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym smiles przypisujemy wartość wprowadzoną przez użytkownika dla pola "SMILES".
+Metoda 'clean()' najpierw wywołuje metodę 'clean()' z klasy nadrzędnej za pomocą wyrażenia 'super(Molecule, self).clean()'. W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym 'smiles' przypisujemy wartość wprowadzoną przez użytkownika dla pola "SMILES".
 
-Dalej następuje próba przetworzenia wprowadzonej wartości SMILES za pomocą biblioteki Open Babel. Jeśli próba się nie powiedzie (z powodu nieobsługiwanego znaku w SMILES), metoda add_error() zostanie użyta do utworzenia błędu i informacji zwrotnej dla użytkownika, która zostanie wyświetlona na stronie. W tym przypadku informacja zwrotna będzie dotyczyła nieobsługiwanego znaku w SMILES.
+Dalej następuje próba przetworzenia wprowadzonej wartości SMILES za pomocą biblioteki Open Babel. Jeśli próba się nie powiedzie (z powodu nieobsługiwanego znaku w SMILES), metoda 'add_error()' zostanie użyta do utworzenia błędu i informacji zwrotnej dla użytkownika, która zostanie wyświetlona na stronie. W tym przypadku informacja zwrotna będzie dotyczyła nieobsługiwanego znaku w SMILES.
 '''
 
 

@@ -18,10 +18,10 @@ Klasa Suma służy do tworzenia formularza internetowego, który ma służyć do
 
 W klasie Suma definiowane są cztery pola formularza, każde z innym typem widżetu (CharField, Textarea, FileField oraz BooleanField).
 
-    "title" - pole typu CharField, służy do pobierania tekstu (tytułu) od użytkownika. Atrybut widget służy do zmiany wyglądu pola i w tym przypadku            ustawia się na TextInput z atrybutami size (rozmiar) i maxlength (maksymalna długość).
-    "body" - pole typu CharField, służy do pobierania większej ilości tekstu (treści). Atrybut widget jest ustawiony na Textarea z atrybutami cols (liczba      kolumn) i rows (liczba wierszy).
-    "plik1" - pole typu FileField, służy do pobierania pliku od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika.        Atrybut help_text zawiera informacje dla użytkownika, które będą wyświetlane pod polem.
-    "guzik" - pole typu BooleanField, służy do pobierania wartości typu logicznego (prawda/fałsz) od użytkownika. Atrybut label określa etykietę pola,          która będzie widoczna dla użytkownika.
+    "title" - pole typu CharField, służy do pobierania tekstu (tytułu) od użytkownika. Atrybut widget służy do zmiany wyglądu pola i w tym przypadku ustawia się na TextInput z atrybutami size (rozmiar) i maxlength (maksymalna długość).
+    "body" - pole typu CharField, służy do pobierania większej ilości tekstu (treści). Atrybut widget jest ustawiony na Textarea z atrybutami cols (liczba kolumn) i rows (liczba wierszy).
+    "plik1" - pole typu FileField, służy do pobierania pliku od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika. Atrybut help_text zawiera informacje dla użytkownika, które będą wyświetlane pod polem.
+    "guzik" - pole typu BooleanField, służy do pobierania wartości typu logicznego (prawda/fałsz) od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika.
     
 Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=False.
     '''

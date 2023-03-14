@@ -31,11 +31,15 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
         body = cleaned_data.get("body")
         plik1 = cleaned_data.get('plik1')
         guzik = cleaned_data.get('guzik')
+        title = models.CharField(max_length=40)
         '''
         Metoda 'clean()' w klasie 'Suma', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms', jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
         W metodzie clean() najpierw wywoływana jest metoda clean() z klasy nadrzędnej za pomocą wyrażenia super(Suma, self).clean(). W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym body, plik1 i guzik przypisujemy wartości wprowadzone przez użytkownika dla odpowiednich pól.
         '''
-
+        if title > 40:
+            show = 'Enter a shorter title'
+            self.add_error('body', title)
+            
         if body and plik1:
             show = 'Choose only one form of data (text field OR data file).'
             self.add_error('body', show)

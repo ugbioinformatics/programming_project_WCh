@@ -5,6 +5,9 @@ from django.db import models
 from django.urls import reverse
 
 
+#ustawienie katalogu "instance.plik" przesyłania plików przez użytkownika strony i nazwy pliku 'plik.dane' - utworzenie lokalizacji 
+#w lokalnym systemie plików, w której będą przechowywane przesłane pliki
+
 def user_directory_path(instance, filename):
     """
     Returns path for file saving MEDIA_ROOT/<hash>/plik.pdb
@@ -13,6 +16,8 @@ def user_directory_path(instance, filename):
     return '{0}/{1}'.format(instance.plik_hash, 'plik.dane')
 
 
+#lista pól bazy danych, które definiuje model, zawierający podstawowe pola i zachowania przechowywania danych np."models.CharField" 
+#pole używane jako atrybut do odwoływania się do kolumny bazy danych - wymaga podania maksymalnej długości
 class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=20)
@@ -34,9 +39,12 @@ class Post(models.Model):
     exactmass = models.FloatField(blank=True, null=True)
     formula = models.CharField(max_length=200,default='')
     molwt = models.FloatField(blank=True, null=True)
+    
 
     def __str__(self):
         return self.title
+    #gdy metoda jest wywoływana, zwraca łącze zwrotne do adresu URL pod adresem "post_detail", co spowoduje przekazanie dodatkowych argumentów 
+    #do adresu URL, w tym przypadku pk. Zostanie to skonfigurowane w urls.py.
 
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})

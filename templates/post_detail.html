@@ -27,6 +27,8 @@
 {% for _ in range %}
     {% if forloop.counter  < post.ncolumns  %}
     <p>
+    T_studenta_p_value={{ post.test[forloop.counter] }}
+    <p>
      <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
     {% endif %}
     <p>

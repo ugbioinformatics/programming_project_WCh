@@ -37,7 +37,7 @@ class BlogDeleteView(DeleteView):
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
-#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z podanych danych  
+#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z danych podanych przez użytkownika w formularzu    
 def calculate_body(bodylist, post):
   
     tmp = bodylist.split()
@@ -68,6 +68,7 @@ def calculate_body(bodylist, post):
     plt.close()
     return (suma, odch, sr, var)
 
+#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku   
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
@@ -154,13 +155,11 @@ def calculate(dataframe, post):
 
     return staty
 
-        
+# wyświetlić do zrobienia! 
 
-    # wyświetlić
+# edycja danych (w bazie danych) które wprowadził użytkownik 
 
-
-def edit_suma(request, pk):
-    """Editing of existing entries"""
+def edit_suma(request, pk): 
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
         form = Suma(request.POST, request.FILES)
@@ -187,6 +186,7 @@ def edit_suma(request, pk):
         form = Suma(initial=data)
     return render(request, 'suma.html', {'form': form, 'post': post})
 
+# tworzy nazwę pliku 
 
 def suma(request):
     if request.method == 'POST':
@@ -223,6 +223,7 @@ def suma(request):
         form = Suma()
     return render(request, 'suma.html', {'form': form})
 
+# funkcja pomocnicza, oblicza ilość atomów w czasteczce, dokładną masę cząsteczki, masę molową cząsteczki, wzór sumaryczny cząsteczki 
 
 def particleParameters(particle):
     atoms = len(particle.atoms)
@@ -231,6 +232,7 @@ def particleParameters(particle):
     molwt = particle.molwt
     return atoms, exactmass, formula, molwt
 
+# na podstawie SMILES oblicza i wpisuje strukturę 3D cząsteczki do bazy danych, wpisuje parametry obliczone przez funkcję particleParameters
 
 def molecule(request):
     if request.method == 'POST':
@@ -248,8 +250,7 @@ def molecule(request):
             czasteczka = openbabel.pybel.readstring("smi", smiles)
             czasteczka.make3D()
             czasteczka.write(format="svg", filename=directory1 + '/ala.svg')
-            czasteczka.write(format="_png2", filename=directory1 + '/ala.png')
-            # atoms, exactmass, formula, molwt = particleParameters(czasteczka)
+            czasteczka.write(format="_png2", filename=directory1 + '/ala.png') 
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
             post.save()
             return redirect('/post')
@@ -258,9 +259,9 @@ def molecule(request):
         form = Molecule()
     return render(request, 'molecule.html', {'form': form})
 
+# edycja istniejącego modelu cząsteczki w bazie danych  
 
 def edit_smiles(request, pk):
-    """Editing of existing entries"""
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
         form = Molecule(request.POST, request.FILES)

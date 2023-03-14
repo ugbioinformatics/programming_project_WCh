@@ -46,11 +46,13 @@ def calculate_body(bodylist, post):
 
     suma = sum(tmp)
     sr = st.mean(tmp)
+    mediana = st.median(tmp)
     print(sr)
 
     if len(tmp) > 1:
         odch = st.stdev(tmp)
         var = st.variance(tmp)
+        t,p = stats.shapiro(tmp)
     else:
         var = 0
         odch = 0
@@ -66,7 +68,7 @@ def calculate_body(bodylist, post):
 
     plt.savefig(directory1 + '/foo1.png')
     plt.close()
-    return (suma, odch, sr, var)
+    return (suma, odch, sr, var, mediana, t, p)
 
 #pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku   
 
@@ -170,7 +172,7 @@ def edit_suma(request, pk):
             post.plik1 = form.cleaned_data["plik1"]
             post.guzik = form.cleaned_data['guzik']
             if post.body:
-                (post.suma, post.odch, post.sr, post.var) = calculate_body(body, post)
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body, post)
             post.save()
             if post.plik1:
                 if post.guzik:
@@ -202,7 +204,7 @@ def suma(request):
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(body=body, title=title, plik_hash=plik_hash)
                 post.save()
-                (post.suma, post.odch, post.sr, post.var) = calculate_body(body, post)
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body, post)
                 post.save()
             else:
                 some_salt = 'some_salt'

@@ -19,7 +19,7 @@ def user_directory_path(instance, filename):
 #lista pól bazy danych, które definiuje model, zawierający podstawowe pola i zachowania przechowywania danych np."models.CharField" 
 #pole używane jako atrybut do odwoływania się do kolumny bazy danych - wymaga podania maksymalnej długości
 class Post(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=40)
     author = models.CharField(max_length=20)
     body = models.TextField()
     smiles = models.CharField(max_length=200, null=True)

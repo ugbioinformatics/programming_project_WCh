@@ -13,7 +13,7 @@ class Suma(forms.Form):
     plik1 = forms.FileField(label='Upload data', required=False,
                             help_text='Input data for calculation in csv format. Please note that headers for columns are essential for correct data analysis!')
     guzik = forms.BooleanField(required=False, label='Do you have headers in rows?')
-'''
+    '''
 Klasa Suma służy do tworzenia formularza internetowego, który ma służyć do pobierania danych od użytkownika.
 
 W klasie Suma definiowane są cztery pola formularza, każde z innym typem widżetu (CharField, Textarea, FileField oraz BooleanField).
@@ -24,7 +24,7 @@ W klasie Suma definiowane są cztery pola formularza, każde z innym typem widż
     "guzik" - pole typu BooleanField, służy do pobierania wartości typu logicznego (prawda/fałsz) od użytkownika. Atrybut label określa etykietę pola,          która będzie widoczna dla użytkownika.
     
 Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=False.
-'''
+    '''
 
     def clean(self):
         cleaned_data = super(Suma, self).clean()
@@ -106,6 +106,12 @@ class Molecule(forms.Form):
             particle = openbabel.pybel.readstring("smi", smiles)
         except IOError:
             self.add_error("smiles",'The SMILES have unsupported characters.')
+'''
+Kod definiuje klasę 'Molecule', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms'. Klasa ta zawiera dwa pola formularza 'title' i 'smiles', z których drugie jest etykietowane tekstem "SMILES". Dodatkowo, klasa ta posiada metodę 'clean()', która jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
 
+Metoda clean() najpierw wywołuje metodę 'clean()' z klasy nadrzędnej za pomocą wyrażenia super(Molecule, self).clean(). W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym smiles przypisujemy wartość wprowadzoną przez użytkownika dla pola "SMILES".
+
+Dalej następuje próba przetworzenia wprowadzonej wartości SMILES za pomocą biblioteki Open Babel. Jeśli próba się nie powiedzie (z powodu nieobsługiwanego znaku w SMILES), metoda add_error() zostanie użyta do utworzenia błędu i informacji zwrotnej dla użytkownika, która zostanie wyświetlona na stronie. W tym przypadku informacja zwrotna będzie dotyczyła nieobsługiwanego znaku w SMILES.
+'''
 
 

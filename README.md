@@ -9,7 +9,7 @@ branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/stude
 2022.06.02 - merge branch chemia from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/studenci/projekt-programistyczny/-/tree/chemia
 
 
-INSTRUKCJA INSTALACJI na pracowni komputerowej (Ubunu 20.04)
+INSTRUKCJA INSTALACJI na pracowni komputerowej (Ubuntu 20.04)
 
 1. Utworzenie katalogu z projektem, przejście do niego.
 

@@ -22,7 +22,7 @@ W klasie Suma definiowane są cztery pola formularza, każde z innym typem widż
     "body" - pole typu CharField, służy do pobierania większej ilości tekstu (treści). Atrybut widget jest ustawiony na Textarea z atrybutami cols (liczba kolumn) i rows (liczba wierszy).
     "plik1" - pole typu FileField, służy do pobierania pliku od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika. Atrybut help_text zawiera informacje dla użytkownika, które będą wyświetlane pod polem.
     "guzik" - pole typu BooleanField, służy do pobierania wartości typu logicznego (prawda/fałsz) od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika.
-    
+
 Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=False.
     '''
 
@@ -31,14 +31,15 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
         body = cleaned_data.get("body")
         plik1 = cleaned_data.get('plik1')
         guzik = cleaned_data.get('guzik')
+        title = cleaned_data.get('title')
         '''
         Metoda 'clean()' w klasie 'Suma', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms', jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
         W metodzie clean() najpierw wywoływana jest metoda clean() z klasy nadrzędnej za pomocą wyrażenia super(Suma, self).clean(). W ten sposób otrzymujemy czyste dane z formularza. Następnie zmiennym body, plik1 i guzik przypisujemy wartości wprowadzone przez użytkownika dla odpowiednich pól.
         '''
-        if title > 40:
+        if len(title) > 40:
             show = 'Enter a shorter title'
             self.add_error('body', title)
-            
+
         if body and plik1:
             show = 'Choose only one form of data (text field OR data file).'
             self.add_error('body', show)
@@ -64,7 +65,7 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
             '''
             Trzeci blok warunkowy jest odpowiedzialny za walidację danych tekstowych, tj. sprawdzenie, czy wprowadzone dane są listą liczb. Jeśli wprowadzone dane nie są listą liczb, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', 'Wrong list')'.
             '''
-            
+
         if plik1:
             try:
                 if guzik:
@@ -99,16 +100,20 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
              Czwarty blok warunkowy jest odpowiedzialny za walidację danych zawartych w pliku z danymi. Pierwsze wyrażenie 'try' odczytuje załączony plik i konwertuje go na obiekt Pandas DataFrame. Następnie blok ten sprawdza, czy dane w DataFrame są numeryczne. Jeśli dane zawierają nieliczbowe wartości, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains non-numerical data')'. Jeśl DataFrame jest pusty lub zawiera nieprawidłowe dane, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains Data that is wrong or empty.')'. W przeciwnym razie, oblicza sumę danych w pierwszej kolumnie DataFrame i zapisuje ją w zmiennej 'suma', a następnie wyświetla informacje diagnostyczne za pomocą 'print()'.
                 '''
 
+
 class Molecule(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
     smiles = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='SMILES')
+
     def clean(self):
         cleaned_data = super(Molecule, self).clean()
         smiles = cleaned_data.get('smiles')
         try:
             particle = openbabel.pybel.readstring("smi", smiles)
         except IOError:
-            self.add_error("smiles",'The SMILES have unsupported characters.')
+            self.add_error("smiles", 'The SMILES have unsupported characters.')
+
+
 '''
 Kod definiuje klasę 'Molecule', która dziedziczy po klasie 'forms.Form' z modułu Django 'django.forms'. Klasa ta zawiera dwa pola formularza 'title' i 'smiles', z których drugie jest etykietowane tekstem "SMILES". Dodatkowo, klasa ta posiada metodę 'clean()', która jest wywoływana po przesłaniu formularza przez użytkownika i służy do weryfikacji i walidacji danych wprowadzonych przez użytkownika.
 

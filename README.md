@@ -31,6 +31,13 @@ apt install openbabel <br>
 apt install python3-openbabel <br>
 ln -s /usr/lib/python3/dist-packages/openbabel $VIRTUAL_ENV/lib/python*/site-packages
 
+8. Przygotowanie i utworzenie bazy danych:
+./manage.py makemigrations blog
+./manage.py migrate
+
+9. Uruchomienie serwera: <br>
+./manage.py runserver
+
 
 INSTRUKCJA INSTALACJI DLA WINDOWSA ;)
 

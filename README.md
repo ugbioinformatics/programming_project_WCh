@@ -30,7 +30,7 @@ cd programming_project_WCh
 7. Instalacja openbabel: <br>
 ln -s /usr/lib/python3/dist-packages/openbabel $VIRTUAL_ENV/lib/python*/site-packages
 
-8. Przygotowanie i utworzenie bazy danych:
+8. Przygotowanie i utworzenie bazy danych: <br> 
 ./manage.py makemigrations blog <br> 
 ./manage.py migrate
 

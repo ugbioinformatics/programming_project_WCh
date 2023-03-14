@@ -8,6 +8,10 @@ branch sumowanie from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/stude
 
 2022.06.02 - merge branch chemia from gitlab repository https://etoh.chem.ug.edu.pl/gitlab/studenci/projekt-programistyczny/-/tree/chemia
 
+INSTRUKCJA INSTALACJI na procowni komputerowe (Ubunut 20.04)
+
+1.
+
 INSTRUKCJA INSTALACJI DLA WINDOWSA ;)
 
 Z powodu niekompatybilnej wersji biblioteki openbabel w natywnym python dla Windows

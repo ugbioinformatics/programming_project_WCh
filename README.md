@@ -31,7 +31,7 @@ cd programming_project_WCh
 ln -s /usr/lib/python3/dist-packages/openbabel $VIRTUAL_ENV/lib/python*/site-packages
 
 8. Przygotowanie i utworzenie bazy danych:
-./manage.py makemigrations blog
+./manage.py makemigrations blog <br> 
 ./manage.py migrate
 
 9. Uruchomienie serwera: <br>

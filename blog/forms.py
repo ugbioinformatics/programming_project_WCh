@@ -13,6 +13,18 @@ class Suma(forms.Form):
     plik1 = forms.FileField(label='Upload data', required=False,
                             help_text='Input data for calculation in csv format. Please note that headers for columns are essential for correct data analysis!')
     guzik = forms.BooleanField(required=False, label='Do you have headers in rows?')
+'''
+Klasa Suma służy do tworzenia formularza internetowego, który ma służyć do pobierania danych od użytkownika.
+
+W klasie Suma definiowane są cztery pola formularza, każde z innym typem widżetu (CharField, Textarea, FileField oraz BooleanField).
+
+    "title" - pole typu CharField, służy do pobierania tekstu (tytułu) od użytkownika. Atrybut widget służy do zmiany wyglądu pola i w tym przypadku            ustawia się na TextInput z atrybutami size (rozmiar) i maxlength (maksymalna długość).
+    "body" - pole typu CharField, służy do pobierania większej ilości tekstu (treści). Atrybut widget jest ustawiony na Textarea z atrybutami cols (liczba      kolumn) i rows (liczba wierszy).
+    "plik1" - pole typu FileField, służy do pobierania pliku od użytkownika. Atrybut label określa etykietę pola, która będzie widoczna dla użytkownika.        Atrybut help_text zawiera informacje dla użytkownika, które będą wyświetlane pod polem.
+    "guzik" - pole typu BooleanField, służy do pobierania wartości typu logicznego (prawda/fałsz) od użytkownika. Atrybut label określa etykietę pola,          która będzie widoczna dla użytkownika.
+    
+Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=False.
+'''
 
     def clean(self):
         cleaned_data = super(Suma, self).clean()

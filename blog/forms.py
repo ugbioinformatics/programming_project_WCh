@@ -113,5 +113,3 @@ Metoda 'clean()' najpierw wywołuje metodę 'clean()' z klasy nadrzędnej za pom
 
 Dalej następuje próba przetworzenia wprowadzonej wartości SMILES za pomocą biblioteki Open Babel. Jeśli próba się nie powiedzie (z powodu nieobsługiwanego znaku w SMILES), metoda 'add_error()' zostanie użyta do utworzenia błędu i informacji zwrotnej dla użytkownika, która zostanie wyświetlona na stronie. W tym przypadku informacja zwrotna będzie dotyczyła nieobsługiwanego znaku w SMILES.
 '''
-
-

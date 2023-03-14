@@ -92,9 +92,9 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
                 self.add_error('plik1', 'The file contains Non-Unicode data')
             except EmptyDataError:
                 self.add_error('plik1', 'The file contains Data that is wrong or empty.')
-             '''
+                '''
              Czwarty blok warunkowy jest odpowiedzialny za walidację danych zawartych w pliku z danymi. Pierwsze wyrażenie 'try' odczytuje załączony plik i              konwertuje go na obiekt Pandas DataFrame. Następnie blok ten sprawdza, czy dane w DataFrame są numeryczne. Jeśli dane zawierają nieliczbowe                wartości, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains non-numerical data')'. Jeśli                DataFrame jest pusty lub zawiera nieprawidłowe dane, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The                file contains Data that is wrong or empty.')'. W przeciwnym razie, oblicza sumę danych w pierwszej kolumnie DataFrame i zapisuje ją w zmiennej              'suma', a następnie wyświetla informacje diagnostyczne za pomocą 'print()'.
-             '''
+                '''
 
 class Molecule(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))

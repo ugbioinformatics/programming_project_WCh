@@ -39,12 +39,14 @@
 
         Przykład pętli dla pola json:<br>
 {% for t in post.test_json %}
-  forloop.counter={{ forloop.counter }}
+  {% if forloop.counter  < post.ncolumns  %}
+    <p>
+    T_studenta_p_value={{ t }}
+    <p>
+    <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
+  {% endif %}                                      
   <p>
-  forloop.counter0={{ forloop.counter0 }}
-  <p>
-  {{ t }}
-  <p>
+  <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png">     
 {% endfor %}   
         
 

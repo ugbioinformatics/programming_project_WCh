@@ -4,6 +4,7 @@ from django.db import models
 from django.db import models
 from django.urls import reverse
 
+from django.contrib.auth.models import User
 
 #ustawienie katalogu "instance.plik" przesyłania plików przez użytkownika strony i nazwy pliku 'plik.dane' - utworzenie lokalizacji 
 #w lokalnym systemie plików, w której będą przechowywane przesłane pliki
@@ -20,7 +21,7 @@ def user_directory_path(instance, filename):
 #pole używane jako atrybut do odwoływania się do kolumny bazy danych - wymaga podania maksymalnej długości
 class Post(models.Model):
     title = models.CharField(max_length=40)
-    author = models.CharField(max_length=20)
+    author = models.ForeignKey(User,on_delete=models.CASCADE,blank = True, null = True) #definiujemy autora jako odnośnik do bazy użytkowników w django (User)
     body = models.TextField()
     smiles = models.CharField(max_length=200, null=True)
     suma = models.TextField(default='')

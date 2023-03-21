@@ -37,6 +37,17 @@
 {% endfor %}
 {% endwith %}    
 
+        Przykład pętli dla pola json:
+{% for t in post.test_json %}
+  forloop.counter={{ forloop.counter }}
+  <p>
+  forloop.counter0={{ forloop.counter0 }}
+  <p>
+  {{ t }}
+  <p>
+{% endfor %}   
+        
+
 <p>        
 <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
 

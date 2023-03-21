@@ -298,3 +298,22 @@ def edit_smiles(request, pk):
         data = {'title': post.title, 'smiles': post.smiles}
         form = Molecule(initial=data)
     return render(request, 'molecule.html', {'form': form, 'post': post})
+
+# funkcja z peptide
+
+def sequence(request):
+    if request.method == 'POST':
+        form = Peptide(request.POST)
+        if form.is_valid():
+            sequence = form.cleaned_data["sequence"]
+            title = form.cleaned_data["title"]
+            if request.user.is_authenticated:
+               post = Post(sequence=sequence, title=title, author=request.user)
+            else:
+               post = Post(sequence=sequence, title=title)
+            post.save()
+            return redirect('/post')
+
+    else:
+        form = Peptide()
+    return render(request, 'peptide.html', {'form': form})

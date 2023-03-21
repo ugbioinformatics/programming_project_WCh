@@ -180,7 +180,8 @@ def edit_suma(request, pk):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate(dataframe, post)
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate(dataframe, post)
+                post.test=post.test_json
                 post.save()
             return redirect('/post')
     else:
@@ -204,7 +205,8 @@ def suma(request):
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(body=body, title=title, plik_hash=plik_hash)
                 post.save()
-                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body, post)
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate_body(body, post)
+                post.test=post.test_json 
                 post.save()
             else:
                 some_salt = 'some_salt'
@@ -218,7 +220,8 @@ def suma(request):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                post.suma, post.sr, post.odch, post.var, post.med, post.shapiro, post.test = calculate(dataframe, post)
+                post.suma, post.sr, post.odch, post.var, post.med, post.shapiro, post.test_json = calculate(dataframe, post)
+                post.test=post.test_json
                 post.save()
             return redirect('/post')
     else:

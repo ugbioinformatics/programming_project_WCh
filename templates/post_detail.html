@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load index %}
 
 {% block content %}
     <div class="post-entry">
@@ -27,7 +28,7 @@
 {% for _ in range %}
     {% if forloop.counter  < post.ncolumns  %}
     <p>
-    T_studenta_p_value={{ post.test[forloop.counter] }}
+    T_studenta_p_value={{ post.test_json | index:forloop.counter0  }} 
     <p>
      <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
     {% endif %}

@@ -24,28 +24,15 @@
 {% endif %}
     
     
-{% with ''|center:post.ncolumns as range %}
-{% for _ in range %}
-    {% if forloop.counter  < post.ncolumns  %}
-    <p>
-    T_studenta_p_value={{ post.test_json | index:forloop.counter0  }} 
-    <p>
-     <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
-    {% endif %}
-    <p>
-     <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png"> 
-{% endfor %}
-{% endwith %}    
-
-        Przykład pętli dla pola json:<br>
 {% for t in post.test_json %}
   {% if forloop.counter  < post.ncolumns  %}
     <p>
-    T_studenta_p_value={{ t }}
+    T_studenta_p_value={{ t }} 
     <p>
     <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
   {% endif %}                                      
   <p>
+      Histogram for column {{ forloop.counter }} <p>
   <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png">     
 {% endfor %}   
         

@@ -22,8 +22,19 @@ import statsmodels.api as sm
 
 #zdefiniowanie funkcjonowania strony głównej post/
 class BlogListView(ListView):
-    model = Post
-    template_name = "home.html"
+     model = Post
+     template_name = "home.html"
+     def get_queryset(self, **kwargs):
+        qs = super().get_queryset(**kwargs)
+        if self.request.user.is_authenticated:
+            return qs.filter(author=self.request.user)
+        else:
+            return qs.filter(author=None)
+        if request.user.is_authenticated:
+            post = Post(smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
+        else:
+            post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
+        post.save()
 
 
 #zdefiniowanie wyświetlania podstrony post/<int:pk>/

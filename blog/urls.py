@@ -36,7 +36,8 @@ urlpatterns = [
 # obiektu modelu "Post" o podanym numerze id. Widok ten jest realizowany przez funkcję edit_suma i 
 # ma nazwę "suma_edit".
     
-    path("post/molecule/", molecule, name="molecule"),
+    #path("post/molecule/", molecule, name="molecule"),
+    path("post/peptide/", peptide, name="peptide"),
     
 # Szósta ścieżka "post/molecule/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na wprowadzenie danych dotyczących cząsteczki chemicznej do nowego obiektu modelu "Post". 

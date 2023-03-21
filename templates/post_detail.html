@@ -9,7 +9,7 @@
        <p>Sequence = {{ post.sequence }}</p>    
 {% endif %}        
         
-{% if post.smiles == None and post.sequence == None %}
+{% if post.smiles == None and post.sequence == '' %}
     
         
     <p>{{ post.body }}</p>

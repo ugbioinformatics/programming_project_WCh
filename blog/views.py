@@ -30,11 +30,7 @@ class BlogListView(ListView):
             return qs.filter(author=self.request.user)
         else:
             return qs.filter(author=None)
-        if request.user.is_authenticated:
-            post = Post(smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
-        else:
-            post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
-        post.save()
+        
 
 
 #zdefiniowanie wyświetlania podstrony post/<int:pk>/
@@ -258,7 +254,10 @@ def molecule(request):
             title = form.cleaned_data["title"]
             some_psswd = 'somePassword'
             plik_hash = make_password(some_psswd, None, 'md5')
-            post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
+            if request.user.is_authenticated:
+               post = Post(smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
+            else:
+               post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
             post.save()
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             if not os.path.isdir(directory1):

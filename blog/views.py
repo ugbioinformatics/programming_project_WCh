@@ -301,9 +301,9 @@ def edit_smiles(request, pk):
 
 # funkcja z peptide
 
-def sequence(request):
+def peptide(request):
     if request.method == 'POST':
-        form = Peptide(request.POST)
+        form = Peptide_form(request.POST)
         if form.is_valid():
             sequence = form.cleaned_data["sequence"]
             title = form.cleaned_data["title"]
@@ -315,5 +315,5 @@ def sequence(request):
             return redirect('/post')
 
     else:
-        form = Peptide()
+        form = Peptide_form()
     return render(request, 'peptide.html', {'form': form})

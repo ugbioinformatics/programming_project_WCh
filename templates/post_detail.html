@@ -48,6 +48,9 @@
 
 
 {% else %}
+    
+    {% if post.sequence == '' %}
+    
     <p>{{ post.smiles }}</p>
     <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
     <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
@@ -59,6 +62,7 @@
     
 <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
 
+    {% endif %}
 {% endif %}
 
 <p><a href="{% url 'post_delete' post.pk %}">+ Delete Suma Post</a></p>

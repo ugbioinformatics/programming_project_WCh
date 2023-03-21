@@ -220,6 +220,8 @@ def suma(request):
                 some_psswd = 'somePassword'
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(title=title, plik_hash=plik_hash, plik1=plik1)
+            if request.user.is_authenticated:
+                post.author=request.user   
             post.save()
             if plik1:
                 if guzik:

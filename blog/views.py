@@ -312,8 +312,8 @@ def peptide(request):
                post = Post(sequence=sequence, title=title, author=request.user)
             else:
                post = Post(sequence=sequence, title=title)
-               p = peptides.Peptid("AAA")
-               print(p.molecular_weight))
+            p = peptides.Peptid("sequence")
+            print(p.molecular_weight))
             post.save()
             return redirect('/post')
 

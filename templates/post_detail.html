@@ -6,6 +6,11 @@
     <h2>{{ post.title }}</h2>
 
 {% if post.smiles == None %}
+        
+    {% if post.sequence != None %}   
+       <p>Sequence = {{ post.sequence }}</p>    
+    {% endif %}
+        
     <p>{{ post.body }}</p>
     <p>Suma = {{ post.suma }}</p>
     <p>Średnia = {{ post.sr }}</p>

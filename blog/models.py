@@ -41,7 +41,8 @@ class Post(models.Model):
     exactmass = models.FloatField(blank=True, null=True)
     formula = models.CharField(max_length=200,default='')
     molwt = models.FloatField(blank=True, null=True)
-    sequence = models.TextField(default='')
+    sequence = models.TextField(default='') 
+    charge = models.FloatField(blank=True, null=True) 
     
 
     def __str__(self):

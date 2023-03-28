@@ -338,9 +338,14 @@ def edit_peptide(request, pk):
             p = peptides.Peptide(post.sequence)
             post.molwt = p.molecular_weight()
             post.charge = p.charge(pKscale = post.pKscale)
-            fs_vector = post.fasgai_vector
-            fs_vector.create_from_tuple(p.fasgai_vectors())
-            fs_vector.save()
+            if not post.fasgai_vector:
+                fs_vector = FasgaiVector().create_from_tuple(p.fasgai_vectors())
+                post.fasgai_vector = fs_vector
+                post.save()
+            else:
+                fs_vector = post.fasgai_vector
+                fs_vector.create_from_tuple(p.fasgai_vectors())
+                fs_vector.save()
             post.save()
             return redirect('/post')
 

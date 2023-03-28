@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
     <script src="{% static 'js/post_detail.js' %}" defer></script>
-    <script src="https://unpkg.com/ngl@1.0.0-beta.7"></script>
+    <script src="https://unpkg.com/ngl@1.0.0-beta.7/dist/ngl.js"></script>
     <div class="post-entry">
         <h2>{{ post.title }}</h2>
         {% if post.type == 'peptide' %}

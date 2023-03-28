@@ -339,6 +339,5 @@ def edit_peptide(request, pk):
 
     else:
         data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale} 
-        form = Peptide_form()
-    return render(request, 'peptide.html', {'form': form})
-
+        form = peptide(initial=data) 
+    return render(request, 'peptide.html', {'form': form}) 

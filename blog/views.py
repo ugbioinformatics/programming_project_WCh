@@ -1,5 +1,5 @@
 # import bibliotek i klas potrzebnych do działania programu
-
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
@@ -31,9 +31,19 @@ class BlogListView(ListView):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         if self.request.user.is_authenticated:
-            return qs.filter(author=self.request.user)
+            qs.filter(author=self.request.user)
         else:
-            return qs.filter(author=None)
+            qs.filter(author=None)
+
+        if self.request.GET.get('type') == 'data':
+            return qs.filter(type='data')
+        elif self.request.GET.get('type') == 'molecule':
+            return qs.filter(type='molecule')
+        elif self.request.GET.get('type') == 'peptide':
+            return qs.filter(type='peptide')
+        else:
+            return qs
+
 
 
 # zdefiniowanie wyświetlania podstrony post/<int:pk>/

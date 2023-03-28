@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load index %}
-{% load static %}
+
 {% block content %}
     <script src="{% static 'js/post_detail.js' %}" defer></script>
     <div class="post-entry">
@@ -47,6 +47,7 @@
                     </div>
                 </div>
             {% endif %}
+            <a href="{% url 'edit_peptide' post.pk %}">+ Edit Peptide</a>
         {% endif %}
 
         {% if post.smiles == None and post.sequence == '' %}

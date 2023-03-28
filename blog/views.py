@@ -1,4 +1,4 @@
-#import bibliotek i klas potrzebnych do działania programu
+#import bibliotek i klas potrzebnych do działania programu 
 
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
@@ -318,9 +318,7 @@ def peptide(request):
             fs_vector = p.fasgai_vectors()
             fs_vector_instance = FasgaiVector().create_from_tuple(fs_vector)
             fs_vector_instance.save()
-            print('fasgai_vector', fs_vector_instance)
             post.fasgai_vector = fs_vector_instance
-            print('fasgai_vector (post)', post.fasgai_vector)
             post.save()
             return redirect('/post')
 
@@ -339,6 +337,9 @@ def edit_peptide(request, pk):
             p = peptides.Peptide(post.sequence)
             post.molwt = p.molecular_weight()
             post.charge = p.charge(pKscale = post.pKscale)
+            fs_vector = post.fasgai_vector
+            fs_vector.create_from_tuple(p.fasgai_vectors())
+            fs_vector.save()
             post.save()
             return redirect('/post')
 

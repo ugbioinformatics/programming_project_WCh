@@ -48,7 +48,7 @@ class Post(models.Model):
     pKscale = models.CharField(max_length=200,default='')
     fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True) 
     
-    type = models.CharField([('data', 'data'), ('molecule', 'molecule') , ('peptide', 'peptide')]) 
+    type = models.CharField([('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide')])
 
     def __str__(self):
         return self.title
@@ -93,5 +93,5 @@ class FasgaiVector(models.Model):
         return self.f1, self.f2, self.f3, self.f4, self.f5, self.f6
 
     def to_list(self):
-        return [self.f1, self.f2, self.f3, self.f4, self.f5, self.f6] \
+        return [self.f1, self.f2, self.f3, self.f4, self.f5, self.f6]
     

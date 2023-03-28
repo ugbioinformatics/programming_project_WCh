@@ -308,15 +308,16 @@ def peptide(request):
         if form.is_valid():
             sequence = form.cleaned_data["sequence"]
             title = form.cleaned_data["title"]
+            pKscale = form.cleaned_data["pKscale"] 
             if request.user.is_authenticated:
                post = Post(sequence=sequence, title=title, author=request.user)
             else:
                post = Post(sequence=sequence, title=title)
             p = peptides.Peptide(sequence)
             post.molwt = p.molecular_weight() 
-            post.charge = p.charge(pKscale="EMBOSS")
+            post.charge = p.charge(pKscale = pKscale)
             post.save()
-            return redirect('/post')
+            return redirect('/post') 
 
     else:
         form = Peptide_form()

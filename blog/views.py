@@ -276,7 +276,8 @@ def molecule(request):
             if not os.path.isdir(directory1):
                 os.mkdir(directory1)
             czasteczka = openbabel.pybel.readstring("smi", smiles)
-            czasteczka.make3D()
+            czasteczka.make3D() 
+            czasteczka.write(format="mol2", filename=directory1 + '/ala.mol2')
             czasteczka.write(format="svg", filename=directory1 + '/ala.svg')
             czasteczka.write(format="_png2", filename=directory1 + '/ala.png')
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
@@ -302,6 +303,7 @@ def edit_smiles(request, pk):
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             czasteczka = openbabel.pybel.readstring("smi", post.smiles)
             czasteczka.make3D()
+            czasteczka.write(format="mol2", filename=directory1 + '/ala.mol2', overwrite=True)
             czasteczka.write(format="svg", filename=directory1 + '/ala.svg', overwrite=True)
             czasteczka.write(format="_png2", filename=directory1 + '/ala.png', overwrite=True)
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)

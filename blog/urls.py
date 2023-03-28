@@ -4,7 +4,7 @@ URL mapping for application.
 
 from django.urls import path
 from .views import BlogListView, BlogDetailView, BlogDeleteView
-from .views import suma, edit_suma, molecule, edit_smiles, peptide
+from .views import suma, edit_suma, molecule, edit_smiles, peptide, edit_peptide 
 
 urlpatterns = [
     path("post/<int:pk>/", BlogDetailView.as_view(), name="post_detail"),

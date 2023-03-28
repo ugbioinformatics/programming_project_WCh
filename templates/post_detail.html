@@ -5,8 +5,7 @@
     <script src="{% static 'js/post_detail.js' %}" defer></script>
     <div class="post-entry">
         <h2>{{ post.title }}</h2>
-
-        {% if post.sequence != '' %}
+        {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>
             <p>Mass = {{ post.molwt }}</p>
             <p>pKscale = {{ post.pKscale }}</p>
@@ -49,10 +48,7 @@
             {% endif %}
             <a href="{% url 'edit_peptide' post.pk %}">+ Edit Peptide</a>
         {% endif %}
-
-        {% if post.smiles == None and post.sequence == '' %}
-
-
+        {% if post.type == 'data' %}
             <p>{{ post.body }}</p>
             <p>Suma = {{ post.suma }}</p>
             <p>Średnia = {{ post.sr }}</p>
@@ -62,7 +58,6 @@
             {% if post.shapiro %}<p>Shapiro_p_value = {{ post.shapiro }}</p> {% endif %}
             {% if post.test %}<p>T_studenta_p_value = {{ post.test }}</p> {% endif %}
             {% if post.plik1 %}<p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p> {% endif %}
-
             </div>
 
             {% if post.ncolumns < 2 %}
@@ -82,28 +77,18 @@
                 Histogram for column {{ forloop.counter }} <p>
             <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_hist.png">
         {% endfor %}
-
-
             <p>
-                <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
-
-
-                {% else %}
-
-                {% if post.sequence == '' %}
-
-                    <p>{{ post.smiles }}</p>
-                    <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
-                    <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
-                    <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
-                    <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
-                    </div>
-                    {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/ala.png"> {% endif %}
-                    <p>
-
-                    <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
-
-                {% endif %}
+            <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
+        {% endif %}
+        {% if post.type == 'molecule' %}
+            <p>{{ post.smiles }}</p>
+            <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
+            <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
+            <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
+            <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
+            {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/ala.png"> {% endif %}
+            <p>
+            <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
         {% endif %}
 
     <p><a href="{% url 'post_delete' post.pk %}">+ Delete Suma Post</a></p>

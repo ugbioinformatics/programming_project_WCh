@@ -102,7 +102,18 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
 
 class Peptide_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
-    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Sequence')
+    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Sequence') 
+    charge_pKscale = [
+    ('Bjellqvist', 'Bjellqvist'),
+    ('EMBOSS', 'EMBOSS'),
+    ('Murray', 'Murray'),
+    ('Sillero', 'Sillero'),
+    ('Solomon', 'Solomon'),
+    ('Stryer', 'Stryer'),
+    ('Lehninger', 'Lehninger'),
+    ('Dawson', 'Dawson'), 
+    ('Rodwell', 'Rodwell'),
+] 
 
                 
 

@@ -212,6 +212,7 @@ def suma(request):
                 some_psswd = 'somePassword'
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(body=body, title=title, plik_hash=plik_hash)
+                post.type = 'data'
                 post.save()
                 (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate_body(body, post)
                 post.test=post.test_json
@@ -258,9 +259,9 @@ def molecule(request):
             some_psswd = 'somePassword'
             plik_hash = make_password(some_psswd, None, 'md5')
             if request.user.is_authenticated:
-               post = Post(smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
+               post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
             else:
-               post = Post(smiles=smiles, title=title, plik_hash=plik_hash)
+               post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash)
             post.save()
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             if not os.path.isdir(directory1):
@@ -286,6 +287,7 @@ def edit_smiles(request, pk):
         if form.is_valid():
             post.smiles = form.cleaned_data["smiles"]
             post.title = form.cleaned_data["title"]
+            post.type = 'molecule'
             post.save()
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             czasteczka = openbabel.pybel.readstring("smi", post.smiles)
@@ -316,6 +318,7 @@ def peptide(request):
             post.molwt = p.molecular_weight()
             post.charge = p.charge(pKscale=pKscale)
             post.pKscale = pKscale
+            post.type = 'peptide'
             fs_vector = p.fasgai_vectors()
             fs_vector_instance = FasgaiVector().create_from_tuple(fs_vector)
             fs_vector_instance.save()

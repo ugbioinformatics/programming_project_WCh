@@ -91,4 +91,8 @@ class FasgaiVector(models.Model):
         return self.f1, self.f2, self.f3, self.f4, self.f5, self.f6
 
     def to_list(self):
-        return [self.f1, self.f2, self.f3, self.f4, self.f5, self.f6]
+        return [self.f1, self.f2, self.f3, self.f4, self.f5, self.f6] 
+    
+type = models.CharField(['data', 'molecule', 'peptide'])
+    
+ 

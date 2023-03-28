@@ -315,6 +315,7 @@ def peptide(request):
             p = peptides.Peptide(sequence)
             post.molwt = p.molecular_weight()
             post.charge = p.charge(pKscale=pKscale)
+            post.pKscale = pKscale
             fs_vector = p.fasgai_vectors()
             fs_vector_instance = FasgaiVector().create_from_tuple(fs_vector)
             fs_vector_instance.save()

@@ -92,7 +92,7 @@
                 stage.loadFile("/media/{{ post.plik_hash }}/ala.mol2", {defaultRepresentation: true});
             });
             </script>
-            <div id="viewport"></div>
+            <div id="viewport" style="width:400px; height:300px;"></div>
             <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
         {% endif %}
 

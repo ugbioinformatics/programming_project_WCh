@@ -57,6 +57,10 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'pk': self.pk})
 
+    def delete(self, using=None, keep_parents=False):
+        self.fasgai_vector.delete()
+        super(Post, self).delete(using, keep_parents)
+
 
 class FasgaiVector(models.Model):
     f1 = models.FloatField()

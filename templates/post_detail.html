@@ -86,6 +86,12 @@
             <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
             <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
             {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/ala.png"> {% endif %}
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const stage = new NGL.Stage("viewport");
+                stage.loadFile("/media/{{ post.plik_hash }}/ala.pdb", {defaultRepresentation: true});
+            });
+            </script>
             <div id="viewport"></div>
             <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
         {% endif %}

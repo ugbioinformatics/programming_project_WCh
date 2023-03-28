@@ -58,7 +58,8 @@ class Post(models.Model):
         return reverse('post_detail', kwargs={'pk': self.pk})
 
     def delete(self, using=None, keep_parents=False):
-        self.fasgai_vector.delete()
+        if self.fasgai_vector:
+            self.fasgai_vector.delete()
         super(Post, self).delete(using, keep_parents)
 
 

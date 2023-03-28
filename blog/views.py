@@ -61,6 +61,7 @@ def calculate_body(bodylist, post):
         odch = st.stdev(tmp)
         var = st.variance(tmp)
         t,p = stats.shapiro(tmp)
+        p=[p]
     else:
         var = 0
         odch = 0

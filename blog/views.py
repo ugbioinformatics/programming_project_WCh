@@ -186,7 +186,6 @@ def edit_suma(request, pk):
             if post.body:
                 (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body,
                                                                                                               post)
-                print(f'post.test {post.test}, post.test_json {post.test_json}')
             post.save()
             if post.plik1:
                 if post.guzik:

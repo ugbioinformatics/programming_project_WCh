@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fsgaiHint) {
         fsgaiHint.style.display = 'none';
     }
+
+    const stage = new NGL.Stage("viewport");
+    stage.loadFile("/media/{{post.plik_hash}}/ala.mol2", {defaultRepresentation: true})
 });
 if (hintButton) {
     hintButton.addEventListener('click', () => {

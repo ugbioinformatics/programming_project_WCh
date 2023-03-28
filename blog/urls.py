@@ -47,6 +47,8 @@ urlpatterns = [
     
 # Siódma ścieżka "post/int:pk/edit_smiles/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na edycję pola "smiles" dla istniejącego obiektu modelu "Post" o podanym numerze id. 
-# Widok ten jest realizowany przez funkcję edit_smiles i ma nazwę "smiles_edit".
+# Widok ten jest realizowany przez funkcję edit_smiles i ma nazwę "smiles_edit". 
+    
+    path("post/<int:pk>/edit_peptide/", edit_peptide, name="edit_peptide"),
     
 ]

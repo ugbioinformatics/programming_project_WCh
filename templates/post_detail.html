@@ -10,6 +10,7 @@
        <p>Mass = {{ post.molwt }}</p>  
        <p>pKscale = {{ post.pKscale }}</p>  
        <p>Charge = {{ post.charge }}</p>  
+       <a href="{% url 'edit_peptide' post.pk %}">+ Edit Peptide</a>
 {% endif %}        
         
 {% if post.smiles == None and post.sequence == '' %}

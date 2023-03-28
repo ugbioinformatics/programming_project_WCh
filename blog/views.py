@@ -313,7 +313,8 @@ def peptide(request):
             else:
                post = Post(sequence=sequence, title=title)
             p = peptides.Peptide(sequence)
-            post.molwt = p.molecular_weight()
+            post.molwt = p.molecular_weight() 
+            post.charge = p.charge(pKscale="EMBOSS")
             post.save()
             return redirect('/post')
 

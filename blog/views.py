@@ -1,4 +1,4 @@
-#import bibliotek i klas potrzebnych do działania programu 
+# import bibliotek i klas potrzebnych do działania programu
 
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
@@ -9,6 +9,7 @@ from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form
 import statistics as st
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -21,11 +22,13 @@ import scipy.stats as stats
 import statsmodels.api as sm
 import peptides
 
-#zdefiniowanie funkcjonowania strony głównej post/
+
+# zdefiniowanie funkcjonowania strony głównej post/
 class BlogListView(ListView):
-     model = Post
-     template_name = "home.html"
-     def get_queryset(self, **kwargs):
+    model = Post
+    template_name = "home.html"
+
+    def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         if self.request.user.is_authenticated:
             return qs.filter(author=self.request.user)
@@ -33,21 +36,21 @@ class BlogListView(ListView):
             return qs.filter(author=None)
 
 
-
-#zdefiniowanie wyświetlania podstrony post/<int:pk>/
+# zdefiniowanie wyświetlania podstrony post/<int:pk>/
 class BlogDetailView(DetailView):
     model = Post
     template_name = "post_detail.html"
 
-#zdefinowanie wyświetlania strony po usunięciu elementu
+
+# zdefinowanie wyświetlania strony po usunięciu elementu
 class BlogDeleteView(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
-#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z danych podanych przez użytkownika w formularzu
-def calculate_body(bodylist, post):
 
+# pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z danych podanych przez użytkownika w formularzu
+def calculate_body(bodylist, post):
     tmp = bodylist.split()
     for i in range(0, len(tmp)):
         tmp[i] = float(tmp[i])
@@ -60,10 +63,12 @@ def calculate_body(bodylist, post):
     if len(tmp) > 1:
         odch = st.stdev(tmp)
         var = st.variance(tmp)
-        t,p = stats.shapiro(tmp)
+        t, p = stats.shapiro(tmp)
     else:
         var = 0
         odch = 0
+        t = 0
+        p = [0]
     y = tmp
     x = np.arange(len(y))
     plt.bar(x, y)
@@ -78,12 +83,13 @@ def calculate_body(bodylist, post):
     plt.close()
     return (suma, odch, sr, var, mediana, t, p)
 
-#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku
+
+# pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
     lista = list(dataframe.columns)
-    staty=[[],[],[],[],[],[],[],]
+    staty = [[], [], [], [], [], [], [], ]
     for i in range(len(lista)):
         suma = dataframe[list(dataframe.columns)[i]].sum()
         odch = dataframe[list(dataframe.columns)[i]].std()
@@ -91,54 +97,52 @@ def calculate(dataframe, post):
         var = dataframe[list(dataframe.columns)[i]].var()
         med = dataframe[list(dataframe.columns)[i]].median()
         try:
-            t,p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
-            shapiro=p
+            t, p = stats.shapiro(dataframe[list(dataframe.columns)[i]])
+            shapiro = p
         except:
-            shapiro=''
+            shapiro = ''
 
-        if len(lista) > 1 and i < len(lista)-1 :
+        if len(lista) > 1 and i < len(lista) - 1:
 
-                y = dataframe[list(dataframe.columns)[i]]
-                x = dataframe[list(dataframe.columns)[i + 1]]
-                odch2 = x.std()
-                F = odch ** 2 / odch2 ** 2
-                a = stats.f.cdf(F, len(y) - 1, len(x) - 2)
-                b = 1 - a
-                if a >= b:
-                    p = 2 * a
-                else:
-                    p = 2 * b
+            y = dataframe[list(dataframe.columns)[i]]
+            x = dataframe[list(dataframe.columns)[i + 1]]
+            odch2 = x.std()
+            F = odch ** 2 / odch2 ** 2
+            a = stats.f.cdf(F, len(y) - 1, len(x) - 2)
+            b = 1 - a
+            if a >= b:
+                p = 2 * a
+            else:
+                p = 2 * b
 
-                if p > 0.05:
-                        tt, pp = stats.ttest_ind(y, x, axis=0,
-                                                 equal_var=True, nan_policy='propagate', alternative='two-sided',
-                                                 trim=0)
-                        test=pp
+            if p > 0.05:
+                tt, pp = stats.ttest_ind(y, x, axis=0,
+                                         equal_var=True, nan_policy='propagate', alternative='two-sided',
+                                         trim=0)
+                test = pp
 
-                else:
-                        tt, pp = stats.ttest_ind(y, x, axis=0,
-                                                 equal_var=False, nan_policy='propagate', alternative='two-sided',
-                                                 trim=0)
-                        test=pp
-                    # podać test zgodnosci
+            else:
+                tt, pp = stats.ttest_ind(y, x, axis=0,
+                                         equal_var=False, nan_policy='propagate', alternative='two-sided',
+                                         trim=0)
+                test = pp
+            # podać test zgodnosci
 
-                plt.scatter(y, x, c='purple', alpha=0.5)
-                plt.xlabel(list(dataframe.columns)[i])
-                plt.ylabel(list(dataframe.columns)[i + 1])
-                plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{i+1}_scatter.png')
-                plt.close()
+            plt.scatter(y, x, c='purple', alpha=0.5)
+            plt.xlabel(list(dataframe.columns)[i])
+            plt.ylabel(list(dataframe.columns)[i + 1])
+            plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{i + 1}_scatter.png')
+            plt.close()
 
 
         else:
-            test=''
+            test = ''
 
-
-        for x, y in zip(staty, [suma, odch, sr, var, med, shapiro, test] ):
-            if y=='':
+        for x, y in zip(staty, [suma, odch, sr, var, med, shapiro, test]):
+            if y == '':
                 x.append(y)
             else:
-                x.append(round(y,3))
-
+                x.append(round(y, 3))
 
         if len(lista) == 1:
             y = dataframe[list(dataframe.columns)[i]]
@@ -159,11 +163,11 @@ def calculate(dataframe, post):
         plt.xlabel(list(dataframe.columns)[j])
         plt.ylabel("Częstość")
         plt.legend()
-        plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j+1}_hist.png')
+        plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{j + 1}_hist.png')
         plt.close()
 
-
     return staty
+
 
 # wyświetlić do zrobienia!
 
@@ -180,7 +184,9 @@ def edit_suma(request, pk):
             post.plik1 = form.cleaned_data["plik1"]
             post.guzik = form.cleaned_data['guzik']
             if post.body:
-                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body, post)
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body,
+                                                                                                              post)
+                print(f'post.test {post.test}, post.test_json {post.test_json}')
             post.save()
             if post.plik1:
                 if post.guzik:
@@ -188,14 +194,16 @@ def edit_suma(request, pk):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate(dataframe, post)
-                post.test=post.test_json
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate(dataframe,
+                                                                                                              post)
+                post.test = post.test_json
                 post.save()
             return redirect('/post')
     else:
         data = {'title': post.title, 'body': post.body}
         form = Suma(initial=data)
     return render(request, 'suma.html', {'form': form, 'post': post})
+
 
 # tworzy nazwę pliku
 
@@ -214,16 +222,15 @@ def suma(request):
                 post = Post(body=body, title=title, plik_hash=plik_hash)
                 post.type = 'data'
                 post.save()
-                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate_body(body, post)
-                post.test=post.test_json
+                (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test) = calculate_body(body,
+                                                                                                              post)
                 post.save()
             else:
-                some_salt = 'some_salt'
                 some_psswd = 'somePassword'
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(title=title, plik_hash=plik_hash, plik1=plik1)
             if request.user.is_authenticated:
-                post.author=request.user
+                post.author = request.user
             post.save()
             if plik1:
                 if guzik:
@@ -231,13 +238,15 @@ def suma(request):
                 else:
                     dataframe = pd.read_csv(post.plik1, delimiter=',')
                 post.ncolumns = len(list(dataframe.columns))
-                post.suma, post.sr, post.odch, post.var, post.med, post.shapiro, post.test_json = calculate(dataframe, post)
-                post.test=post.test_json
+                post.suma, post.sr, post.odch, post.var, post.med, post.shapiro, post.test_json = calculate(dataframe,
+                                                                                                            post)
+                post.test = post.test_json
                 post.save()
             return redirect('/post')
     else:
         form = Suma()
     return render(request, 'suma.html', {'form': form})
+
 
 # funkcja pomocnicza, oblicza ilość atomów w czasteczce, dokładną masę cząsteczki, masę molową cząsteczki, wzór sumaryczny cząsteczki
 
@@ -247,6 +256,7 @@ def particleParameters(particle):
     formula = particle.formula
     molwt = particle.molwt
     return atoms, exactmass, formula, molwt
+
 
 # na podstawie SMILES oblicza i wpisuje strukturę 3D cząsteczki do bazy danych, wpisuje parametry obliczone przez funkcję particleParameters
 
@@ -259,9 +269,9 @@ def molecule(request):
             some_psswd = 'somePassword'
             plik_hash = make_password(some_psswd, None, 'md5')
             if request.user.is_authenticated:
-               post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
+                post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash, author=request.user)
             else:
-               post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash)
+                post = Post(type='molecule', smiles=smiles, title=title, plik_hash=plik_hash)
             post.save()
             directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
             if not os.path.isdir(directory1):
@@ -277,6 +287,7 @@ def molecule(request):
     else:
         form = Molecule()
     return render(request, 'molecule.html', {'form': form})
+
 
 # edycja istniejącego modelu cząsteczki w bazie danych
 
@@ -302,6 +313,7 @@ def edit_smiles(request, pk):
         form = Molecule(initial=data)
     return render(request, 'molecule.html', {'form': form, 'post': post})
 
+
 # funkcja z peptide
 def peptide(request):
     if request.method == 'POST':
@@ -311,9 +323,9 @@ def peptide(request):
             title = form.cleaned_data["title"]
             pKscale = form.cleaned_data["pKscale"]
             if request.user.is_authenticated:
-               post = Post(sequence=sequence, title=title, author=request.user)
+                post = Post(sequence=sequence, title=title, author=request.user)
             else:
-               post = Post(sequence=sequence, title=title)
+                post = Post(sequence=sequence, title=title)
             p = peptides.Peptide(sequence)
             post.molwt = p.molecular_weight()
             post.charge = p.charge(pKscale=pKscale)
@@ -330,6 +342,7 @@ def peptide(request):
         form = Peptide_form()
     return render(request, 'peptide.html', {'form': form})
 
+
 def edit_peptide(request, pk):
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
@@ -340,7 +353,7 @@ def edit_peptide(request, pk):
             post.pKscale = form.cleaned_data["pKscale"]
             p = peptides.Peptide(post.sequence)
             post.molwt = p.molecular_weight()
-            post.charge = p.charge(pKscale = post.pKscale)
+            post.charge = p.charge(pKscale=post.pKscale)
             if not post.fasgai_vector:
                 fs_vector = FasgaiVector().create_from_tuple(p.fasgai_vectors())
                 post.fasgai_vector = fs_vector
@@ -356,4 +369,3 @@ def edit_peptide(request, pk):
         data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale}
         form = Peptide_form(initial=data)
     return render(request, 'peptide.html', {'form': form})
-

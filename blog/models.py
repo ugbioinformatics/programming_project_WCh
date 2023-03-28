@@ -33,7 +33,7 @@ class Post(models.Model):
     med = models.TextField(default='')
     shapiro = models.TextField(default='')
     test = models.TextField(default='')
-    test_json = models.JSONField(default='')
+    test_json = models.JSONField(default={})
     plik_hash = models.CharField(blank=True, null=True, max_length=256)
     plik1 = models.FileField(default='', upload_to=user_directory_path)
     guzik = models.BooleanField(default=False)

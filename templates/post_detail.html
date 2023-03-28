@@ -7,7 +7,8 @@
 
 {% if post.sequence != '' %}   
        <p>Sequence = {{ post.sequence }}</p>  
-       <p>Mass = {{ post.molwt }}</p>   
+       <p>Mass = {{ post.molwt }}</p> 
+       <p>Charge = {{ post.charge }}</p>  
 {% endif %}        
         
 {% if post.smiles == None and post.sequence == '' %}

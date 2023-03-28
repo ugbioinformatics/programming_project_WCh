@@ -114,6 +114,7 @@ class Peptide_form(forms.Form):
     ('Dawson', 'Dawson'), 
     ('Rodwell', 'Rodwell'),
 ] 
+    pKscale = forms.ChoiceField(choices = charge_pKscale) 
 
                 
 

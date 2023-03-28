@@ -308,7 +308,7 @@ def edit_smiles(request, pk):
             czasteczka.write(format="_png2", filename=directory1 + '/ala.png', overwrite=True)
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
             post.save()
-            return redirect('/post')
+            return redirect('/post?rnd=323')
     else:
         data = {'title': post.title, 'smiles': post.smiles}
         form = Molecule(initial=data)

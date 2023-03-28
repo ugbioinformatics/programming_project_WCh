@@ -103,19 +103,29 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
 
 class Peptide_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
-    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Sequence') 
+    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Sequence')
     charge_pKscale = [
-    ('Bjellqvist', 'Bjellqvist'),
-    ('EMBOSS', 'EMBOSS'),
-    ('Murray', 'Murray'),
-    ('Sillero', 'Sillero'),
-    ('Solomon', 'Solomon'),
-    ('Stryer', 'Stryer'),
-    ('Lehninger', 'Lehninger'),
-    ('Dawson', 'Dawson'), 
-    ('Rodwell', 'Rodwell'),
-] 
-    pKscale = forms.ChoiceField(choices = charge_pKscale) 
+        ('Bjellqvist', 'Bjellqvist'),
+        ('EMBOSS', 'EMBOSS'),
+        ('Murray', 'Murray'),
+        ('Sillero', 'Sillero'),
+        ('Solomon', 'Solomon'),
+        ('Stryer', 'Stryer'),
+        ('Lehninger', 'Lehninger'),
+        ('Dawson', 'Dawson'),
+        ('Rodwell', 'Rodwell'),
+    ]
+    pKscale = forms.ChoiceField(choices=charge_pKscale)
+
+    def clean(self):
+        cleaned_data = super(Peptide_form, self).clean()
+        allowed_letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T',
+                           'V', 'W', 'X', 'Y', 'Z'}
+        sequence = cleaned_data.get('sequence')
+        for letter in sequence:
+            if letter not in allowed_letters:
+                self.add_error("sequence", 'The sequence contains unsupported characters.')
+                break
 
 
 class Molecule(forms.Form):

@@ -43,12 +43,12 @@ class Post(models.Model):
     exactmass = models.FloatField(blank=True, null=True)
     formula = models.CharField(max_length=200, default='')
     molwt = models.FloatField(blank=True, null=True)
-    sequence = models.TextField(default='') 
-    charge = models.FloatField(blank=True, null=True) 
-    pKscale = models.CharField(max_length=200,default='')
-    fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True) 
-    
-    type = models.CharField(choices = [('data', 'data'), ('molecule', 'molecule') , ('peptide', 'peptide')], max_length=16)
+    sequence = models.TextField(default='')
+    charge = models.FloatField(blank=True, null=True)
+    pKscale = models.CharField(max_length=200, default='')
+    fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True)
+
+    type = models.CharField(choices=[('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide')], max_length=16, default='data')
 
     def __str__(self):
         return self.title
@@ -94,4 +94,3 @@ class FasgaiVector(models.Model):
 
     def to_list(self):
         return [self.f1, self.f2, self.f3, self.f4, self.f5, self.f6]
-    

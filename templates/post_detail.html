@@ -65,6 +65,13 @@
                 {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/foo1.png"> {% endif %}
                 <p>
             {% endif %}
+                    
+        {% for t in post.test_json %}
+            <p>
+                Histogram for column {{ forloop.counter }} <p>
+            <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_hist.png">
+        {% endfor %}
+
         {% for t in post.test_json %}
             {% if forloop.counter  < post.ncolumns %}
                 <p>
@@ -72,10 +79,8 @@
                 <p>
                 <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_scatter.png">
             {% endif %}
-            <p>
-                Histogram for column {{ forloop.counter }} <p>
-            <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_hist.png">
         {% endfor %}
+
             <p>
             <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
         {% endif %}

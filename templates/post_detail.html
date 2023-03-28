@@ -1,74 +1,111 @@
 {% extends "base.html" %}
 {% load index %}
-
+{% load static %}
 {% block content %}
+    <script src="{% static 'js/post_detail.js' %}" defer></script>
     <div class="post-entry">
-    <h2>{{ post.title }}</h2>
+        <h2>{{ post.title }}</h2>
 
-{% if post.sequence != '' %}   
-       <p>Sequence = {{ post.sequence }}</p>  
-       <p>Mass = {{ post.molwt }}</p>  
-       <p>pKscale = {{ post.pKscale }}</p>  
-       <p>Charge = {{ post.charge }}</p>  
-{% endif %}        
-        
-{% if post.smiles == None and post.sequence == '' %}
-    
-        
-    <p>{{ post.body }}</p>
-    <p>Suma = {{ post.suma }}</p>
-    <p>Średnia = {{ post.sr }}</p>
-    <p>Odchylenie = {{ post.odch }}</p>
-    <p>Wariancja = {{ post.var }}</p>
-    <p>Mediana = {{ post.med }}</p>
-     {%  if post.shapiro %}<p>Shapiro_p_value = {{ post.shapiro }}</p> {% endif %}
-    {% if post.test %}<p>T_studenta_p_value = {{ post.test }}</p> {% endif %}
-    {% if post.plik1%}<p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p> {% endif %}
+        {% if post.sequence != '' %}
+            <p>Sequence = {{ post.sequence }}</p>
+            <p>Mass = {{ post.molwt }}</p>
+            <p>pKscale = {{ post.pKscale }}</p>
+            <p>Charge = {{ post.charge }}</p>
+            {% if post.fasgai_vector %}
+                <div class="peptide-fasgai">
+                    <div class="peptide-fasgai-header">
+                        <h4>FASGAI vectors</h4>
+                        <button id="hint-button">?</button>
+                    </div>
+                    <div id="fasgai-hint">
+                        <article>
+                            <h4>FASGAI vectors</h4>
+                            <p>
+                                The FASGAI vectors (Factor Analysis Scales of Generalized Amino Acid Information) is a
+                                set of amino acid descriptors, that reflects hydrophobicity, alpha and turn
+                                propensities, bulky properties, compositional characteristics, local flexibility, and
+                                electronic properties, that can be utilized to represent the sequence structural
+                                features of peptides or protein motifs.
+                            </p>
+                            <span></span>
+                            <p>
+                                Reference:
+                                Liang, G., G. Chen, W. Niu, and Z. Li. Factor Analysis Scales of Generalized Amino Acid
+                                Information as Applied in Predicting Interactions between the Human Amphiphysin-1 SH3
+                                Domains and Their Peptide Ligands. Chemical Biology & Drug Design. Apr
+                                2008;71(4):345–51. <a href="https://doi.org/10.1111/j.1747-0285.2008.00641.x">doi:10.1111/j.1747-0285.2008.00641.x.
+                                PMID:18318694.</a>
+                            </p>
+                        </article>
+                    </div>
+                    <div class=" peptide-fasgai-content">
+                        {% for vector in post.fasgai_vector.to_list %}
+                            <p><span
+                                    class="peptide-fasgai-content title">Vector {{ forloop.counter }}</span> {{ vector }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
 
-</div>
-
-{% if post.ncolumns < 2 %}
-{% if post.plik_hash %}<img src="/media/{{post.plik_hash}}/foo1.png"> {% endif %}
-<p>
-{% endif %}
-    
-    
-{% for t in post.test_json %}
-  {% if forloop.counter  < post.ncolumns  %}
-    <p>
-    T_studenta_p_value={{ t }} 
-    <p>
-    <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_scatter.png"> 
-  {% endif %}                                      
-  <p>
-      Histogram for column {{ forloop.counter }} <p>
-  <img src="/media/{{post.plik_hash}}/foo_dataframe{{ forloop.counter }}_hist.png">     
-{% endfor %}   
-        
-
-<p>        
-<a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
+        {% if post.smiles == None and post.sequence == '' %}
 
 
-{% else %}
-    
-    {% if post.sequence == '' %}
-    
-    <p>{{ post.smiles }}</p>
-    <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
-    <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
-    <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
-    <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
-</div>
-{% if post.plik_hash %}<img src="/media/{{post.plik_hash}}/ala.png"> {% endif %}
-<p>
-    
-<a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
+            <p>{{ post.body }}</p>
+            <p>Suma = {{ post.suma }}</p>
+            <p>Średnia = {{ post.sr }}</p>
+            <p>Odchylenie = {{ post.odch }}</p>
+            <p>Wariancja = {{ post.var }}</p>
+            <p>Mediana = {{ post.med }}</p>
+            {% if post.shapiro %}<p>Shapiro_p_value = {{ post.shapiro }}</p> {% endif %}
+            {% if post.test %}<p>T_studenta_p_value = {{ post.test }}</p> {% endif %}
+            {% if post.plik1 %}<p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p> {% endif %}
 
-    {% endif %}
-{% endif %}
+            </div>
 
-<p><a href="{% url 'post_delete' post.pk %}">+ Delete Suma Post</a></p>
+            {% if post.ncolumns < 2 %}
+                {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/foo1.png"> {% endif %}
+                <p>
+            {% endif %}
+
+
+        {% for t in post.test_json %}
+            {% if forloop.counter  < post.ncolumns %}
+                <p>
+                    T_studenta_p_value={{ t }}
+                <p>
+                <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_scatter.png">
+            {% endif %}
+            <p>
+                Histogram for column {{ forloop.counter }} <p>
+            <img src="/media/{{ post.plik_hash }}/foo_dataframe{{ forloop.counter }}_hist.png">
+        {% endfor %}
+
+
+            <p>
+                <a href="{% url 'suma_edit' post.pk %}">+ Edit Suma Post</a>
+
+
+                {% else %}
+
+                {% if post.sequence == '' %}
+
+                    <p>{{ post.smiles }}</p>
+                    <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
+                    <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
+                    <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
+                    <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
+                    </div>
+                    {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/ala.png"> {% endif %}
+                    <p>
+
+                    <a href="{% url 'smiles_edit' post.pk %}">+ Edit Smiles Post</a>
+
+                {% endif %}
+        {% endif %}
+
+    <p><a href="{% url 'post_delete' post.pk %}">+ Delete Suma Post</a></p>
 {% endblock content %}
 
 

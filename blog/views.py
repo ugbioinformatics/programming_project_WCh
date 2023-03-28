@@ -1,11 +1,11 @@
-#import bibliotek i klas potrzebnych do działania programu 
+#import bibliotek i klas potrzebnych do działania programu
 
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Post
+from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form
 import statistics as st
 import matplotlib
@@ -31,7 +31,7 @@ class BlogListView(ListView):
             return qs.filter(author=self.request.user)
         else:
             return qs.filter(author=None)
-        
+
 
 
 #zdefiniowanie wyświetlania podstrony post/<int:pk>/
@@ -45,9 +45,9 @@ class BlogDeleteView(DeleteView):
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
 
-#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z danych podanych przez użytkownika w formularzu    
+#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję i tworząca wykres słupkowy z danych podanych przez użytkownika w formularzu
 def calculate_body(bodylist, post):
-  
+
     tmp = bodylist.split()
     for i in range(0, len(tmp)):
         tmp[i] = float(tmp[i])
@@ -78,7 +78,7 @@ def calculate_body(bodylist, post):
     plt.close()
     return (suma, odch, sr, var, mediana, t, p)
 
-#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku   
+#pomocnicza funkcja, obliczająca sumę, średnią, odchylenie, wariancję, medianę, wartość p i watość testową testu Shapiro-Wilka oraz testu t-Studenta i tworząca wykres słupkowy z danych z pliku
 
 def calculate(dataframe, post):
     """Calculate for data from file"""
@@ -95,9 +95,9 @@ def calculate(dataframe, post):
             shapiro=p
         except:
             shapiro=''
-        
+
         if len(lista) > 1 and i < len(lista)-1 :
-            
+
                 y = dataframe[list(dataframe.columns)[i]]
                 x = dataframe[list(dataframe.columns)[i + 1]]
                 odch2 = x.std()
@@ -108,13 +108,13 @@ def calculate(dataframe, post):
                     p = 2 * a
                 else:
                     p = 2 * b
-                    
+
                 if p > 0.05:
                         tt, pp = stats.ttest_ind(y, x, axis=0,
                                                  equal_var=True, nan_policy='propagate', alternative='two-sided',
                                                  trim=0)
                         test=pp
-                        
+
                 else:
                         tt, pp = stats.ttest_ind(y, x, axis=0,
                                                  equal_var=False, nan_policy='propagate', alternative='two-sided',
@@ -128,7 +128,7 @@ def calculate(dataframe, post):
                 plt.savefig(settings.MEDIA_ROOT + '/' + post.plik_hash + f'/foo_dataframe{i+1}_scatter.png')
                 plt.close()
 
-            
+
         else:
             test=''
 
@@ -138,7 +138,7 @@ def calculate(dataframe, post):
                 x.append(y)
             else:
                 x.append(round(y,3))
-        
+
 
         if len(lista) == 1:
             y = dataframe[list(dataframe.columns)[i]]
@@ -165,11 +165,11 @@ def calculate(dataframe, post):
 
     return staty
 
-# wyświetlić do zrobienia! 
+# wyświetlić do zrobienia!
 
 # edycja danych (w bazie danych) które wprowadził użytkownik 
 
-def edit_suma(request, pk): 
+def edit_suma(request, pk):
     post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
         form = Suma(request.POST, request.FILES)
@@ -197,7 +197,7 @@ def edit_suma(request, pk):
         form = Suma(initial=data)
     return render(request, 'suma.html', {'form': form, 'post': post})
 
-# tworzy nazwę pliku 
+# tworzy nazwę pliku
 
 def suma(request):
     if request.method == 'POST':
@@ -214,7 +214,7 @@ def suma(request):
                 post = Post(body=body, title=title, plik_hash=plik_hash)
                 post.save()
                 (post.suma, post.odch, post.sr, post.var, post.med, post.shapiro, post.test_json) = calculate_body(body, post)
-                post.test=post.test_json 
+                post.test=post.test_json
                 post.save()
             else:
                 some_salt = 'some_salt'
@@ -222,7 +222,7 @@ def suma(request):
                 plik_hash = make_password(some_psswd, None, 'md5')
                 post = Post(title=title, plik_hash=plik_hash, plik1=plik1)
             if request.user.is_authenticated:
-                post.author=request.user   
+                post.author=request.user
             post.save()
             if plik1:
                 if guzik:
@@ -238,7 +238,7 @@ def suma(request):
         form = Suma()
     return render(request, 'suma.html', {'form': form})
 
-# funkcja pomocnicza, oblicza ilość atomów w czasteczce, dokładną masę cząsteczki, masę molową cząsteczki, wzór sumaryczny cząsteczki 
+# funkcja pomocnicza, oblicza ilość atomów w czasteczce, dokładną masę cząsteczki, masę molową cząsteczki, wzór sumaryczny cząsteczki
 
 def particleParameters(particle):
     atoms = len(particle.atoms)
@@ -268,7 +268,7 @@ def molecule(request):
             czasteczka = openbabel.pybel.readstring("smi", smiles)
             czasteczka.make3D()
             czasteczka.write(format="svg", filename=directory1 + '/ala.svg')
-            czasteczka.write(format="_png2", filename=directory1 + '/ala.png') 
+            czasteczka.write(format="_png2", filename=directory1 + '/ala.png')
             post.atoms, post.exactmass, post.formula, post.molwt = particleParameters(czasteczka)
             post.save()
             return redirect('/post')
@@ -277,7 +277,7 @@ def molecule(request):
         form = Molecule()
     return render(request, 'molecule.html', {'form': form})
 
-# edycja istniejącego modelu cząsteczki w bazie danych  
+# edycja istniejącego modelu cząsteczki w bazie danych
 
 def edit_smiles(request, pk):
     post = get_object_or_404(Post, id=pk)
@@ -301,44 +301,49 @@ def edit_smiles(request, pk):
     return render(request, 'molecule.html', {'form': form, 'post': post})
 
 # funkcja z peptide
-
 def peptide(request):
     if request.method == 'POST':
         form = Peptide_form(request.POST)
         if form.is_valid():
             sequence = form.cleaned_data["sequence"]
             title = form.cleaned_data["title"]
-            pKscale = form.cleaned_data["pKscale"] 
+            pKscale = form.cleaned_data["pKscale"]
             if request.user.is_authenticated:
                post = Post(sequence=sequence, title=title, author=request.user)
             else:
                post = Post(sequence=sequence, title=title)
             p = peptides.Peptide(sequence)
-            post.molwt = p.molecular_weight() 
-            post.charge = p.charge(pKscale = pKscale)
+            post.molwt = p.molecular_weight()
+            post.charge = p.charge(pKscale=pKscale)
+            fs_vector = p.fasgai_vectors()
+            fs_vector_instance = FasgaiVector().create_from_tuple(fs_vector)
+            fs_vector_instance.save()
+            print('fasgai_vector', fs_vector_instance)
+            post.fasgai_vector = fs_vector_instance
+            print('fasgai_vector (post)', post.fasgai_vector)
             post.save()
-            return redirect('/post') 
+            return redirect('/post')
 
     else:
         form = Peptide_form()
-    return render(request, 'peptide.html', {'form': form}) 
+    return render(request, 'peptide.html', {'form': form})
 
-def edit_peptide(request, pk): 
-    post = get_object_or_404(Post, id=pk)  
+def edit_peptide(request, pk):
+    post = get_object_or_404(Post, id=pk)
     if request.method == 'POST':
         form = Peptide_form(request.POST)
         if form.is_valid():
             post.sequence = form.cleaned_data["sequence"]
             post.title = form.cleaned_data["title"]
-            post.pKscale = form.cleaned_data["pKscale"] 
-            p = peptides.Peptide(sequence)
-            post.molwt = p.molecular_weight() 
-            post.charge = p.charge(pKscale = pKscale)
+            post.pKscale = form.cleaned_data["pKscale"]
+            p = peptides.Peptide(post.sequence)
+            post.molwt = p.molecular_weight()
+            post.charge = p.charge(pKscale = post.pKscale)
             post.save()
-            return redirect('/post') 
+            return redirect('/post')
 
     else:
-        data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale} 
-        form = Peptide_form()
+        data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale}
+        form = Peptide_form(initial=data)
     return render(request, 'peptide.html', {'form': form})
 

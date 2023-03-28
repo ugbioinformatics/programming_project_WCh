@@ -53,6 +53,8 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
             '''
             Drugi blok warunkowy sprawdza, czy wprowadzono jakiekolwiek dane. Jeśli żadne dane nie zostały wprowadzone, dodaje błąd do pola tekstowego za pomocą 'self.add_error('body', msg)'.
             '''
+        if len(body.split() < 3):
+            self.add_error('body', 'Enter at least 3 numbers')
 
         if body:
             tmp = body.split()

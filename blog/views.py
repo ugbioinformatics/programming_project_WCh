@@ -321,4 +321,24 @@ def peptide(request):
 
     else:
         form = Peptide_form()
+    return render(request, 'peptide.html', {'form': form}) 
+
+def edit_peptide(request, pk): 
+    post = get_object_or_404(Post, id=pk)  
+    if request.method == 'POST':
+        form = Peptide_form(request.POST)
+        if form.is_valid():
+            post.sequence = form.cleaned_data["sequence"]
+            post.title = form.cleaned_data["title"]
+            post.pKscale = form.cleaned_data["pKscale"] 
+            p = peptides.Peptide(sequence)
+            post.molwt = p.molecular_weight() 
+            post.charge = p.charge(pKscale = pKscale)
+            post.save()
+            return redirect('/post') 
+
+    else:
+        data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale} 
+        form = Peptide_form()
     return render(request, 'peptide.html', {'form': form})
+

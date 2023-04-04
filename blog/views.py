@@ -416,6 +416,4 @@ def getfromuniprot(id):
 def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
-    
-    if resp.ok:
-        return resp.text
+    return resp 

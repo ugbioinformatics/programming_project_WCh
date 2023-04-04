@@ -399,6 +399,10 @@ def database(request):
             post.uniprottext = uniprotfasta
             post.organism = uniprotjson['organism']['commonName']
             post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+            post.sequence = uniprotjson['sequence']['value']
+            p = peptides.Peptide(post.sequence)
+            post.molwt = p.molecular_weight()
+
             post.save()
             return redirect('/post')
 

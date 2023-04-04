@@ -45,11 +45,13 @@ class Post(models.Model):
     molwt = models.FloatField(blank=True, null=True)
     sequence = models.TextField(default='')
     uniprotid = models.CharField(max_length = 20, default='')
-    uniprottext = models.TextField(default='')
+    uniprottext = models.TextField(default='') 
+    proteinname = models.TextField(default='')  
     charge = models.FloatField(blank=True, null=True)
     pKscale = models.CharField(max_length=200, default='')
-    fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True)
-
+    fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True) 
+    
+    
     type = models.CharField(choices=[('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide'), ('database', 'database')], max_length=16, default='data')
 
     def __str__(self):

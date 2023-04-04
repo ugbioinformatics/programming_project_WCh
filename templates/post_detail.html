@@ -7,8 +7,9 @@
     <div class="post-entry">
         <h2>{{ post.title }}</h2>
         {% if post.type == 'database' %}
-            <p>uniprotid = {{}}</p>
-            <p>uniprottext = {{}}</p>
+            <p>uniprotid = {{post.uniprotid}}</p>
+            <p>uniprottext = {{post.uniprottext}}</p>
+        {% endif %}
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>
             <p>Mass = {{ post.molwt }}</p>

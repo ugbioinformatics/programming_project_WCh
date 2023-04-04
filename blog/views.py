@@ -9,6 +9,7 @@ from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form, Database_form 
 import statistics as st
 import matplotlib
+import request
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -388,5 +389,9 @@ def database(request):
         form = Database_form()
     return render(request, 'database.html', {'form': form})
 
+def getfromuniprot(id):
+    url = f'https://rest.uniprot.org/uniprotkb/stream?compressed=false&format=fasta&query=%28organism_id%3A2697049%29%20AND%20%28reviewed%3Atrue%29'
+    all_fastas = requests.get(url).text
+    
                 
     

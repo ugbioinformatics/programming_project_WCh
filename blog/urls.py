@@ -38,6 +38,7 @@ urlpatterns = [
     
     path("post/molecule/", molecule, name="molecule"),
     path("post/peptide/", peptide, name="peptide"),
+    path("post/database/", database, name="database")
     
 # Szósta ścieżka "post/molecule/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na wprowadzenie danych dotyczących cząsteczki chemicznej do nowego obiektu modelu "Post". 
@@ -50,5 +51,6 @@ urlpatterns = [
 # Widok ten jest realizowany przez funkcję edit_smiles i ma nazwę "smiles_edit". 
     
     path("post/<int:pk>/edit_peptide/", edit_peptide, name="edit_peptide"),
+    
     
 ]

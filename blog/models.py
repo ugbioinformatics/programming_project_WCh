@@ -45,6 +45,7 @@ class Post(models.Model):
     molwt = models.FloatField(blank=True, null=True)
     sequence = models.TextField(default='')
     uniprotid = models.TextField(default='')
+    uniprottext = models.TextField(default='')
     charge = models.FloatField(blank=True, null=True)
     pKscale = models.CharField(max_length=200, default='')
     fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True)

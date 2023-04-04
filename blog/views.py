@@ -397,7 +397,7 @@ def database(request):
             uniprotfasta = getfromuniprot(uniprot_id)
             uniprotjson = getjsonfromuniprot(uniprot_id)
             post.uniprottext = uniprotfasta
-            post.proteinname = uniprotjson[proteinDescription][recommendedName][fullName][value]
+            post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
             post.save()
             return redirect('/post')
 

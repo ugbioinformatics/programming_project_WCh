@@ -385,6 +385,16 @@ def edit_peptide(request, pk):
 def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
+        if form.is_valid():
+            uniprot_id = form.cleaned_data["id"]
+            title = form.cleaned_data["title"] 
+            if request.user.is_authenticated:
+                post = Post(uniprotid=uniprot_id, title=title, author=request.user)
+            else:
+                post = Post(uniprotid=uniprot_id, title=title) 
+            post.save()
+            return redirect('/post')
+
     else:
         form = Database_form()
     return render(request, 'database.html', {'form': form})

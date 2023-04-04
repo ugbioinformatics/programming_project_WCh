@@ -390,8 +390,10 @@ def database(request):
     return render(request, 'database.html', {'form': form})
 
 def getfromuniprot(id):
-    url = f'https://rest.uniprot.org/uniprotkb/stream?compressed=false&format=fasta&query=%28organism_id%3A2697049%29%20AND%20%28reviewed%3Atrue%29'
-    all_fastas = requests.get(url).text
+    url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
+    resp = requests.get(url)
     
+    if resp.ok:
+        return resp.text
                 
     

@@ -10,6 +10,7 @@ from .forms import Suma, Molecule, Peptide_form, Database_form
 import statistics as st
 import matplotlib
 import requests 
+import json
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -408,3 +409,9 @@ def getfromuniprot(id):
         return resp.text
                 
     
+def getjsonfromuniprot(id):
+    url = f'https://rest.uniprot.org/uniprotkb/{id}'
+    resp = requests.get(url).json()
+    
+    if resp.ok:
+        return resp.text

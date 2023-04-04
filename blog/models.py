@@ -44,7 +44,7 @@ class Post(models.Model):
     formula = models.CharField(max_length=200, default='')
     molwt = models.FloatField(blank=True, null=True)
     sequence = models.TextField(default='')
-    uniprotid = models.CharField(max_lenght = 20, default='')
+    uniprotid = models.CharField(max_length = 20, default='')
     uniprottext = models.TextField(default='')
     charge = models.FloatField(blank=True, null=True)
     pKscale = models.CharField(max_length=200, default='')

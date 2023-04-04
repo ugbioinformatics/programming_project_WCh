@@ -9,7 +9,7 @@ from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form, Database_form 
 import statistics as st
 import matplotlib
-import request
+import requests 
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

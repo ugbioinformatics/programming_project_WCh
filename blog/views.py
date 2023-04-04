@@ -394,6 +394,10 @@ def database(request):
             else:
                 post = Post(uniprotid=uniprot_id, title=title) 
             post.type = 'database'
+            uniprotfasta = getfromuniprot(uniprot_id)
+            uniprotjson = getjsonfromuniprot(uniprot_id)
+            post.uniprottext = uniprotfasta
+            post.proteinname = uniprotjson
             post.save()
             return redirect('/post')
 

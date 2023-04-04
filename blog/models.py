@@ -50,7 +50,7 @@ class Post(models.Model):
     pKscale = models.CharField(max_length=200, default='')
     fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True)
 
-    type = models.CharField(choices=[('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide')], max_length=16, default='data')
+    type = models.CharField(choices=[('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide'), ('database', 'database')], max_length=16, default='data')
 
     def __str__(self):
         return self.title

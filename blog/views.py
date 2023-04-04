@@ -6,7 +6,7 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, FasgaiVector
-from .forms import Suma, Molecule, Peptide_form
+from .forms import Suma, Molecule, Peptide_form, Database_form 
 import statistics as st
 import matplotlib
 

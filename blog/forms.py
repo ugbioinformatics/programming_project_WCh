@@ -106,6 +106,13 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
 class Database_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Uniprot ID')
+    def clean(self):
+        cleaned_data = super(Database_form, self).clean()
+        id = cleaned_data.get('id')
+        self.add_error("", '')
+             
+
+
  
 class Peptide_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))

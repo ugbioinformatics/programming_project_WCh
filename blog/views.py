@@ -386,13 +386,13 @@ def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
         if form.is_valid():
-            post.type = 'database'
             uniprot_id = form.cleaned_data["id"]
             title = form.cleaned_data["title"] 
             if request.user.is_authenticated:
                 post = Post(uniprotid=uniprot_id, title=title, author=request.user)
             else:
                 post = Post(uniprotid=uniprot_id, title=title) 
+            post.type = 'database'
             post.save()
             return redirect('/post')
 

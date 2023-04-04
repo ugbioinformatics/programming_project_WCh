@@ -11,9 +11,7 @@
             <p>organism = {{post.organism}}</p> 
             <p>protein name = {{post.proteinname}}</p> 
             <p>fasta</p>
-            <pre>
-            {{post.uniprottext}}
-            </pre>
+            <pre>{{post.uniprottext}}</pre>
         {% endif %}
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>

@@ -379,4 +379,9 @@ def edit_peptide(request, pk):
     else:
         data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale}
         form = Peptide_form(initial=data)
-    return render(request, 'peptide.html', {'form': form})
+    return render(request, 'peptide.html', {'form': form}) 
+
+def database(request):
+    if request.method == 'POST':
+        form = Database_form(request.POST)
+        if form.is_valid():

@@ -6,6 +6,9 @@
     <script src="https://unpkg.com/ngl@1.0.0-beta.7/dist/ngl.js"></script>
     <div class="post-entry">
         <h2>{{ post.title }}</h2>
+        {% if post.type == 'database' %}
+            <p>uniprotid = {{}}</p>
+            <p>uniprottext = {{}}</p>
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>
             <p>Mass = {{ post.molwt }}</p>

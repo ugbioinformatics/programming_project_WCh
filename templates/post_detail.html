@@ -9,8 +9,11 @@
         {% if post.type == 'database' %}
             <p>uniprotid = {{post.uniprotid}}</p> 
             <p>organism = {{post.organism}}</p> 
-            <p>proteinname = {{post.proteinname}}</p> 
-            <p>uniprottext = {{post.uniprottext}}</p>
+            <p>protein name = {{post.proteinname}}</p> 
+            <p>fasta</p>
+            <pre>
+            {{post.uniprottext}}
+            </pre>
         {% endif %}
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>

@@ -386,6 +386,7 @@ def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
         if form.is_valid():
+            post.type = 'database'
             uniprot_id = form.cleaned_data["id"]
             title = form.cleaned_data["title"] 
             if request.user.is_authenticated:

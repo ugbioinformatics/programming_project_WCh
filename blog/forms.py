@@ -5,7 +5,7 @@ import numpy as np
 import io
 from pandas.errors import EmptyDataError
 import openbabel.pybel
-
+import requests
 
 class Suma(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
@@ -109,7 +109,11 @@ class Database_form(forms.Form):
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')
-        self.add_error("", '')
+        url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
+        resp = requests.get(url)
+    
+        if not resp.ok:
+            self.add_error("id", 'Błędne ID')
              
 
 

@@ -105,6 +105,10 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
                
 class Database_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
+    database_choice = [
+        ('Uniprot', 'Uniprot'),
+        ('PDB', 'PDB'),
+    ]
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Uniprot ID')
     def clean(self):
         cleaned_data = super(Database_form, self).clean()

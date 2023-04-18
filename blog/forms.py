@@ -117,14 +117,11 @@ class Database_form(forms.Form):
         choice = cleaned_data.get('database')
         if choice == 'Uniprot':
             url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
-            resp = requests.get(url)
-            if not resp.ok:
-                self.add_error("id", 'Błędne ID')
         elif choice == 'PDB':
             url = f'https://files.rcsb.org/download/{id}.pdb'
-            resp = requests.get(url)
-            if not resp.ok:
-                self.add_error("id", 'Błędne ID')
+        resp = requests.get(url)
+        if not resp.ok:
+            self.add_error("id", 'Błędne ID')
 
  
 class Peptide_form(forms.Form):

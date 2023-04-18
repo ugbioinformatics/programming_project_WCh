@@ -16,9 +16,8 @@ def write_on_task_save(sender, instance, **kwargs):
 @receiver(post_delete, sender=Post)
 def delete_on_post_del(sender, instance, **kwargs):
     try:
-        print(settings.MEDIA_ROOT+'/'+instance.plik_hash)
-        if os.path.isdir(settings.MEDIA_ROOT+'/'+instance.plik_hash):
-            shutil.rmtree(settings.MEDIA_ROOT+'/'+instance.plik_hash)
+        if os.path.isdir('media/'+instance.plik_hash):
+            shutil.rmtree('media/'+instance.plik_hash)
     except:
         print('error deleting file')
         print(instance.plik_hash)

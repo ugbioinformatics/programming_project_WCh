@@ -432,7 +432,22 @@ def PDB_sequence(pdb_data):
             
     seq = '-'.join(seq)
     
-    return seq 
+    return getSequence(seq)   
+
+def getSequence(sequence_long):
+    sequence = ''
+    symbol = {
+    "ALA": "A", "CYS": "C", "ASP": "D", "GLU": "E", "PHE": "F", "GLY": "G", "HIS": "H", "ILE": "I",
+    "LYS": "K", "LEU": "L", "MET": "M", "ASN": "N", "PRO": "P", "GLN": "Q", "ARG": "R", "SER": "S",
+    "THR": "T", "TRP": "W", "VAL": "V", "TYR": "Y"
+}
+    for aa in sequence_long.split('-'):
+        try:
+            sequence += symbol[aa]
+        except KeyError:
+            sequence += "X"
+            
+    return sequence
 
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'

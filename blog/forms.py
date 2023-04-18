@@ -110,7 +110,7 @@ class Database_form(forms.Form):
         ('PDB', 'PDB'),
     ]
     database = forms.ChoiceField(choices = database_choice) 
-    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Uniprot ID')
+    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='ID') 
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')

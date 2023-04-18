@@ -405,7 +405,13 @@ def database(request):
                 p = peptides.Peptide(post.sequence)
                 post.molwt = p.molecular_weight() 
             elif choice == 'PDB': 
-                
+                URL = f'https://files.rcsb.org/download/{id}.pdb'
+                response = requests.get(URL)
+                post.plik_hash = make_password('something', None, 'md5')
+                directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+                if not os.path.isdir(directory1):
+                    os.mkdir(directory1)
+                open(f'{directory1}/{id}.pdb', "wb").write(response.content)
 
             post.save()
             return redirect('/post')

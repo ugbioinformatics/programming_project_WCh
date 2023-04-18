@@ -398,7 +398,7 @@ def database(request):
             if choice == 'Uniprot': 
                 uniprotfasta = getfromuniprot(uniprot_id)
                 uniprotjson = getjsonfromuniprot(uniprot_id)
-                post.uniprottext = uniprotfasta
+                post.database_text = uniprotfasta
                 post.organism = uniprotjson['organism']['commonName']
                 post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
                 post.sequence = uniprotjson['sequence']['value']

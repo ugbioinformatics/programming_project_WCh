@@ -386,7 +386,7 @@ def edit_peptide(request, pk):
 def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
-        if form.is_val():
+        if form.is_valid():
             database_id = form.cleaned_data["database_id"] 
             choice = form.cleaned_data["database_choice"]
             title = form.cleaned_data["database_title"] 

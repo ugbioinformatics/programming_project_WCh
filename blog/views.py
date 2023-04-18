@@ -421,7 +421,7 @@ def database(request):
         form = Database_form()
     return render(request, 'database.html', {'form': form}) 
 
-def getSEQRESData(pdb_data):
+def PDB_sequence(pdb_data):
     seq = []
     
     for line in pdb_data.split('\n'):

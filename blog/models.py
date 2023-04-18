@@ -15,7 +15,6 @@ def user_directory_path(instance, filename):
     Returns path for file saving MEDIA_ROOT/<hash>/plik.pdb
     :returns UNIX path str
     """
-    
     return '{0}/{1}'.format(instance.plik_hash, 'plik.dane')
 
 
@@ -45,13 +44,14 @@ class Post(models.Model):
     formula = models.CharField(max_length=200, default='')
     molwt = models.FloatField(blank=True, null=True)
     sequence = models.TextField(default='')
-    databaseid = models.CharField(max_length = 20, default='')
+    uniprotid = models.CharField(max_length = 20, default='')
     organism = models.TextField(default='')
-    databasetext = models.TextField(default='') 
+    uniprottext = models.TextField(default='') 
     proteinname = models.TextField(default='')
     charge = models.FloatField(blank=True, null=True)
     pKscale = models.CharField(max_length=200, default='')
     fasgai_vector = models.ForeignKey('FasgaiVector', on_delete=models.SET_NULL, blank=True, null=True) 
+    database_choice = models.CharField(max_length=200, default='') 
     
     
     type = models.CharField(choices=[('data', 'data'), ('molecule', 'molecule'), ('peptide', 'peptide'), ('database', 'database')], max_length=16, default='data')

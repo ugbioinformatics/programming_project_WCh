@@ -17,6 +17,7 @@
         {% endif %}
         {% if post.type == 'database' and post.database_choice == 'PDB' %}
             <p>PDB_id = {{post.database_id }}</p> 
+            <p>Sequence = {{ post.sequence }}</p>
             <script defer>
             document.addEventListener('DOMContentLoaded', function () {
                 const stage = new NGL.Stage("viewport");

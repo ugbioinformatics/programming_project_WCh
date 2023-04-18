@@ -22,7 +22,7 @@ import os
 import openbabel.pybel
 import scipy.stats as stats
 import statsmodels.api as sm
-import peptides
+import peptes
 
 
 # zdefiniowanie funkcjonowania strony głównej post/
@@ -396,8 +396,8 @@ def database(request):
                 post = Post(database_id=database_id, database_choice=choice, title=title)     
             post.type = 'database' 
             if choice == 'Uniprot': 
-                uniprotfasta = getfromuniprot(uniprot_id)
-                uniprotjson = getjsonfromuniprot(uniprot_id)
+                uniprotfasta = getfromuniprot(database_id)
+                uniprotjson = getjsonfromuniprot(database_id)
                 post.database_text = uniprotfasta
                 post.organism = uniprotjson['organism']['commonName']
                 post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
@@ -405,13 +405,13 @@ def database(request):
                 p = peptides.Peptide(post.sequence)
                 post.molwt = p.molecular_weight() 
             elif choice == 'PDB': 
-                URL = f'https://files.rcsb.org/download/{id}.pdb'
+                URL = f'https://files.rcsb.org/download/{database_id}.pdb'
                 response = requests.get(URL)
                 post.plik_hash = make_password('something', None, 'md5')
                 directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
                 if not os.path.isdir(directory1):
                     os.mkdir(directory1)
-                open(f'{directory1}/{id}.pdb', "wb").write(response.content)
+                open(f'{directory1}/{database_id}.pdb', "wb").write(response.content)
 
             post.save()
             return redirect('/post')

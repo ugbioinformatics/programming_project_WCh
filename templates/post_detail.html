@@ -13,7 +13,7 @@
             <p>Sequence = {{ post.sequence }}</p>
             <p>Mass = {{ post.molwt }}</p>
             <p>fasta:</p>
-            <pre>{{post.uniprottext}}</pre>
+            <pre>{{post.database_text}}</pre>
         {% endif %}
         {% if post.type == 'database' and post.database_choice == 'PDB' %}
             <p>PDB_id = {{post.database_id }}</p> 

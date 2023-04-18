@@ -387,9 +387,9 @@ def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
         if form.is_valid():
-            database_id = form.cleaned_data["database_id"] 
-            choice = form.cleaned_data["database_choice"]
-            title = form.cleaned_data["database_title"] 
+            database_id = form.cleaned_data["id"] 
+            choice = form.cleaned_data["choice"]
+            title = form.cleaned_data["title"] 
             if request.user.is_authenticated:
                 post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)
             else:

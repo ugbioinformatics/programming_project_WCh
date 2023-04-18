@@ -387,21 +387,25 @@ def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
         if form.is_valid():
-            uniprot_id = form.cleaned_data["id"]
+            database_id = form.cleaned_data["id"] 
+            choice = form.cleaned_data["database"]
             title = form.cleaned_data["title"] 
             if request.user.is_authenticated:
-                post = Post(uniprotid=uniprot_id, title=title, author=request.user)
+                post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)
             else:
-                post = Post(uniprotid=uniprot_id, title=title) 
-            post.type = 'database'
-            uniprotfasta = getfromuniprot(uniprot_id)
-            uniprotjson = getjsonfromuniprot(uniprot_id)
-            post.uniprottext = uniprotfasta
-            post.organism = uniprotjson['organism']['commonName']
-            post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
-            post.sequence = uniprotjson['sequence']['value']
-            p = peptides.Peptide(post.sequence)
-            post.molwt = p.molecular_weight()
+                post = Post(database_id=database_id, database_choice=choice, title=title)     
+            post.type = 'database' 
+            if choice == 'Uniprot': 
+                uniprotfasta = getfromuniprot(uniprot_id)
+                uniprotjson = getjsonfromuniprot(uniprot_id)
+                post.uniprottext = uniprotfasta
+                post.organism = uniprotjson['organism']['commonName']
+                post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+                post.sequence = uniprotjson['sequence']['value']
+                p = peptides.Peptide(post.sequence)
+                post.molwt = p.molecular_weight() 
+            elif choice == 'PDB': 
+                
 
             post.save()
             return redirect('/post')

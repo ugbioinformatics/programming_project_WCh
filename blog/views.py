@@ -22,7 +22,7 @@ import os
 import openbabel.pybel
 import scipy.stats as stats
 import statsmodels.api as sm
-import peptes
+import peptides
 
 
 # zdefiniowanie funkcjonowania strony głównej post/

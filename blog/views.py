@@ -388,7 +388,7 @@ def database(request):
         form = Database_form(request.POST) 
         if form.is_valid():
             database_id = form.cleaned_data["id"] 
-            choice = form.cleaned_data["choice"]
+            choice = form.cleaned_data["database"]
             title = form.cleaned_data["title"] 
             if request.user.is_authenticated:
                 post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)

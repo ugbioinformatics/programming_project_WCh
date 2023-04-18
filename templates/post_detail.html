@@ -17,6 +17,13 @@
         {% endif %}
         {% if post.type == 'database' and post.database_choice == 'PDB' %}
             <p>PDB_id = {{post.database_id }}</p> 
+            <script defer>
+            document.addEventListener('DOMContentLoaded', function () {
+                const stage = new NGL.Stage("viewport");
+                stage.loadFile("/media/{{ post.plik_hash }}/{{post.database_id}}.pdb", {defaultRepresentation: true});
+            });
+            </script>
+            <div id="viewport" style="width:400px; height:300px;"></div>
         {% endif %}
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>

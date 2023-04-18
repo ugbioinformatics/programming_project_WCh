@@ -6,14 +6,17 @@
     <script src="https://unpkg.com/ngl@1.0.0-beta.7/dist/ngl.js"></script>
     <div class="post-entry">
         <h2>{{ post.title }}</h2>
-        {% if post.type == 'database' %}
-            <p>uniprotid = {{post.uniprotid}}</p> 
+        {% if post.type == 'database' and post.database_choice == 'Uniprot' %}
+            <p>uniprotid = {{post.database_id }}</p> 
             <p>organism = {{post.organism}}</p> 
             <p>protein name = {{post.proteinname}}</p> 
             <p>Sequence = {{ post.sequence }}</p>
             <p>Mass = {{ post.molwt }}</p>
             <p>fasta:</p>
             <pre>{{post.uniprottext}}</pre>
+        {% endif %}
+        {% if post.type == 'database' and post.database_choice == 'PDB' %}
+            <p>PDB_id = {{post.database_id }}</p> 
         {% endif %}
         {% if post.type == 'peptide' %}
             <p>Sequence = {{ post.sequence }}</p>

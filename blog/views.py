@@ -411,6 +411,7 @@ def database(request):
                 directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
                 if not os.path.isdir(directory1):
                     os.mkdir(directory1)
+                post.sequence = PDB_sequence(response.text)
                 open(f'{directory1}/{database_id}.pdb', "wb").write(response.content)
 
             post.save()
@@ -418,7 +419,20 @@ def database(request):
 
     else:
         form = Database_form()
-    return render(request, 'database.html', {'form': form})
+    return render(request, 'database.html', {'form': form}) 
+
+def getSEQRESData(pdb_data):
+    seq = []
+    
+    for line in pdb_data.split('\n'):
+        if line.startswith('SEQRES'):
+            seq.extend(
+                line[19:].split()
+            )
+            
+    seq = '-'.join(seq)
+    
+    return seq 
 
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'

@@ -400,11 +400,25 @@ def search_pdb(request, query_text, query_size, form):
 
 def zapytanie(request):
     if request.method == 'POST':
-         lista=[]
          for ele in request.POST:
              if ele != 'csrfmiddlewaretoken':
-                   lista.append(request.POST[ele])
-         return render(request, 'zapytanie1.html',{'test':request.POST,'test1':lista})
+               if request.user.is_authenticated:
+                  post = Post(database_id=ele, database_choice='PDB', title='query', author=request.user)
+               else:
+                  post = Post(database_id=ele, database_choice='PDB', title='query')
+               post.type = 'database'
+               URL = f'https://files.rcsb.org/download/{ele}.pdb'
+                response = requests.get(URL)
+                post.plik_hash = make_password('something', None, 'md5')
+                directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+                if not os.path.isdir(directory1):
+                    os.mkdir(directory1)
+                post.sequence = PDB_sequence(response.text)
+                open(f'{directory1}/{ele}.pdb', "wb").write(response.content)
+                post.save()
+         return redirect('/post')
+                
+       
 
 def database(request):
     if request.method == 'POST':

@@ -5,7 +5,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
-from pypdb import Query
+from pypdb import Query, pypdb
+from pypdb.clients.pdb.pdb_client import get_pdb_file
 
 from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form, Database_form
@@ -389,7 +390,13 @@ def search_pdb(request, query_text, query_size, form):
     results = Query(query_text).search()
     if len(results) == 0:
         return render(request, 'database.html', {'form': form, 'error': 'No results found'})
-    return render(request, 'zapytanie.html', {'results': results[:query_size]})
+    info = []
+    for result in results[:query_size]:
+        pdb_file = get_pdb_file(result)
+        if pdb_file:
+            header = pdb_file.split('\n')[0]
+            info.append(header)
+    return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
 
 
 def database(request):
@@ -482,8 +489,3 @@ def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
     return resp
-
-
-def zapytanie(request, results):
-    print(results)
-    return render(request, 'zapytanie.html', {'results': results})

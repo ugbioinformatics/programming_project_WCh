@@ -398,6 +398,9 @@ def search_pdb(request, query_text, query_size, form):
             info.append([header, result])
     return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
 
+def zapytanie(request):
+    if request.method == 'POST':
+      return render(request, 'zapytanie1.html',request.POST)
 
 def database(request):
     if request.method == 'POST':

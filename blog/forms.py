@@ -6,6 +6,7 @@ import io
 from pandas.errors import EmptyDataError
 import openbabel.pybel
 import requests
+import pypdb
 
 class Suma(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
@@ -111,19 +112,25 @@ class Database_form(forms.Form):
     ]
     database = forms.ChoiceField(choices = database_choice) 
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID')
-
+    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania')
+    
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')
-        choice = cleaned_data.get('database')
-        if choice == 'Uniprot':
-            url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
-        elif choice == 'PDB':
-            url = f'https://files.rcsb.org/download/{id}.pdb'
-        resp = requests.get(url)
-        if not resp.ok:
-            self.add_error("id", 'Błędne ID')
-
+        tekst = cleaned_data.get('tekst')
+        if tekst and id: 
+            self.add_error("Blad", 'Wybrano i ID i tekst')
+        elif id:
+            choice = cleaned_data.get('database')
+            if choice == 'Uniprot':
+                url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
+            elif choice == 'PDB':
+                url = f'https://files.rcsb.org/download/{id}.pdb'
+            resp = requests.get(url)
+            if not resp.ok:
+                self.add_error("id", 'Błędne ID')
+        elif tekst: 
+            found_pdb = Query(tekst).search()
  
 class Peptide_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))

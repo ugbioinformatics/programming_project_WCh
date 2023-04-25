@@ -400,7 +400,11 @@ def search_pdb(request, query_text, query_size, form):
 
 def zapytanie(request):
     if request.method == 'POST':
-         return render(request, 'zapytanie1.html',{'test':request.POST})
+         lista=[]
+         for ele in request.POST:
+            if ele[:5]=='pdb_id':
+                lista.append(request.POST[ele])
+         return render(request, 'zapytanie1.html',{'test':request.POST,'test1':lista})
 
 def database(request):
     if request.method == 'POST':

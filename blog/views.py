@@ -402,8 +402,7 @@ def zapytanie(request):
     if request.method == 'POST':
          lista=[]
          for ele in request.POST:
-            if ele[:5]=='pdb_id':
-                lista.append(request.POST[ele])
+                   lista.append(request.POST[ele])
          return render(request, 'zapytanie1.html',{'test':request.POST,'test1':lista})
 
 def database(request):

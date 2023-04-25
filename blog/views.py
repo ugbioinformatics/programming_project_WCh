@@ -402,7 +402,7 @@ def zapytanie(request):
     if request.method == 'POST':
          for ele in request.POST:
              if ele != 'csrfmiddlewaretoken':
-               id=request.POST['ele']
+               id=request.POST[ele]
                if request.user.is_authenticated:
                   post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
                else:

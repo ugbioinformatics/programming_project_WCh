@@ -388,7 +388,7 @@ def edit_peptide(request, pk):
 
 def search_pdb(request, query_text, query_size, form):
     results = Query(query_text).search()
-    if len(results) == 0:
+    if not results:
         return render(request, 'database.html', {'form': form, 'error': 'No results found'})
     info = []
     for result in results[:query_size]:
@@ -511,3 +511,5 @@ def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
     return resp
+
+

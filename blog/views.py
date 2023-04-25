@@ -413,7 +413,7 @@ def database(request):
                 response = requests.get(URL)
                 post.plik_hash = make_password('something', None, 'md5')
                 directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
-                results = Query(query_text)
+                results = Query(query_text).search()
                 print(f'results: {results}')
                 if not os.path.isdir(directory1):
                     os.mkdir(directory1)

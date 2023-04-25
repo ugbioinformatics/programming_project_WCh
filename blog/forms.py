@@ -104,13 +104,14 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
 
                
 class Database_form(forms.Form):
-    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))
     database_choice = [
         ('Uniprot', 'Uniprot'),
         ('PDB', 'PDB'),
     ]
     database = forms.ChoiceField(choices = database_choice) 
-    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='ID') 
+    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID')
+
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')
@@ -125,8 +126,8 @@ class Database_form(forms.Form):
 
  
 class Peptide_form(forms.Form):
-    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
-    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='Sequence')
+    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))
+    sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='Sequence')
     charge_pKscale = [
         ('Bjellqvist', 'Bjellqvist'),
         ('EMBOSS', 'EMBOSS'),
@@ -152,8 +153,8 @@ class Peptide_form(forms.Form):
 
 
 class Molecule(forms.Form):
-    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
-    smiles = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 200}), label='SMILES')
+    title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))
+    smiles = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='SMILES')
 
     def clean(self):
         cleaned_data = super(Molecule, self).clean()

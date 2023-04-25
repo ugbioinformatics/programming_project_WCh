@@ -7,7 +7,7 @@
 <body>
     <form method="post">
     {% for header, result in info %}
-        <input name="{{ result }}" type="checkbox" />
+        <input name="{{ result }}" type="checkbox" value="{{ result }}" />
         <p>{{ header }}</p>
         <p>{{ result }}</p>
     {% endfor %}

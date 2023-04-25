@@ -111,8 +111,8 @@ class Database_form(forms.Form):
         ('PDB', 'PDB'),
     ]
     database = forms.ChoiceField(choices = database_choice) 
-    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID')
-    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania')
+    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
+    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania', required=False)
     
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
@@ -147,6 +147,7 @@ class Peptide_form(forms.Form):
         ('Rodwell', 'Rodwell'),
     ]
     pKscale = forms.ChoiceField(choices=charge_pKscale)
+
 
     def clean(self):
         cleaned_data = super(Peptide_form, self).clean()

@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
+from pypdb import Query
+
 from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form, Database_form 
 import statistics as st
@@ -383,6 +385,7 @@ def edit_peptide(request, pk):
         form = Peptide_form(initial=data)
     return render(request, 'peptide.html', {'form': form}) 
 
+
 def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
@@ -404,11 +407,14 @@ def database(request):
                 post.sequence = uniprotjson['sequence']['value']
                 p = peptides.Peptide(post.sequence)
                 post.molwt = p.molecular_weight() 
-            elif choice == 'PDB': 
+            elif choice == 'PDB':
+                query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'
                 response = requests.get(URL)
                 post.plik_hash = make_password('something', None, 'md5')
                 directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+                results = Query(query_text)
+                print(f'results: {results}')
                 if not os.path.isdir(directory1):
                     os.mkdir(directory1)
                 post.sequence = PDB_sequence(response.text)

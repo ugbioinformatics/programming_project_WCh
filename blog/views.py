@@ -402,10 +402,11 @@ def zapytanie(request):
     if request.method == 'POST':
          for ele in request.POST:
              if ele != 'csrfmiddlewaretoken':
+               id=request.POST['ele']
                if request.user.is_authenticated:
-                  post = Post(database_id=ele, database_choice='PDB', title='query', author=request.user)
+                  post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
                else:
-                  post = Post(database_id=ele, database_choice='PDB', title='query')
+                  post = Post(database_id=id, database_choice='PDB', title='query')
                post.type = 'database'
                URL = f'https://files.rcsb.org/download/{ele}.pdb'
                response = requests.get(URL)
@@ -414,7 +415,7 @@ def zapytanie(request):
                if not os.path.isdir(directory1):
                     os.mkdir(directory1)
                post.sequence = PDB_sequence(response.text)
-               open(f'{directory1}/{ele}.pdb', "wb").write(response.content)
+               open(f'{directory1}/{id}.pdb', "wb").write(response.content)
                post.save()
          return redirect('/post')
                 

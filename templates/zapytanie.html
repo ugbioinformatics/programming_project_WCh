@@ -5,7 +5,8 @@
     <title>Zapytanie</title>
 </head>
 <body>
-    {% for result in results %}
+    {% for header, result in info %}
+        <p>{{ header }}</p>
         <p>{{ result }}</p>
     {% endfor %}
 </body>

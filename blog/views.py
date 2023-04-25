@@ -395,7 +395,7 @@ def search_pdb(request, query_text, query_size, form):
         pdb_file = get_pdb_file(result)
         if pdb_file:
             header = pdb_file.split('\n')[0]
-            info.append(header)
+            info.append([header, result])
     return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
 
 

@@ -52,5 +52,8 @@ urlpatterns = [
     
     path("post/<int:pk>/edit_peptide/", edit_peptide, name="edit_peptide"),
     
+ #ścieżka wyświetlająca odpowiedź na zapytanie do bazy danych PDB
+     path("post/zapytanie/", zapytanie, name="zapytanie"),
+    
     
 ]

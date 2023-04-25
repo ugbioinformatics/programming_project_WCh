@@ -8,10 +8,10 @@ from django.shortcuts import redirect, render, get_object_or_404
 from pypdb import Query
 
 from .models import Post, FasgaiVector
-from .forms import Suma, Molecule, Peptide_form, Database_form 
+from .forms import Suma, Molecule, Peptide_form, Database_form
 import statistics as st
 import matplotlib
-import requests 
+import requests
 import json
 
 matplotlib.use('Agg')
@@ -47,7 +47,6 @@ class BlogListView(ListView):
             return qs.filter(type='peptide')
         else:
             return qs
-
 
 
 # zdefiniowanie wyświetlania podstrony post/<int:pk>/
@@ -290,7 +289,7 @@ def molecule(request):
             if not os.path.isdir(directory1):
                 os.mkdir(directory1)
             czasteczka = openbabel.pybel.readstring("smi", smiles)
-            czasteczka.make3D() 
+            czasteczka.make3D()
             czasteczka.write(format="mol2", filename=directory1 + '/ala.mol2')
             czasteczka.write(format="svg", filename=directory1 + '/ala.svg')
             czasteczka.write(format="_png2", filename=directory1 + '/ala.png')
@@ -383,26 +382,30 @@ def edit_peptide(request, pk):
     else:
         data = {'title': post.title, 'sequence': post.sequence, 'pKscale': post.pKscale}
         form = Peptide_form(initial=data)
-    return render(request, 'peptide.html', {'form': form}) 
+    return render(request, 'peptide.html', {'form': form})
+
+
+def search_pdb(request, query_text, query_size, form):
+    results = Query(query_text).search()
+    if len(results) == 0:
+        return render(request, 'database.html', {'form': form, 'error': 'No results found'})
+    return render(request, 'zapytanie.html', {'results': results[:query_size]})
 
 
 def database(request):
     if request.method == 'POST':
-        form = Database_form(request.POST) 
+        form = Database_form(request.POST)
         if form.is_valid():
             database_id = form.cleaned_data["id"]
             choice = form.cleaned_data["database"]
             title = form.cleaned_data["title"]
             query_text = form.cleaned_data["tekst"]
+            query_size = form.cleaned_data["liczba_elementow"]
 
             if choice == 'Uniprot' and query_text:
                 pass
             if choice == 'PDB' and query_text:
-                results = Query(query_text).search()
-                if len(results) == 0:
-                    return render(request, 'database.html', {'form': form, 'error': 'No results found'})
-                print(results)
-                return render(request, 'zapytanie.html', {'results': results})
+                return search_pdb(request, query_text, query_size, form)
 
             if request.user.is_authenticated:
                 post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)
@@ -439,44 +442,46 @@ def database(request):
 
 def PDB_sequence(pdb_data):
     seq = []
-    
+
     for line in pdb_data.split('\n'):
         if line.startswith('SEQRES'):
             seq.extend(
                 line[19:].split()
             )
-            
+
     seq = '-'.join(seq)
-    
-    return getSequence(seq)   
+
+    return getSequence(seq)
+
 
 def getSequence(sequence_long):
     sequence = ''
     symbol = {
-    "ALA": "A", "CYS": "C", "ASP": "D", "GLU": "E", "PHE": "F", "GLY": "G", "HIS": "H", "ILE": "I",
-    "LYS": "K", "LEU": "L", "MET": "M", "ASN": "N", "PRO": "P", "GLN": "Q", "ARG": "R", "SER": "S",
-    "THR": "T", "TRP": "W", "VAL": "V", "TYR": "Y"
-}
+        "ALA": "A", "CYS": "C", "ASP": "D", "GLU": "E", "PHE": "F", "GLY": "G", "HIS": "H", "ILE": "I",
+        "LYS": "K", "LEU": "L", "MET": "M", "ASN": "N", "PRO": "P", "GLN": "Q", "ARG": "R", "SER": "S",
+        "THR": "T", "TRP": "W", "VAL": "V", "TYR": "Y"
+    }
     for aa in sequence_long.split('-'):
         try:
             sequence += symbol[aa]
         except KeyError:
             sequence += "X"
-            
+
     return sequence
+
 
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
     resp = requests.get(url)
-    
+
     if resp.ok:
         return resp.text
-                
-    
+
+
 def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
-    return resp 
+    return resp
 
 
 def zapytanie(request, results):

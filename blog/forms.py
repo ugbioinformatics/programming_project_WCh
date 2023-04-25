@@ -119,7 +119,7 @@ class Database_form(forms.Form):
         id = cleaned_data.get('id')
         tekst = cleaned_data.get('tekst')
         if tekst and id: 
-            self.add_error("Blad", 'Wybrano i ID i tekst')
+            self.add_error("id", 'Wybrano i ID i tekst')
         elif id:
             choice = cleaned_data.get('database')
             if choice == 'Uniprot':

@@ -8,7 +8,7 @@
     <form method="post" action=" {% url 'zapytanie' %} " >
     {% csrf_token %}
     {% for header, result in info %}
-        <input name="pdb_id" type="checkbox" value="{{ result }}" />
+        <input name="pdb_id{{ forloop.counter }}" type="checkbox" value="{{ result }}" />
         <p>{{ header }}</p>
         <p>{{ result }}</p>
     {% endfor %}

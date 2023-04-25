@@ -3,7 +3,7 @@ URL mapping for application.
 """
 
 from django.urls import path
-from .views import BlogListView, BlogDetailView, BlogDeleteView, zapytanie
+from .views import BlogListView, BlogDetailView, BlogDeleteView
 from .views import suma, edit_suma, molecule, edit_smiles, peptide, edit_peptide, database 
 
 urlpatterns = [
@@ -51,9 +51,4 @@ urlpatterns = [
 # Widok ten jest realizowany przez funkcję edit_smiles i ma nazwę "smiles_edit". 
     
     path("post/<int:pk>/edit_peptide/", edit_peptide, name="edit_peptide"),
-    
- #ścieżka wyświetlająca odpowiedź na zapytanie do bazy danych PDB
-     path("post/zapytanie/", zapytanie, name="zapytanie"),
-    
-    
 ]

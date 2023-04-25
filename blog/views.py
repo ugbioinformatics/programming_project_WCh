@@ -408,7 +408,7 @@ def zapytanie(request):
                else:
                   post = Post(database_id=id, database_choice='PDB', title='query')
                post.type = 'database'
-               URL = f'https://files.rcsb.org/download/{ele}.pdb'
+               URL = f'https://files.rcsb.org/download/{id}.pdb'
                response = requests.get(URL)
                post.plik_hash = make_password('something', None, 'md5')
                directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash

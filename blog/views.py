@@ -402,6 +402,7 @@ def zapytanie(request):
     if request.method == 'POST':
          lista=[]
          for ele in request.POST:
+             if ele != 'csrfmiddlewaretoken':
                    lista.append(request.POST[ele])
          return render(request, 'zapytanie1.html',{'test':request.POST,'test1':lista})
 

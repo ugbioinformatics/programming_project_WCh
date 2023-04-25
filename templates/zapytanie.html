@@ -5,8 +5,8 @@
     <title>Zapytanie</title>
 </head>
 <body>
-{ % csrf_token % }
     <form method="post">
+    {% csrf_token %}
     {% for header, result in info %}
         <input name="{{ result }}" type="checkbox" value="{{ result }}" />
         <p>{{ header }}</p>

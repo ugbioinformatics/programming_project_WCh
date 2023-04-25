@@ -8,6 +8,7 @@ import openbabel.pybel
 import requests
 import pypdb
 
+
 class Suma(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
     body = forms.CharField(widget=forms.Textarea(attrs={'cols': 20, 'rows': 20}), required=False)
@@ -103,22 +104,23 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
              Czwarty blok warunkowy jest odpowiedzialny za walidację danych zawartych w pliku z danymi. Pierwsze wyrażenie 'try' odczytuje załączony plik i konwertuje go na obiekt Pandas DataFrame. Następnie blok ten sprawdza, czy dane w DataFrame są numeryczne. Jeśli dane zawierają nieliczbowe wartości, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains non-numerical data')'. Jeśl DataFrame jest pusty lub zawiera nieprawidłowe dane, dodaje błąd do pola załączonego pliku z danymi za pomocą 'self.add_error('plik1', 'The file contains Data that is wrong or empty.')'. W przeciwnym razie, oblicza sumę danych w pierwszej kolumnie DataFrame i zapisuje ją w zmiennej 'suma', a następnie wyświetla informacje diagnostyczne za pomocą 'print()'.
                 '''
 
-               
+
 class Database_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))
     database_choice = [
         ('Uniprot', 'Uniprot'),
         ('PDB', 'PDB'),
     ]
-    database = forms.ChoiceField(choices = database_choice) 
+    database = forms.ChoiceField(choices=database_choice)
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
-    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania', required=False)
-    
+    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania',
+                            required=False)
+
     def clean(self):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')
         tekst = cleaned_data.get('tekst')
-        if tekst and id: 
+        if tekst and id:
             self.add_error("id", 'Wybrano i ID i tekst')
         elif id:
             choice = cleaned_data.get('database')
@@ -129,9 +131,8 @@ class Database_form(forms.Form):
             resp = requests.get(url)
             if not resp.ok:
                 self.add_error("id", 'Błędne ID')
-        elif tekst: 
-            found_pdb = Query(tekst).search()
- 
+
+
 class Peptide_form(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 40}))
     sequence = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='Sequence')
@@ -147,7 +148,6 @@ class Peptide_form(forms.Form):
         ('Rodwell', 'Rodwell'),
     ]
     pKscale = forms.ChoiceField(choices=charge_pKscale)
-
 
     def clean(self):
         cleaned_data = super(Peptide_form, self).clean()

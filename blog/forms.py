@@ -112,9 +112,10 @@ class Database_form(forms.Form):
         ('PDB', 'PDB'),
     ]
     database = forms.ChoiceField(choices=database_choice)
-    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
+    id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False),
     tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania',
-                            required=False)
+                            required=False),
+    liczba_elementow = forms.IntegerField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 5}), label='Liczba Elementów do Wyświetlenia', required=False)
 
     def clean(self):
         cleaned_data = super(Database_form, self).clean()

@@ -3,7 +3,7 @@ URL mapping for application.
 """
 
 from django.urls import path
-from .views import BlogListView, BlogDetailView, BlogDeleteView
+from .views import BlogListView, BlogDetailView, BlogDeleteView, zapytanie
 from .views import suma, edit_suma, molecule, edit_smiles, peptide, edit_peptide, database 
 
 urlpatterns = [

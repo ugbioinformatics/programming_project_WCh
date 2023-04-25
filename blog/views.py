@@ -1,5 +1,5 @@
 # import bibliotek i klas potrzebnych do działania programu
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import DeleteView
@@ -390,15 +390,26 @@ def database(request):
     if request.method == 'POST':
         form = Database_form(request.POST) 
         if form.is_valid():
-            database_id = form.cleaned_data["id"] 
+            database_id = form.cleaned_data["id"]
             choice = form.cleaned_data["database"]
-            title = form.cleaned_data["title"] 
+            title = form.cleaned_data["title"]
+            query_text = form.cleaned_data["tekst"]
+
+            if choice == 'Uniprot' and query_text:
+                pass
+            if choice == 'PDB' and query_text:
+                results = Query(query_text).search()
+                if len(results) == 0:
+                    return render(request, 'database.html', {'form': form, 'error': 'No results found'})
+                print(results)
+                return render(request, 'zapytanie.html', {'results': results})
+
             if request.user.is_authenticated:
                 post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)
             else:
-                post = Post(database_id=database_id, database_choice=choice, title=title)     
-            post.type = 'database' 
-            if choice == 'Uniprot': 
+                post = Post(database_id=database_id, database_choice=choice, title=title)
+            post.type = 'database'
+            if choice == 'Uniprot':
                 uniprotfasta = getfromuniprot(database_id)
                 uniprotjson = getjsonfromuniprot(database_id)
                 post.database_text = uniprotfasta
@@ -406,15 +417,13 @@ def database(request):
                 post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
                 post.sequence = uniprotjson['sequence']['value']
                 p = peptides.Peptide(post.sequence)
-                post.molwt = p.molecular_weight() 
+                post.molwt = p.molecular_weight()
             elif choice == 'PDB':
                 query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'
                 response = requests.get(URL)
                 post.plik_hash = make_password('something', None, 'md5')
                 directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
-                results = Query(query_text).search()
-                print(f'results: {results}')
                 if not os.path.isdir(directory1):
                     os.mkdir(directory1)
                 post.sequence = PDB_sequence(response.text)
@@ -425,7 +434,8 @@ def database(request):
 
     else:
         form = Database_form()
-    return render(request, 'database.html', {'form': form}) 
+    return render(request, 'database.html', {'form': form})
+
 
 def PDB_sequence(pdb_data):
     seq = []
@@ -467,3 +477,8 @@ def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
     return resp 
+
+
+def zapytanie(request, results):
+    print(results)
+    return render(request, 'zapytanie.html', {'results': results})

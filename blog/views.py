@@ -420,7 +420,7 @@ def zapytanie_uniprot(request):
                 else:
                     post = Post(database_id=id, database_choice='PDB', title='query')
                 post.type = 'database'
-                
+                post.save()
         return redirect('/post')
 
 

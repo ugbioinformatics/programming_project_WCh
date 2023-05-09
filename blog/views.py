@@ -408,7 +408,7 @@ def search_uniprot(request, query_text, query_size, form):
     for result in results[:query_size]:
         header = utils.get_uniprot_file(result, header=True)
         info.append([header, result])
-    return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
+    return render(request, 'zapytanie_pdb.html', {'results': results[:query_size], 'info': info})
 
 
 def zapytanie(request):
@@ -444,7 +444,7 @@ def database(request):
             query_size = form.cleaned_data["liczba_elementow"]
 
             if choice == 'Uniprot' and query_text:
-                pass
+                return search_uniprot(request, query_text, query_size, form)
             if choice == 'PDB' and query_text:
                 return search_pdb(request, query_text, query_size, form)
 

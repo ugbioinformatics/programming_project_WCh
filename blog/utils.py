@@ -1,0 +1,39 @@
+from typing import Optional, List
+
+import requests
+
+UNIPROT_URL = "https://www.uniprot.org/uniprot/{}.fasta"
+
+
+def get_uniprot_file(uniprot_id: str, header=False) -> Optional[str]:
+    """Returns a fasta file from uniprot.org for the given uniprot_id."""
+    url = UNIPROT_URL.format(uniprot_id)
+    response = requests.get(url)
+    if response.ok:
+        if header:
+            _header = response.text.split("\n")[0]
+            return _header
+        return response.text
+
+    return None
+
+
+def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], reviewed: bool = True, limit: int = 10) -> \
+        Optional[str]:
+    """Returns a fasta file from uniprot.org for the given query."""
+    url = "https://rest.uniprot.org/uniprotkb/search"
+    query += " AND (reviewed:true)" if reviewed else ""
+    if format not in ['tsv', 'xslx', 'json']:
+        fields = []
+
+    params = {
+        "query": query,
+        "format": format,
+        "fields": ",".join(fields),
+        "size": limit,
+    }
+    response = requests.get(url, params=params)
+    if response.ok:
+        return response.text
+
+    return None

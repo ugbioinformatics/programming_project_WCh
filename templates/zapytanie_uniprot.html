@@ -1,1 +1,18 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zapytanie Uniprot</title>
+</head>
+<body>
+    <form method="post" action=" {% url 'zapytanie_uniprot' %} " >
+    {% csrf_token %}
+    {% for header, result in info %}
+        <input name="uniprot_id{{ forloop.counter }}" type="checkbox" value="{{ result }}" />
+        <p>{{ header }}</p>
+        <p>{{ result }}</p>
+    {% endfor %}
+    <button type="submit">Dodaj</button>
+    </form>
+</body>
+</html>

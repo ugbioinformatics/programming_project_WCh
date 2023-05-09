@@ -416,9 +416,9 @@ def zapytanie_uniprot(request):
             if ele != 'csrfmiddlewaretoken':
                 id = request.POST[ele]
                 if request.user.is_authenticated:
-                    post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
+                    post = Post(database_id=id, database_choice='Uniprot', title='query', author=request.user)
                 else:
-                    post = Post(database_id=id, database_choice='PDB', title='query')
+                    post = Post(database_id=id, database_choice='Uniprot', title='query')
                 post.type = 'database'
                 post.save()
         return redirect('/post')

@@ -19,7 +19,7 @@ def get_uniprot_file(uniprot_id: str, header=False) -> Optional[str]:
 
 
 def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], reviewed: bool = True, limit: int = 10) -> \
-        Optional[str]:
+        Optional[List[str]]:
     """Returns a fasta file from uniprot.org for the given query."""
     url = "https://rest.uniprot.org/uniprotkb/search"
     query += " AND (reviewed:true)" if reviewed else ""

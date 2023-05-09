@@ -39,7 +39,8 @@ urlpatterns = [
     path("post/molecule/", molecule, name="molecule"),
     path("post/peptide/", peptide, name="peptide"),
     path("post/database/", database, name="database"),
-    path("post/zapytanie/", zapytanie, name="zapytanie"),
+    path("post/zapytanie_pdb/", zapytanie, name="zapytanie_pdb"),
+    path("post/zapytanie_uniprot/", zapytanie, name="zapytanie_uniprot"),
     
 # Szósta ścieżka "post/molecule/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na wprowadzenie danych dotyczących cząsteczki chemicznej do nowego obiektu modelu "Post". 

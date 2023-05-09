@@ -397,7 +397,7 @@ def search_pdb(request, query_text, query_size, form):
         if pdb_file:
             header = pdb_file.split('\n')[0]
             info.append([header, result])
-    return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
+    return render(request, 'zapytanie_pdb.html', {'results': results[:query_size], 'info': info})
 
 
 def search_uniprot(request, query_text, query_size, form):
@@ -408,7 +408,7 @@ def search_uniprot(request, query_text, query_size, form):
     for result in results[:query_size]:
         header = utils.get_uniprot_file(result, header=True)
         info.append([header, result])
-    return render(request, 'zapytanie_pdb.html', {'results': results[:query_size], 'info': info})
+    return render(request, 'zapytanie_uniprot.html', {'results': results[:query_size], 'info': info})
 
 
 def zapytanie(request):

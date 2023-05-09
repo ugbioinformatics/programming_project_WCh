@@ -35,12 +35,8 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
     response = requests.get(url, params=params)
     if response.ok:
         data = response.text
-        if format == 'list':
-            results = data.split("\n")
-        elif format == 'json':
-            results = json.loads(data)
-        else:
-            results = data
+        results = data.split("\n")
+
         return results
 
     return None

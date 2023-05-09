@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from pypdb import Query, pypdb
 from pypdb.clients.pdb.pdb_client import get_pdb_file
 
+from . import utils
 from .models import Post, FasgaiVector
 from .forms import Suma, Molecule, Peptide_form, Database_form
 import statistics as st
@@ -398,28 +399,39 @@ def search_pdb(request, query_text, query_size, form):
             info.append([header, result])
     return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
 
+
+def search_uniprot(request, query_text, query_size, form):
+    results = utils.search_uniprot(query_text, format='list', limit=query_size)
+    if not results:
+        return render(request, 'database.html', {'form': form, 'error': 'No results found'})
+    info = []
+    for result in results[:query_size]:
+        header = utils.get_uniprot_file(result, header=True)
+        info.append([header, result])
+    return render(request, 'zapytanie.html', {'results': results[:query_size], 'info': info})
+
+
 def zapytanie(request):
     if request.method == 'POST':
-         for ele in request.POST:
-             if ele != 'csrfmiddlewaretoken':
-               id=request.POST[ele]
-               if request.user.is_authenticated:
-                  post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
-               else:
-                  post = Post(database_id=id, database_choice='PDB', title='query')
-               post.type = 'database'
-               URL = f'https://files.rcsb.org/download/{id}.pdb'
-               response = requests.get(URL)
-               post.plik_hash = make_password('something', None, 'md5')
-               directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
-               if not os.path.isdir(directory1):
+        for ele in request.POST:
+            if ele != 'csrfmiddlewaretoken':
+                id = request.POST[ele]
+                if request.user.is_authenticated:
+                    post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
+                else:
+                    post = Post(database_id=id, database_choice='PDB', title='query')
+                post.type = 'database'
+                URL = f'https://files.rcsb.org/download/{id}.pdb'
+                response = requests.get(URL)
+                post.plik_hash = make_password('something', None, 'md5')
+                directory1 = settings.MEDIA_ROOT + '/' + post.plik_hash
+                if not os.path.isdir(directory1):
                     os.mkdir(directory1)
-               post.sequence = PDB_sequence(response.text)
-               open(f'{directory1}/{id}.pdb', "wb").write(response.content)
-               post.save()
-         return redirect('/post')
-                
-       
+                post.sequence = PDB_sequence(response.text)
+                open(f'{directory1}/{id}.pdb', "wb").write(response.content)
+                post.save()
+        return redirect('/post')
+
 
 def database(request):
     if request.method == 'POST':
@@ -511,5 +523,3 @@ def getjsonfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}'
     resp = requests.get(url).json()
     return resp
-
-

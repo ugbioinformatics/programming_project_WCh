@@ -423,11 +423,11 @@ def zapytanie_uniprot(request):
                 uniprotfasta = getfromuniprot(id)
                 uniprotjson = getjsonfromuniprot(id)
                 post.database_text = uniprotfasta
-                post.organism = uniprotjson['organism']['commonName']
-                post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
-                post.sequence = uniprotjson['sequence']['value']
-                p = peptides.Peptide(post.sequence)
-                post.molwt = p.molecular_weight()
+                # post.organism = uniprotjson['organism']['commonName']
+                # post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+                # post.sequence = uniprotjson['sequence']['value']
+                # p = peptides.Peptide(post.sequence)
+                # post.molwt = p.molecular_weight()
                 post.save()
         return redirect('/post')
 

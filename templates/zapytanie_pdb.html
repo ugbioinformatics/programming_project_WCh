@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zapytanie</title>
+    <title>Zapytanie PDB</title>
 </head>
 <body>
-    <form method="post" action=" {% url 'zapytanie' %} " >
+    <form method="post" action=" {% url 'zapytanie_pdb' %} " >
     {% csrf_token %}
     {% for header, result in info %}
         <input name="pdb_id{{ forloop.counter }}" type="checkbox" value="{{ result }}" />

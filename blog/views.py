@@ -420,6 +420,14 @@ def zapytanie_uniprot(request):
                 else:
                     post = Post(database_id=id, database_choice='Uniprot', title='query')
                 post.type = 'database'
+                uniprotfasta = getfromuniprot(id)
+                uniprotjson = getjsonfromuniprot(id)
+                post.database_text = uniprotfasta
+                post.organism = uniprotjson['organism']['commonName']
+                post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+                post.sequence = uniprotjson['sequence']['value']
+                p = peptides.Peptide(post.sequence)
+                post.molwt = p.molecular_weight()
                 post.save()
         return redirect('/post')
 

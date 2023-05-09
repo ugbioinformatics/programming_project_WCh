@@ -34,6 +34,8 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
     }
     response = requests.get(url, params=params)
     if response.ok:
-        return response.text
+        data = response.text
+        results = data.split("\n")
+        return results
 
     return None

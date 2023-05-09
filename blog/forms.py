@@ -113,9 +113,9 @@ class Database_form(forms.Form):
     ]
     database = forms.ChoiceField(choices=database_choice)
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
-    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Tekst do Wyszukania',
+    tekst = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 300}), label='Text to search',
                             required=False)
-    liczba_elementow = forms.IntegerField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 5}),initial=10, label='Liczba Elementów do Wyświetlenia', required=False)
+    liczba_elementow = forms.IntegerField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 5}),initial=10, label='Number of elements to disply', required=False)
 
     def clean(self):
         cleaned_data = super(Database_form, self).clean()

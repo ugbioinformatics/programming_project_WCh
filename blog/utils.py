@@ -1,5 +1,5 @@
 from typing import Optional, List
-
+import json
 import requests
 
 UNIPROT_URL = "https://www.uniprot.org/uniprot/{}.fasta"
@@ -35,7 +35,10 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
     response = requests.get(url, params=params)
     if response.ok:
         data = response.text
-        results = data.split("\n")
+        if format == 'list':
+            results = data.split("\n")
+        elif format == 'json':
+            results = json.loads(data)
         return results
 
     return None

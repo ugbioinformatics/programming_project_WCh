@@ -6,6 +6,7 @@
     <fieldset class="inlineLabels">
         {% csrf_token %}
         <b>Database entry</b> 
+        {{ error }}
         <table style="width:100%">
             {{ form.as_table }}
         </table>

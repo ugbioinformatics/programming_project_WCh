@@ -410,8 +410,22 @@ def search_uniprot(request, query_text, query_size, form):
         info.append([header, result])
     return render(request, 'zapytanie_uniprot.html', {'results': results[:query_size], 'info': info})
 
+def zapytanie_uniprot(request):
+    if request.method == 'POST':
+        for ele in request.POST:
+            if ele != 'csrfmiddlewaretoken':
+                id = request.POST[ele]
+                if request.user.is_authenticated:
+                    post = Post(database_id=id, database_choice='PDB', title='query', author=request.user)
+                else:
+                    post = Post(database_id=id, database_choice='PDB', title='query')
+                post.type = 'database'
+                
+        return redirect('/post')
 
-def zapytanie(request):
+
+
+def zapytanie_pdb(request):
     if request.method == 'POST':
         for ele in request.POST:
             if ele != 'csrfmiddlewaretoken':

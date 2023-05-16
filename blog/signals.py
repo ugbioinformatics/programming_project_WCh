@@ -7,7 +7,7 @@ import os
 
 @receiver(post_save, sender=Post)
 def write_on_task_save(sender, instance, **kwargs):
-    print("Zapis do bazy")
+    print("Save to database")
     print(instance.body)
     print(instance.plik1)
     print(instance.plik_hash)

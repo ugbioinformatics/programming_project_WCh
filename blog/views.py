@@ -430,15 +430,15 @@ def uniprot_info():
     post.database_text = uniprotfasta
     try:
         post.organism = uniprotjson['organism']['commonName']
-     except:
+    except:
         try:
             post.organism = uniprotjson['organism']['scientificName']
         except:
              post.organism = "Organism unknown"
-       post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
-       post.sequence = uniprotjson['sequence']['value']
-       p = peptides.Peptide(post.sequence)
-       post.molwt = p.molecular_weight()
+    post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+    post.sequence = uniprotjson['sequence']['value']
+    p = peptides.Peptide(post.sequence)
+    post.molwt = p.molecular_weight()
 
 def zapytanie_pdb(request):
     if request.method == 'POST':

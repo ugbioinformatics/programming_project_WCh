@@ -71,11 +71,11 @@
         {% endif %}
         {% if post.type == 'data' %}
             <p>{{ post.body }}</p>
-            <p>Suma = {{ post.suma }}</p>
-            <p>Średnia = {{ post.sr }}</p>
-            <p>Odchylenie = {{ post.odch }}</p>
-            <p>Wariancja = {{ post.var }}</p>
-            <p>Mediana = {{ post.med }}</p>
+            <p>Sum = {{ post.suma }}</p>
+            <p>Mean = {{ post.sr }}</p>
+            <p>Deviation = {{ post.odch }}</p>
+            <p>Variation = {{ post.var }}</p>
+            <p>Median = {{ post.med }}</p>
             {% if post.shapiro %}<p>Shapiro_p_value = {{ post.shapiro }}</p> {% endif %}
             {% if post.test %}<p>T_studenta_p_value = {{ post.test }}</p> {% endif %}
             {% if post.plik1 %}<p>Plik = <a href="/media/{{ post.plik1 }}"> {{ post.plik1 }} </a></p> {% endif %}
@@ -106,10 +106,10 @@
         {% endif %}
         {% if post.type == 'molecule' %}
             <p>{{ post.smiles }}</p>
-            <p>Ilość atomów w czasteczce: {{ post.atoms }}</p>
-            <p>Dokładna masa cząsteczki: {{ post.exactmass }}</p>
-            <p>Masa molowa cząsteczki: {{ post.molwt }}</p>
-            <p>Wzór sumaryczny cząsteczki: {{ post.formula }}</p>
+            <p>Number of atoms in molecule: {{ post.atoms }}</p>
+            <p>Mass of molecule: {{ post.exactmass }}</p>
+            <p>Molecular mass: {{ post.molwt }}</p>
+            <p>Sumaric formula of molecule: {{ post.formula }}</p>
             {% if post.plik_hash %}<img src="/media/{{ post.plik_hash }}/ala.png"> {% endif %}
             <script defer>
             document.addEventListener('DOMContentLoaded', function () {

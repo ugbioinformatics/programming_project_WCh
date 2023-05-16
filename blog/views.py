@@ -420,7 +420,7 @@ def zapytanie_uniprot(request):
                 else:
                     post = Post(database_id=id, database_choice='Uniprot', title='query')
                 post.type = 'database'
-                post = uniprot_info(id, post)
+                post = uniprot_info(database_id, post)
                 post.save()
         return redirect('/post')
 
@@ -486,7 +486,7 @@ def database(request):
                 post = Post(database_id=database_id, database_choice=choice, title=title)
             post.type = 'database'
             if choice == 'Uniprot':
-               post = uniprot_info(id, post)
+               post = uniprot_info(database_id, post)
             elif choice == 'PDB':
                 query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'

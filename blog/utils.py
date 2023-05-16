@@ -41,7 +41,7 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
     if response.ok:
         data = response.text
         logger.warning("test logowanie")
-        logger.warning(data)
+        logger.warning(data=="")
         if data.startswith("<!doctype html>"):
             return None
         if format == 'list':

@@ -8,7 +8,7 @@
     <form method="post" action=" {% url 'zapytanie_uniprot' %} " >
     {% csrf_token %}
     {% for header, result in info %}
-        <input name="uniprot_id{{ forloop.counter }}" type="checkbox" value="{{ result }}" />
+        <input name="{{ title }} {{ forloop.counter }}" type="checkbox" value="{{ result }}" />
         <p>{{ header }}</p>
         <p>{{ result }}</p>
     {% endfor %}

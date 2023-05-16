@@ -33,18 +33,18 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
         "size": limit,
     }
     
-    import logging
-    logging.basicConfig()
-    logger = logging.getLogger(__name__)
+#    import logging
+#    logging.basicConfig()
+#    logger = logging.getLogger(__name__)
     
     response = requests.get(url, params=params)
     if response.ok:
         data = response.text
-        logger.warning("test logowanie")
-        logger.warning(data=="")
+#        logger.warning("test logowanie")
+#        logger.warning(data=="")
         if data.startswith("<!doctype html>"):
             return None
-        if format == 'list':
+        if format == 'list' and data !="":
             results = data.split("\n")
         elif format == 'json':
             results = json.loads(data)

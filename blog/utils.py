@@ -32,10 +32,14 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
         "fields": ",".join(fields),
         "size": limit,
     }
+    
+    import logging
+    logger = logging.getLogger(__name__)
+    
     response = requests.get(url, params=params)
     if response.ok:
         data = response.text
-        print(data)
+        logger.warning(data)
         if data.startswith("<!doctype html>"):
             return None
         if format == 'list':

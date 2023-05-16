@@ -34,6 +34,7 @@ def search_uniprot(query: str, format: str, fields: Optional[List[str]]=[], revi
     }
     
     import logging
+    logging.basicConfig()
     logger = logging.getLogger(__name__)
     
     response = requests.get(url, params=params)

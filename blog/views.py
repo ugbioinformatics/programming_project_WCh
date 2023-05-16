@@ -420,11 +420,11 @@ def zapytanie_uniprot(request):
                 else:
                     post = Post(database_id=id, database_choice='Uniprot', title='query')
                 post.type = 'database'
-                uniprot_info()
+                post = uniprot_info(id, post)
                 post.save()
         return redirect('/post')
 
-def uniprot_info():
+def uniprot_info(id, post):
     uniprotfasta = getfromuniprot(id)
     uniprotjson = getjsonfromuniprot(id)
     post.database_text = uniprotfasta
@@ -439,7 +439,7 @@ def uniprot_info():
     post.sequence = uniprotjson['sequence']['value']
     p = peptides.Peptide(post.sequence)
     post.molwt = p.molecular_weight()
-
+    return post
 def zapytanie_pdb(request):
     if request.method == 'POST':
         for ele in request.POST:
@@ -483,7 +483,7 @@ def database(request):
                 post = Post(database_id=database_id, database_choice=choice, title=title)
             post.type = 'database'
             if choice == 'Uniprot':
-               uniprot_info()
+               post = uniprot_info(id, post)
             elif choice == 'PDB':
                 query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'

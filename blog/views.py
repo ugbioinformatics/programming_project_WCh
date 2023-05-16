@@ -420,18 +420,25 @@ def zapytanie_uniprot(request):
                 else:
                     post = Post(database_id=id, database_choice='Uniprot', title='query')
                 post.type = 'database'
-                uniprotfasta = getfromuniprot(id)
-                uniprotjson = getjsonfromuniprot(id)
-                post.database_text = uniprotfasta
-                # post.organism = uniprotjson['organism']['commonName']
-                # post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
-                # post.sequence = uniprotjson['sequence']['value']
-                # p = peptides.Peptide(post.sequence)
-                # post.molwt = p.molecular_weight()
+                uniprot_info()
                 post.save()
         return redirect('/post')
 
-
+def uniprot_info():
+    uniprotfasta = getfromuniprot(id)
+    uniprotjson = getjsonfromuniprot(id)
+    post.database_text = uniprotfasta
+    try:
+        post.organism = uniprotjson['organism']['commonName']
+     except:
+        try:
+            post.organism = uniprotjson['organism']['scientificName']
+        except:
+             post.organism = "Organism unknown"
+       post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+       post.sequence = uniprotjson['sequence']['value']
+       p = peptides.Peptide(post.sequence)
+       post.molwt = p.molecular_weight()
 
 def zapytanie_pdb(request):
     if request.method == 'POST':
@@ -476,14 +483,7 @@ def database(request):
                 post = Post(database_id=database_id, database_choice=choice, title=title)
             post.type = 'database'
             if choice == 'Uniprot':
-                uniprotfasta = getfromuniprot(database_id)
-                uniprotjson = getjsonfromuniprot(database_id)
-                post.database_text = uniprotfasta
-                post.organism = uniprotjson['organism']['commonName']
-                post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
-                post.sequence = uniprotjson['sequence']['value']
-                p = peptides.Peptide(post.sequence)
-                post.molwt = p.molecular_weight()
+               uniprot_info()
             elif choice == 'PDB':
                 query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'

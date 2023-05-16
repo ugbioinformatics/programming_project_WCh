@@ -23,7 +23,7 @@ urlpatterns = [
 # Trzecia ścieżka "post/int:pk/delete/" odpowiada za usuwanie pojedynczego obiektu modelu "Post" 
 # o podanym numerze id. Widok ten jest realizowany przez klasę BlogDeleteView i ma nazwę "post_delete".
     
-    path("post/suma/", suma, name="sum"),
+    path("post/suma/", suma, name="suma"),
     
 # Czwarta ścieżka "post/suma/" odpowiada za wyświetlenie widoku formularza, który pozwala na 
 # wprowadzanie wartości do pól "suma", "odch", "sr", "var", "med" oraz "shapiro" dla nowego 
@@ -39,8 +39,8 @@ urlpatterns = [
     path("post/molecule/", molecule, name="molecule"),
     path("post/peptide/", peptide, name="peptide"),
     path("post/database/", database, name="database"),
-    path("post/zapytanie_pdb/", zapytanie_pdb, name="PDB_query"),
-    path("post/zapytanie_uniprot/", zapytanie_uniprot, name="Uniprot_query"),
+    path("post/zapytanie_pdb/", zapytanie_pdb, name="zapytanie_pdb"),
+    path("post/zapytanie_uniprot/", zapytanie_uniprot, name="zapytanie_uniprot"),
     
 # Szósta ścieżka "post/molecule/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na wprowadzenie danych dotyczących cząsteczki chemicznej do nowego obiektu modelu "Post". 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Zapytanie PDB</title>
+    <title>Query to PDB</title>
 </head>
 <body>
     <form method="post" action=" {% url 'zapytanie_pdb' %} " >
@@ -12,7 +12,7 @@
         <p>{{ header }}</p>
         <p>{{ result }}</p>
     {% endfor %}
-    <button type="submit">Dodaj</button>
+    <button type="submit">Add</button>
     </form>
 </body>
 </html>

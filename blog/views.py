@@ -435,7 +435,10 @@ def uniprot_info(id, post):
             post.organism = uniprotjson['organism']['scientificName']
         except:
              post.organism = "Organism unknown"
-    post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+    try:
+        post.proteinname = uniprotjson['proteinDescription']['recommendedName']['fullName']['value']
+    except:
+        post.proteinname = "Unknown protein"
     post.sequence = uniprotjson['sequence']['value']
     p = peptides.Peptide(post.sequence)
     post.molwt = p.molecular_weight()

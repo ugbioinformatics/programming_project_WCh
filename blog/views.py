@@ -443,6 +443,7 @@ def uniprot_info(id, post):
     p = peptides.Peptide(post.sequence)
     post.molwt = p.molecular_weight()
     return post
+
 def zapytanie_pdb(request):
     if request.method == 'POST':
         for ele in request.POST:
@@ -535,7 +536,7 @@ def getSequence(sequence_long):
 
     return sequence
 
-def listapdb(id):
+def listapdb(id, post):
     
     headers = {'Content-type':'application/json', 'Accept':'text/plain'}
     
@@ -545,9 +546,12 @@ def listapdb(id):
     wynik = json.load(response.text)
 
     response = requests.get("http://10.5.0.5:9201/get", data=json.dumps({'id': wynik}), headers=headers)
-    response_json = response.json()
+    response_text = response.text.replace('\\','')
+    response_text = response_text[2:-2]
     
-    return response_json
+    post.pole_json = response_text
+    
+    return post
     
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'

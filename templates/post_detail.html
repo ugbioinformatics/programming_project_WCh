@@ -15,8 +15,8 @@
             <p>fasta:</p>
             <pre>{{post.database_text}}</pre> 
             <p>listapdb =  {% for t in post.pole_json %}
-            <a href = "https://www.rcsb.org/structure/{{t}}">{{t}}</p> 
-        {% endfor %}
+            <a href = "https://www.rcsb.org/structure/{{t}}">{{t}} 
+        {% endfor %} </p>  
         {% endif %}
         {% if post.type == 'database' and post.database_choice == 'PDB' %}
             <p>PDB_id = {{post.database_id }}</p> 

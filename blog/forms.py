@@ -126,7 +126,7 @@ class Database_form(forms.Form):
         if tekst and id:
             self.add_error("id", 'ID and text chosen')
         if tekst and choice == 'KEGG':
-            self.add_error("id", 'Uniprot ID and KEGG chosen')
+            self.add_error("id", 'text search for KEGG not available')
         elif id:
             if choice == 'Uniprot':
                 url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'

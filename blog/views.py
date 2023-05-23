@@ -550,7 +550,7 @@ def listapdb(id, post):
     response_text = response.text.replace('\\','')
     response_text = response_text[2:-2]
     
-    post.pole_json = response_text
+    post.pole_json = json.loads(response_text)["pdb_ids"]
     
     return post
     

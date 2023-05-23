@@ -488,7 +488,7 @@ def database(request):
             post.type = 'database'
             if choice == 'Uniprot':
                post = uniprot_info(database_id, post)
-               post = pdb_lista(database_id, post)
+               post = listapdb(database_id, post)
             elif choice == 'PDB':
                 query_text = form.cleaned_data["tekst"]
                 URL = f'https://files.rcsb.org/download/{database_id}.pdb'

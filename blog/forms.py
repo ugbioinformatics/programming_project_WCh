@@ -110,6 +110,7 @@ class Database_form(forms.Form):
     database_choice = [
         ('Uniprot', 'Uniprot'),
         ('PDB', 'PDB'),
+        ('KEGG', 'KEGG'),
     ]
     database = forms.ChoiceField(choices=database_choice)
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
@@ -121,14 +122,19 @@ class Database_form(forms.Form):
         cleaned_data = super(Database_form, self).clean()
         id = cleaned_data.get('id')
         tekst = cleaned_data.get('tekst')
+        choice = cleaned_data.get('database')
         if tekst and id:
-            self.add_error("id", 'Wybrano i ID i tekst')
+            self.add_error("id", 'ID and text chosen')
+        if tekst and choice == 'KEGG':
+            self.add_error("id", 'Uniprot ID and KEGG chosen')
         elif id:
-            choice = cleaned_data.get('database')
             if choice == 'Uniprot':
                 url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
             elif choice == 'PDB':
                 url = f'https://files.rcsb.org/download/{id}.pdb'
+            elif choice == 'KEGG':
+                url = f'https://files.rcsb.org/download/{id}.pdb'
+            
             resp = requests.get(url)
             if not resp.ok:
                 self.add_error("id", 'Wrong ID')

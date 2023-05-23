@@ -535,7 +535,20 @@ def getSequence(sequence_long):
 
     return sequence
 
+def listapdb(id):
+    
+    headers = {'Content-type':'application/json', 'Accept':'text/plain'}
+    
+    post_data = json.dumps({'data': id, 'functionality': 'getpdb')})
+    response = requests.post("http://10.5.0.5:9201/run", data=post_data, headers=headers)
+    
+    wynik = json.load(response.text)
 
+    response = requests.get("http://10.5.0.5:9201/get", data=json.dumps({'id': wynik}), headers=headers)
+    response_json = response.json()
+    
+    return response_json
+    
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
     resp = requests.get(url)

@@ -110,7 +110,7 @@ class Database_form(forms.Form):
     database_choice = [
         ('Uniprot', 'Uniprot'),
         ('PDB', 'PDB'),
-        ('KEGG', 'KEGG'),
+        ('KEGG', 'KEGG with Uniprot ID'),
     ]
     database = forms.ChoiceField(choices=database_choice)
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)

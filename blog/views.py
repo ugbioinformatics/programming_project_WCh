@@ -542,15 +542,16 @@ def listapdb(id, post):
     headers = {'Content-type':'application/json', 'Accept':'text/plain'}
     
     post_data = json.dumps({'data': id, 'functionality': 'getpdb'})
-    response = requests.post("http://10.5.0.5:9201/run", data=post_data, headers=headers)
+    try:
+        response = requests.post("http://10.5.0.5:9201/run", data=post_data, headers=headers)
     
-    wynik = response.json()
+        wynik = response.json()
     
-    response = requests.get("http://10.5.0.5:9201/get", data=json.dumps({'id': wynik}), headers=headers)
-    response_text = response.text.replace('\\','')
-    response_text = response_text[2:-2]
+        response = requests.get("http://10.5.0.5:9201/get", data=json.dumps({'id': wynik}), headers=headers)
+        response_text = response.text.replace('\\','')
+        response_text = response_text[2:-2]
     
-    post.pole_json = json.loads(response_text)["pdb_ids"]
+        post.pole_json = json.loads(response_text)["pdb_ids"]
     
     return post
     

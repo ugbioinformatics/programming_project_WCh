@@ -544,6 +544,7 @@ def listapdb(id, post):
     post_data = json.dumps({'data': id, 'functionality': 'getpdb'})
     response = requests.post("http://10.5.0.5:9201/run", data=post_data, headers=headers)
     
+    wynik1 = response.text
     wynik = json.load(response.text)
 
     response = requests.get("http://10.5.0.5:9201/get", data=json.dumps({'id': wynik}), headers=headers)

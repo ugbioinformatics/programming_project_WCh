@@ -552,8 +552,10 @@ def listapdb(id, post):
         response_text = response_text[2:-2]
     
         post.pole_json = json.loads(response_text)["pdb_ids"]
+        return post
+    except: 
+        return post
     
-    return post
     
 def getfromuniprot(id):
     url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'

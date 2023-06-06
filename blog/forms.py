@@ -111,7 +111,7 @@ class Database_form(forms.Form):
     database_choice = [
         ('Uniprot', 'Uniprot'),
         ('PDB', 'PDB'),
-        ('KEGG', 'KEGG with Uniprot ID'),
+        #('KEGG', 'KEGG with Uniprot ID'),
     ]
     database = forms.ChoiceField(choices=database_choice)
     id = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlength': 200}), label='ID', required=False)
@@ -133,7 +133,7 @@ class Database_form(forms.Form):
                 url = f'https://rest.uniprot.org/uniprotkb/{id}.fasta'
             elif choice == 'PDB':
                 url = f'https://files.rcsb.org/download/{id}.pdb'
-            elif choice == 'KEGG':
+            #elif choice == 'KEGG':
                 url = f'https://files.rcsb.org/download/{id}.pdb'
             
             resp = requests.get(url)

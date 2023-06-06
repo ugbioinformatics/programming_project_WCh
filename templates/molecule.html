@@ -11,6 +11,15 @@
         </table>
         <button type="submit" class="save btn btn-default">Save & submit</button>
 </form>
+<script>
+    window.onload = function() {
+        if (window.performance) {
+            if (performance.navigation.type === 1) {
+                location.reload(true);
+            }
+        }
+    }
+</script>
 
 
 

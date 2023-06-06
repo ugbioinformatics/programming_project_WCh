@@ -41,14 +41,14 @@ class BlogListView(ListView):
         else:
             qs.filter(author=None)
 
-        if self.request.GET.get('type') == 'data':
-            return qs.filter(type='data')
-        elif self.request.GET.get('type') == 'molecule':
-            return qs.filter(type='molecule')
-        elif self.request.GET.get('type') == 'peptide':
-            return qs.filter(type='peptide')
-        else:
-            return qs
+#        if self.request.GET.get('type') == 'data':
+#            return qs.filter(type='data')
+#        elif self.request.GET.get('type') == 'molecule':
+#            return qs.filter(type='molecule')
+#        elif self.request.GET.get('type') == 'peptide':
+#            return qs.filter(type='peptide')
+#        else:
+#            return qs
 
 
 # zdefiniowanie wyświetlania podstrony post/<int:pk>/

@@ -387,7 +387,7 @@ def edit_peptide(request, pk):
     return render(request, 'peptide.html', {'form': form})
 
 
-def search_pdb(request, query_text, query_size, form):
+def search_pdb(request, query_text, query_size, form, title):
     results = Query(query_text).search()
     if not results:
         return render(request, 'database.html', {'form': form, 'error': 'No results found'})
@@ -397,7 +397,7 @@ def search_pdb(request, query_text, query_size, form):
         if pdb_file:
             header = pdb_file.split('\n')[0]
             info.append([header, result])
-    return render(request, 'zapytanie_pdb.html', {'results': results[:query_size], 'info': info})
+    return render(request, 'zapytanie_pdb.html', {'title': title, 'results': results[:query_size], 'info': info})
 
 
 def search_uniprot(request, query_text, query_size, form, title):
@@ -479,7 +479,7 @@ def database(request):
             if choice == 'Uniprot' and query_text:
                 return search_uniprot(request, query_text, query_size, form, title)
             if choice == 'PDB' and query_text:
-                return search_pdb(request, query_text, query_size, form)
+                return search_pdb(request, query_text, query_size, form, title)
 
             if request.user.is_authenticated:
                 post = Post(database_id=database_id, database_choice=choice, title=title, author=request.user)

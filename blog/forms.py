@@ -57,7 +57,7 @@ Wszystkie pola są opcjonalne, ponieważ mają ustawioną wartość required=Fal
             '''
 
         if body:
-            if len(body.split() < 3):
+            if len(body.split()) < 3: 
                 self.add_error('body', 'Enter at least 3 numbers')
             tmp = body.split()
             s = 0

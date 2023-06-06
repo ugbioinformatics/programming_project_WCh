@@ -49,7 +49,7 @@ class BlogListView(ListView):
 #            return qs.filter(type='peptide')
 #        else:
 #            return qs
-
+        return qs 
 
 # zdefiniowanie wyświetlania podstrony post/<int:pk>/
 class BlogDetailView(DetailView):

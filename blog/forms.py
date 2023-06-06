@@ -11,7 +11,7 @@ import pypdb
 
 class Suma(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 40, 'maxlenght': 40}))
-    body = forms.CharField(widget=forms.Textarea(attrs={'cols': 20, 'rows': 20}), required=False)
+    body = forms.CharField(widget=forms.Textarea(attrs={'cols': 20, 'rows': 20}), required=False,
                             help_text='Input numbers in column')
     plik1 = forms.FileField(label='Upload data', required=False,
                             help_text='Input data for calculation in csv format. Please note that headers for columns are essential for correct data analysis!')

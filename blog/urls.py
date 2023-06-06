@@ -29,7 +29,7 @@ urlpatterns = [
 # wprowadzanie wartości do pól "suma", "odch", "sr", "var", "med" oraz "shapiro" dla nowego 
 # obiektu modelu "Post". Widok ten jest realizowany przez funkcję suma i ma nazwę "suma".
     
-    path("post/<int:pk>/edit_suma/", edit_suma, name="sum_edit"),
+    path("post/<int:pk>/edit_suma/", edit_suma, name="suma_edit"),
     
 # Piąta ścieżka "post/int:pk/edit_suma/" odpowiada za wyświetlenie widoku formularza, 
 # który pozwala na edycję wartości pól "suma", "odch", "sr", "var", "med" oraz "shapiro" dla istniejącego 

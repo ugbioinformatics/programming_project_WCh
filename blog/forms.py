@@ -134,7 +134,6 @@ class Database_form(forms.Form):
             elif choice == 'PDB':
                 url = f'https://files.rcsb.org/download/{id}.pdb'
             #elif choice == 'KEGG':
-                url = f'https://files.rcsb.org/download/{id}.pdb'
             
             resp = requests.get(url)
             if not resp.ok:

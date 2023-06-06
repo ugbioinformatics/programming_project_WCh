@@ -37,9 +37,9 @@ class BlogListView(ListView):
     def get_queryset(self, **kwargs):
         qs = super().get_queryset(**kwargs)
         if self.request.user.is_authenticated:
-            qs.filter(author=self.request.user)
+            qs=qs.filter(author=self.request.user)
         else:
-            qs.filter(author=None)
+            qs=qs.filter(author=None)
 
 #        if self.request.GET.get('type') == 'data':
 #            return qs.filter(type='data')
